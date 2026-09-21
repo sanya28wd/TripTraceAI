@@ -1,0 +1,12 @@
+# macOS Finder metadata
+.DS_Store
+
+# Never commit staged images or other dataset contents.
+data/staged/*
+data/development/*
+data/held_out/*
+data/labels/*
+!data/staged/.gitkeep
+!data/development/.gitkeep
+!data/held_out/.gitkeep
+!data/labels/.gitkeep
