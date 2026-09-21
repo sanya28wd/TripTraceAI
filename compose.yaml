@@ -1,0 +1,11 @@
+services:
+  web:
+    image: nginx:1.27-alpine
+    ports:
+      - "8080:80"
+
+  api:
+    build:
+      context: ./api
+    ports:
+      - "8000:8000"

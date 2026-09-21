@@ -1,0 +1,198 @@
+openapi: 3.1.0
+info:
+  title: TripTrace AI API
+  version: 0.0.1
+  description: Phase 0 shared contract. Only GET /health is implemented.
+servers:
+  - url: http://localhost:8000
+paths:
+  /health:
+    get:
+      summary: Check API health
+      responses:
+        '200':
+          description: API is running
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+  /v1/trips:
+    post:
+      summary: Create a synthetic Trip ID
+      responses:
+        '201':
+          description: Synthetic trip created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Trip'
+  /v1/cases:
+    post:
+      summary: Create a placeholder lost-property case
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [tripId, sourceType]
+              properties:
+                tripId:
+                  type: string
+                sourceType:
+                  $ref: '#/components/schemas/SourceType'
+                detectedItem:
+                  $ref: '#/components/schemas/DetectedItem'
+                passengerClaim:
+                  $ref: '#/components/schemas/PassengerClaim'
+      responses:
+        '201':
+          description: Placeholder case created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Case'
+  /v1/cases/{caseId}:
+    get:
+      summary: Retrieve a case
+      parameters:
+        - $ref: '#/components/parameters/CaseId'
+      responses:
+        '200':
+          description: Case found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Case'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /v1/cases/{caseId}/events:
+    post:
+      summary: Record a status change or audit event
+      parameters:
+        - $ref: '#/components/parameters/CaseId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuditEventInput'
+      responses:
+        '201':
+          description: Event recorded and case updated
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [event, case]
+                properties:
+                  event:
+                    $ref: '#/components/schemas/AuditEvent'
+                  case:
+                    $ref: '#/components/schemas/Case'
+components:
+  parameters:
+    CaseId:
+      name: caseId
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    NotFound:
+      description: The requested resource does not exist
+  schemas:
+    HealthResponse:
+      type: object
+      required: [status]
+      properties:
+        status:
+          type: string
+          const: ok
+    Trip:
+      type: object
+      required: [tripId, createdAt]
+      properties:
+        tripId:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+    CaseStatus:
+      type: string
+      enum: [detected, claim_submitted, clarification_needed, matched, driver_alerted, secured, manual_review, closed]
+    SourceType:
+      type: string
+      enum: [detection, passenger_claim, manual_entry]
+    RedactionStatus:
+      type: string
+      enum: [not_started, pending, passed, failed, not_applicable]
+    Privacy:
+      type: object
+      required: [redactionStatus]
+      properties:
+        redactionStatus:
+          $ref: '#/components/schemas/RedactionStatus'
+    DetectedItem:
+      description: Placeholder for later detection work.
+      type: object
+      properties:
+        category: { type: string }
+        colour: { type: string }
+        seatAreaHint: { type: string }
+        confidence: { type: [number, 'null'], minimum: 0, maximum: 1 }
+        boundingBox: { type: [object, 'null'] }
+        noItem: { type: boolean }
+        modelVersion: { type: [string, 'null'] }
+    PassengerClaim:
+      description: Placeholder for later passenger-claim work.
+      type: object
+      properties:
+        description: { type: string }
+        category: { type: string }
+        colour: { type: string }
+        sizeHint: { type: string }
+        language: { type: string }
+        sensitive: { type: boolean }
+    AuditEventInput:
+      type: object
+      required: [eventType, occurredAt, actorType]
+      properties:
+        eventType: { type: string }
+        occurredAt: { type: string, format: date-time }
+        actorType: { type: string, enum: [system, passenger, driver, operations] }
+        status: { $ref: '#/components/schemas/CaseStatus' }
+        note: { type: string }
+        details: { type: object }
+    AuditEvent:
+      allOf:
+        - $ref: '#/components/schemas/AuditEventInput'
+        - type: object
+          required: [eventId]
+          properties:
+            eventId: { type: string }
+    Case:
+      type: object
+      required: [caseId, tripId, status, createdAt, updatedAt, sourceType, privacy, auditTimeline]
+      properties:
+        caseId: { type: string }
+        tripId: { type: string }
+        status: { $ref: '#/components/schemas/CaseStatus' }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+        sourceType: { $ref: '#/components/schemas/SourceType' }
+        privacy: { $ref: '#/components/schemas/Privacy' }
+        detectedItem:
+          anyOf:
+            - $ref: '#/components/schemas/DetectedItem'
+            - type: 'null'
+        passengerClaim:
+          anyOf:
+            - $ref: '#/components/schemas/PassengerClaim'
+            - type: 'null'
+        manualReviewReason:
+          type: [string, 'null']
+        auditTimeline:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuditEvent'
