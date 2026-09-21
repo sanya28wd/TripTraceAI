@@ -1,0 +1,40 @@
+{
+  "caseId": "case_demo_001",
+  "tripId": "trip_demo_001",
+  "status": "manual_review",
+  "createdAt": "2026-09-21T09:15:00Z",
+  "updatedAt": "2026-09-21T09:20:00Z",
+  "sourceType": "detection",
+  "privacy": {
+    "redactionStatus": "not_started"
+  },
+  "detectedItem": {
+    "category": "placeholder_bag",
+    "colour": "placeholder_blue",
+    "seatAreaHint": "placeholder_rear_seat",
+    "confidence": null,
+    "boundingBox": null,
+    "noItem": false,
+    "modelVersion": null
+  },
+  "passengerClaim": null,
+  "manualReviewReason": "Synthetic Phase 0 example; no decision has been made.",
+  "auditTimeline": [
+    {
+      "eventId": "event_demo_001",
+      "eventType": "case_created",
+      "occurredAt": "2026-09-21T09:15:00Z",
+      "actorType": "system",
+      "status": "detected",
+      "note": "Synthetic placeholder case created."
+    },
+    {
+      "eventId": "event_demo_002",
+      "eventType": "manual_review_requested",
+      "occurredAt": "2026-09-21T09:20:00Z",
+      "actorType": "system",
+      "status": "manual_review",
+      "note": "Synthetic Phase 0 example requires no automated action."
+    }
+  ]
+}

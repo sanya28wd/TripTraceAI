@@ -1,0 +1,12 @@
+{
+  "name": "triptrace-api",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Phase 0 health endpoint for TripTrace AI",
+  "scripts": {
+    "start": "node src/server.js"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
