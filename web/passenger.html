@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Passenger journey — TripTrace AI</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <main class="shell">
+      <a class="back-link" href="index.html">← Change role</a>
+      <p class="eyebrow">Passenger journey</p>
+      <h1>Report a forgotten item</h1>
+
+      <section class="panel" id="trip-step">
+        <h2>1. Find your trip</h2>
+        <form id="trip-form">
+          <label for="trip-id">Synthetic Trip ID</label>
+          <input id="trip-id" name="tripId" value="trip_demo_001" required autocomplete="off">
+          <p class="hint">Try trip_demo_001, trip_demo_002, trip_demo_003, or trip_demo_004.</p>
+          <button type="submit">Continue</button>
+          <p class="error" id="trip-error" role="alert"></p>
+        </form>
+      </section>
+
+      <section class="panel" id="claim-step" hidden>
+        <h2>2. Describe the item</h2>
+        <form id="claim-form">
+          <label for="description">Short description</label>
+          <textarea id="description" name="description" required>Sample item for the synthetic demo</textarea>
+          <div class="field-row">
+            <div>
+              <label for="category">Category</label>
+              <input id="category" name="category" value="placeholder_bag" required>
+            </div>
+            <div>
+              <label for="colour">Colour</label>
+              <input id="colour" name="colour" value="placeholder_blue" required>
+            </div>
+          </div>
+          <button type="submit">Submit demo claim</button>
+        </form>
+      </section>
+
+      <section class="panel status-panel" id="status-step" aria-live="polite" hidden>
+        <p class="eyebrow">3. Case status</p>
+        <h2 id="status-label"></h2>
+        <p id="status-next"></p>
+        <p class="case-reference" id="case-reference"></p>
+        <div id="clarification" hidden>
+          <label for="clarification-text">Additional safe description</label>
+          <textarea id="clarification-text">Synthetic identifying detail</textarea>
+          <button type="button" id="clarification-button">Add detail</button>
+        </div>
+      </section>
+    </main>
+
+    <script src="mock-cases.js"></script>
+    <script>
+      "use strict";
+
+      const tripForm = document.querySelector("#trip-form");
+      const claimForm = document.querySelector("#claim-form");
+      const claimStep = document.querySelector("#claim-step");
+      const statusStep = document.querySelector("#status-step");
+      const tripError = document.querySelector("#trip-error");
+      const clarification = document.querySelector("#clarification");
+      let selectedCase = null;
+
+      tripForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const tripId = new FormData(tripForm).get("tripId").trim();
+        selectedCase = TripTrace.findCaseByTripId(tripId);
+        tripError.textContent = selectedCase === null ? `No synthetic case exists for ${tripId}.` : "";
+        claimStep.hidden = selectedCase === null;
+        statusStep.hidden = true;
+        if (selectedCase !== null) {
+          document.querySelector("#description").focus();
+        }
+      });
+
+      claimForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        if (selectedCase === null) {
+          throw new Error("A synthetic case must be selected before submitting a claim.");
+        }
+
+        const [label, nextStep] = TripTrace.PASSENGER_STATUS[selectedCase.status];
+        document.querySelector("#status-label").textContent = label;
+        document.querySelector("#status-next").textContent = nextStep;
+        document.querySelector("#case-reference").textContent = `Reference: ${selectedCase.caseId}`;
+        clarification.hidden = selectedCase.status !== "clarification_needed";
+        statusStep.hidden = false;
+        statusStep.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+
+      document.querySelector("#clarification-button").addEventListener("click", () => {
+        clarification.innerHTML = "<p class=\"confirmation\">Detail added to this in-memory demo.</p>";
+      });
+    </script>
+  </body>
+</html>

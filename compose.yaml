@@ -3,6 +3,8 @@ services:
     image: nginx:1.27-alpine
     ports:
       - "8080:80"
+    volumes:
+      - "./web:/usr/share/nginx/html:ro"
 
   api:
     build:

@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Driver journey — TripTrace AI</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <main class="shell">
+      <a class="back-link" href="index.html">← Change role</a>
+      <p class="eyebrow">Driver journey</p>
+      <h1>Item alert</h1>
+
+      <section class="panel" id="alert-card">
+        <div class="alert-heading">
+          <div>
+            <p class="eyebrow">Action requested</p>
+            <h2>Check the vehicle</h2>
+          </div>
+          <span class="status-chip">New</span>
+        </div>
+        <dl class="safe-fields">
+          <div><dt>Category</dt><dd id="item-category"></dd></div>
+          <div><dt>Colour</dt><dd id="item-colour"></dd></div>
+          <div><dt>Seat area</dt><dd id="item-seat"></dd></div>
+        </dl>
+        <div class="actions">
+          <button type="button" data-action="secure">Secure item</button>
+          <button type="button" class="secondary" data-action="no_item">No item found</button>
+          <button type="button" class="secondary" data-action="ask_operations">Ask operations</button>
+        </div>
+      </section>
+
+      <section class="panel status-panel" id="result" aria-live="polite" hidden>
+        <p class="eyebrow">Result</p>
+        <h2 id="result-status"></h2>
+        <p>This update exists only in this browser page.</p>
+        <h3>New audit event</h3>
+        <pre id="audit-event"></pre>
+      </section>
+    </main>
+
+    <script src="mock-cases.js"></script>
+    <script>
+      "use strict";
+
+      const displayValue = (value) => value.replaceAll("placeholder_", "").replaceAll("_", " ");
+      let caseRecord = TripTrace.findCaseByTripId("trip_demo_001");
+
+      if (caseRecord === null || caseRecord.detectedItem === null) {
+        throw new Error("The driver demo requires trip_demo_001 with a detected item.");
+      }
+
+      document.querySelector("#item-category").textContent = displayValue(caseRecord.detectedItem.category);
+      document.querySelector("#item-colour").textContent = displayValue(caseRecord.detectedItem.colour);
+      document.querySelector("#item-seat").textContent = displayValue(caseRecord.detectedItem.seatAreaHint);
+
+      document.querySelector(".actions").addEventListener("click", (event) => {
+        const action = event.target.dataset.action;
+        if (action === undefined) {
+          return;
+        }
+
+        const occurredAt = new Date().toISOString();
+        const eventId = `event_demo_driver_${Date.now()}`;
+        caseRecord = TripTrace.transitionDriverCase(caseRecord, action, occurredAt, eventId);
+        const auditEvent = caseRecord.auditTimeline.at(-1);
+        document.querySelector("#result-status").textContent = TripTrace.DRIVER_STATUS[caseRecord.status];
+        document.querySelector("#audit-event").textContent = JSON.stringify(auditEvent, null, 2);
+        document.querySelector("#result").hidden = false;
+        document.querySelectorAll(".actions button").forEach((button) => {
+          button.disabled = true;
+        });
+      });
+    </script>
+  </body>
+</html>

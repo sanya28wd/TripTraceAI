@@ -41,6 +41,12 @@ Expected response:
 
 The placeholder web service is available at `http://localhost:8080`. Stop both services with `docker compose down`.
 
+Run the Phase 0 mock-data and transition check with:
+
+```bash
+node web/smoke-test.js
+```
+
 ## Team Git rules
 
 - Use one branch per task.
@@ -50,3 +56,10 @@ The placeholder web service is available at `http://localhost:8080`. Stop both s
 ## Shared contracts
 
 Read [the API contract](docs/api-contract.md), [the case schema](docs/case-schema.md), and [the handoff notes](docs/handoff-for-team.md) before creating screens, mock data, or labels. The fields marked stable need team agreement before changes.
+
+Phase 0 journey references:
+
+- [User journey](docs/user-journey.md)
+- [Case states and transitions](docs/case-states.md)
+- [Screen map and data boundaries](docs/screen-map.md)
+- [Demo story](docs/demo-story.md)
