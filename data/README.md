@@ -11,6 +11,7 @@ data/
 ├── development/
 ├── held_out/
 ├── labels/
+├── mock/
 └── staged/
 ```
 
@@ -59,6 +60,29 @@ Labels should support the shared item taxonomy and evaluation requirements, incl
 * Evaluation-case information
 
 The label files should not contain real personally identifiable information.
+
+---
+# Mock Data
+
+This folder contains simulated application data used during the **Phase 1 passenger app prototype**.
+
+The mock data allows the passenger workflow to be developed and tested before connecting the real backend, image upload, or AI services.
+
+## Contents
+
+* **Mock passenger claims** in English and Arabic
+* **Synthetic Trip IDs**
+* Mock case statuses and responses
+* Examples covering:
+
+  * Successful claims
+  * Uncertain claims requiring clarification
+  * Sensitive-item cases
+  * Manual-review cases
+
+The mock data does **not** contain real passenger information or real customer data.
+
+These cases are used only for prototyping and testing the passenger experience in Phase 1.
 
 ---
 
