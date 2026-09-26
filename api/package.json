@@ -2,9 +2,10 @@
   "name": "triptrace-api",
   "private": true,
   "version": "0.0.1",
-  "description": "Phase 0 health endpoint for TripTrace AI",
+  "description": "Phase 1 mock API for TripTrace AI passenger screens",
   "scripts": {
-    "start": "node src/server.js"
+    "start": "node src/server.js",
+    "verify": "node scripts/verify-mock-api.js"
   },
   "engines": {
     "node": ">=22"

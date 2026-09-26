@@ -1,0 +1,74 @@
+[
+  {
+    "tripId": "TRIP-1001",
+    "caseId": "CASE-MOCK-1001",
+    "status": "claim_submitted",
+    "language": "en",
+    "claim": {
+      "category": "bag",
+      "colour": "black",
+      "passengerWording": "I may have left a black bag in the back seat."
+    },
+    "responseType": "safe_status",
+    "safePassengerMessage": "Your claim has been recorded. We will update you after the available information is reviewed.",
+    "clarificationQuestion": null,
+    "manualReviewReason": null,
+    "auditTimeline": [
+      {
+        "eventId": "EVENT-MOCK-1001-1",
+        "eventType": "mock_claim_created",
+        "occurredAt": "2026-09-26T09:00:00Z",
+        "actorType": "passenger",
+        "note": "Synthetic English mock claim created for the passenger prototype."
+      }
+    ]
+  },
+  {
+    "tripId": "TRIP-1002",
+    "caseId": "CASE-MOCK-1002",
+    "status": "clarification_needed",
+    "language": "en",
+    "claim": {
+      "category": "wallet",
+      "colour": "dark",
+      "passengerWording": "I think I left my wallet in the taxi."
+    },
+    "responseType": "clarification",
+    "safePassengerMessage": "We found a possible item matching your description. Please confirm one detail.",
+    "clarificationQuestion": "Can you confirm whether your item was dark coloured and approximately palm-sized?",
+    "manualReviewReason": null,
+    "auditTimeline": [
+      {
+        "eventId": "EVENT-MOCK-1002-1",
+        "eventType": "mock_clarification_requested",
+        "occurredAt": "2026-09-26T09:05:00Z",
+        "actorType": "system",
+        "note": "Synthetic clarification path for the passenger prototype."
+      }
+    ]
+  },
+  {
+    "tripId": "TRIP-1003",
+    "caseId": "CASE-MOCK-1003",
+    "status": "manual_review",
+    "language": "ar",
+    "claim": {
+      "category": "passport_or_id",
+      "colour": "blue",
+      "passengerWording": "أعتقد أنني تركت جواز سفر أزرق في السيارة."
+    },
+    "responseType": "manual_review",
+    "safePassengerMessage": "تم إرسال طلبك للمراجعة اليدوية حفاظاً على سلامة المعلومات.",
+    "clarificationQuestion": null,
+    "manualReviewReason": "Sensitive document claims always require manual review in the mock prototype.",
+    "auditTimeline": [
+      {
+        "eventId": "EVENT-MOCK-1003-1",
+        "eventType": "mock_sensitive_item_escalated",
+        "occurredAt": "2026-09-26T09:10:00Z",
+        "actorType": "system",
+        "note": "Synthetic sensitive-item path escalated to manual review."
+      }
+    ]
+  }
+]
