@@ -2,7 +2,7 @@ openapi: 3.1.0
 info:
   title: TripTrace AI API
   version: 0.0.1
-  description: Phase 0 shared contract. Only GET /health is implemented.
+  description: Phase 1 shared contract. Health and mock passenger endpoints are implemented with synthetic data only.
 servers:
   - url: http://localhost:8000
 paths:
@@ -90,6 +90,53 @@ paths:
                     $ref: '#/components/schemas/AuditEvent'
                   case:
                     $ref: '#/components/schemas/Case'
+  /v1/mock/cases/{tripId}:
+    get:
+      summary: Retrieve one scripted passenger prototype case
+      parameters:
+        - name: tripId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: TRIP-1002
+      responses:
+        '200':
+          description: Scripted mock case found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MockCase'
+        '404':
+          description: No scripted case exists for the Trip ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MockNotFoundResponse'
+  /v1/mock/claims:
+    post:
+      summary: Submit a scripted passenger claim response for a mock Trip ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MockClaimRequest'
+      responses:
+        '200':
+          description: Scripted safe passenger response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MockClaimResponse'
+        '400':
+          description: Invalid JSON or missing Trip ID
+        '404':
+          description: No scripted case exists for the Trip ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MockNotFoundResponse'
 components:
   parameters:
     CaseId:
@@ -196,3 +243,60 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/AuditEvent'
+    MockClaim:
+      type: object
+      required: [category, colour, passengerWording]
+      properties:
+        category: { type: string }
+        colour: { type: [string, 'null'] }
+        passengerWording: { type: string }
+    MockAuditEvent:
+      type: object
+      required: [eventId, eventType, occurredAt, actorType, note]
+      properties:
+        eventId: { type: string }
+        eventType: { type: string }
+        occurredAt: { type: string, format: date-time }
+        actorType: { type: string }
+        note: { type: string }
+    MockCase:
+      type: object
+      required: [tripId, caseId, status, language, claim, responseType, safePassengerMessage, clarificationQuestion, manualReviewReason, auditTimeline]
+      properties:
+        tripId: { type: string }
+        caseId: { type: string }
+        status: { $ref: '#/components/schemas/CaseStatus' }
+        language: { type: string, enum: [en, ar] }
+        claim: { $ref: '#/components/schemas/MockClaim' }
+        responseType: { type: string, enum: [safe_status, clarification, manual_review] }
+        safePassengerMessage: { type: string }
+        clarificationQuestion: { type: [string, 'null'] }
+        manualReviewReason: { type: [string, 'null'] }
+        auditTimeline:
+          type: array
+          items: { $ref: '#/components/schemas/MockAuditEvent' }
+    MockClaimRequest:
+      type: object
+      required: [tripId]
+      properties:
+        tripId: { type: string, example: TRIP-1002 }
+        description: { type: string, description: Optional scripted passenger wording for UI testing. }
+        language: { type: string, enum: [en, ar] }
+    MockClaimResponse:
+      type: object
+      required: [tripId, caseId, status, responseType, safePassengerMessage, clarificationQuestion, manualReviewReason, claim]
+      properties:
+        tripId: { type: string }
+        caseId: { type: string }
+        status: { $ref: '#/components/schemas/CaseStatus' }
+        responseType: { type: string, enum: [safe_status, clarification, manual_review] }
+        safePassengerMessage: { type: string }
+        clarificationQuestion: { type: [string, 'null'] }
+        manualReviewReason: { type: [string, 'null'] }
+        claim: { $ref: '#/components/schemas/MockClaim' }
+    MockNotFoundResponse:
+      type: object
+      required: [error, safePassengerMessage]
+      properties:
+        error: { type: string, const: trip_not_found }
+        safePassengerMessage: { type: string }

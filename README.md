@@ -2,13 +2,13 @@
 
 TripTrace AI is a privacy-first lost-property recovery project for taxi fleets. It will help a team record possible forgotten items, receive passenger claims, and keep a clear audit history. The project uses synthetic demo data only during development.
 
-## Phase 0 scope
+## Current Phase 1 scope
 
-This repository currently provides a shared project layout, a small local API health check, Docker Compose, and the first API and case-record contracts. It is intentionally a foundation for the team to agree on names, statuses, and data boundaries before building features.
+This repository provides the shared project layout, Docker Compose, API and case-record contracts, and a small scripted mock API for the passenger prototype. It is intentionally limited to safe synthetic data while the team agrees on names, statuses, and screen flows.
 
 ## Not included yet
 
-Do not add the full product, object detection, chatbot, VLM, LLM, database, authentication, cloud deployment, live taxi integrations, or real passenger data in Phase 0.
+Do not add the full product, object detection, chatbot, VLM, LLM, database, authentication, cloud deployment, live taxi integrations, or real passenger data in Phase 1.
 
 ## Folder structure
 
@@ -37,6 +37,18 @@ Expected response:
 
 ```json
 {"status":"ok"}
+```
+
+For the passenger prototype, retrieve a scripted case:
+
+```bash
+curl http://localhost:8000/v1/mock/cases/TRIP-1002
+```
+
+Run the API verification from the `api/` folder:
+
+```bash
+npm run verify
 ```
 
 The placeholder web service is available at `http://localhost:8080`. Stop both services with `docker compose down`.

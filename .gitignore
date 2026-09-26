@@ -10,3 +10,7 @@ data/labels/*
 !data/development/.gitkeep
 !data/held_out/.gitkeep
 !data/labels/.gitkeep
+
+# Safe documentation can be versioned; dataset files remain ignored.
+!data/staged/*.md
+!data/labels/*.md
