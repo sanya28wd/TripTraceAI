@@ -1,302 +1,106 @@
-openapi: 3.1.0
+openapi: 3.0.3
 info:
-  title: TripTrace AI API
-  version: 0.0.1
-  description: Phase 1 shared contract. Health and mock passenger endpoints are implemented with synthetic data only.
-servers:
-  - url: http://localhost:8000
+  title: TripTrace AI Phase 2 Mock API
+  version: 2.0.0
+  description: Synthetic in-memory passenger and driver-alert prototype. Restarting the API resets state.
 paths:
   /health:
     get:
-      summary: Check API health
       responses:
-        '200':
-          description: API is running
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HealthResponse'
-  /v1/trips:
-    post:
-      summary: Create a synthetic Trip ID
-      responses:
-        '201':
-          description: Synthetic trip created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Trip'
-  /v1/cases:
-    post:
-      summary: Create a placeholder lost-property case
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required: [tripId, sourceType]
-              properties:
-                tripId:
-                  type: string
-                sourceType:
-                  $ref: '#/components/schemas/SourceType'
-                detectedItem:
-                  $ref: '#/components/schemas/DetectedItem'
-                passengerClaim:
-                  $ref: '#/components/schemas/PassengerClaim'
-      responses:
-        '201':
-          description: Placeholder case created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Case'
-  /v1/cases/{caseId}:
-    get:
-      summary: Retrieve a case
-      parameters:
-        - $ref: '#/components/parameters/CaseId'
-      responses:
-        '200':
-          description: Case found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Case'
-        '404':
-          $ref: '#/components/responses/NotFound'
-  /v1/cases/{caseId}/events:
-    post:
-      summary: Record a status change or audit event
-      parameters:
-        - $ref: '#/components/parameters/CaseId'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/AuditEventInput'
-      responses:
-        '201':
-          description: Event recorded and case updated
-          content:
-            application/json:
-              schema:
-                type: object
-                required: [event, case]
-                properties:
-                  event:
-                    $ref: '#/components/schemas/AuditEvent'
-                  case:
-                    $ref: '#/components/schemas/Case'
+        '200': { description: API available }
   /v1/mock/cases/{tripId}:
     get:
-      summary: Retrieve one scripted passenger prototype case
       parameters:
-        - name: tripId
-          in: path
-          required: true
-          schema:
-            type: string
-          example: TRIP-1002
+        - $ref: '#/components/parameters/TripId'
       responses:
         '200':
-          description: Scripted mock case found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MockCase'
-        '404':
-          description: No scripted case exists for the Trip ID
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MockNotFoundResponse'
+          description: Passenger-safe case projection
+          content: { application/json: { schema: { $ref: '#/components/schemas/PassengerCase' } } }
+        '404': { description: Unknown trip }
   /v1/mock/claims:
     post:
-      summary: Submit a scripted passenger claim response for a mock Trip ID
       requestBody:
         required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/MockClaimRequest'
+        content: { application/json: { schema: { type: object, required: [tripId], properties: { tripId: { type: string } } } } }
       responses:
         '200':
-          description: Scripted safe passenger response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MockClaimResponse'
-        '400':
-          description: Invalid JSON or missing Trip ID
-        '404':
-          description: No scripted case exists for the Trip ID
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MockNotFoundResponse'
+          description: Passenger-safe result; creates an alert only when safe evidence passes.
+          content: { application/json: { schema: { $ref: '#/components/schemas/PassengerCase' } } }
+  /v1/mock/driver/session:
+    get:
+      responses:
+        '200':
+          description: Fixed demo driver session
+          content: { application/json: { schema: { $ref: '#/components/schemas/DriverSession' } } }
+  /v1/mock/driver/alerts:
+    get:
+      responses:
+        '200':
+          description: Alerts assigned to the demo driver, newest first
+          content: { application/json: { schema: { type: object, required: [alerts], properties: { alerts: { type: array, items: { $ref: '#/components/schemas/DriverAlert' } } } } } }
+  /v1/mock/driver/alerts/{alertId}:
+    get:
+      parameters:
+        - $ref: '#/components/parameters/AlertId'
+      responses:
+        '200': { description: Driver-safe alert detail, content: { application/json: { schema: { $ref: '#/components/schemas/DriverAlert' } } } }
+        '404': { description: Alert is not assigned to the session }
+  /v1/mock/driver/alerts/{alertId}/read:
+    post:
+      parameters:
+        - $ref: '#/components/parameters/AlertId'
+      responses:
+        '200': { description: Read state recorded, content: { application/json: { schema: { $ref: '#/components/schemas/DriverAlert' } } } }
+  /v1/mock/driver/alerts/{alertId}/actions:
+    post:
+      parameters:
+        - $ref: '#/components/parameters/AlertId'
+      requestBody:
+        required: true
+        content: { application/json: { schema: { type: object, required: [action], properties: { action: { type: string, enum: [secure, no_item, ask_operations] } } } } }
+      responses:
+        '200': { description: Completed alert, content: { application/json: { schema: { $ref: '#/components/schemas/DriverAlert' } } } }
+        '409': { description: Already completed, invalid state, or unsafe evidence }
 components:
   parameters:
-    CaseId:
-      name: caseId
-      in: path
-      required: true
-      schema:
-        type: string
-  responses:
-    NotFound:
-      description: The requested resource does not exist
+    TripId: { name: tripId, in: path, required: true, schema: { type: string } }
+    AlertId: { name: alertId, in: path, required: true, schema: { type: string } }
   schemas:
-    HealthResponse:
+    PassengerCase:
       type: object
-      required: [status]
+      required: [tripId, caseId, status, language, responseType, safePassengerMessage]
       properties:
-        status:
-          type: string
-          const: ok
-    Trip:
-      type: object
-      required: [tripId, createdAt]
-      properties:
-        tripId:
-          type: string
-        createdAt:
-          type: string
-          format: date-time
-    CaseStatus:
-      type: string
-      enum: [detected, claim_submitted, clarification_needed, matched, driver_alerted, secured, manual_review, closed]
-    SourceType:
-      type: string
-      enum: [detection, passenger_claim, manual_entry]
-    RedactionStatus:
-      type: string
-      enum: [not_started, pending, passed, failed, not_applicable]
-    Privacy:
-      type: object
-      required: [redactionStatus]
-      properties:
-        redactionStatus:
-          $ref: '#/components/schemas/RedactionStatus'
-    DetectedItem:
-      description: Placeholder for later detection work.
+        tripId: { type: string }
+        caseId: { type: string }
+        status: { type: string }
+        language: { type: string, enum: [en, ar] }
+        responseType: { type: string }
+        safePassengerMessage: { type: string }
+        clarificationQuestion: { type: string, nullable: true }
+    DriverSession:
       type: object
       properties:
-        category: { type: string }
-        colour: { type: string }
-        seatAreaHint: { type: string }
-        confidence: { type: [number, 'null'], minimum: 0, maximum: 1 }
-        boundingBox: { type: [object, 'null'] }
-        noItem: { type: boolean }
-        modelVersion: { type: [string, 'null'] }
-    PassengerClaim:
-      description: Placeholder for later passenger-claim work.
+        driver: { type: object, properties: { driverId: { type: string }, name: { type: string } } }
+        vehicle: { type: object, properties: { vehicleId: { type: string }, label: { type: string } } }
+    DriverAlert:
       type: object
+      required: [alertId, caseId, tripId, createdAt, updatedAt, alertStatus, caseStatus, detectedItem, allowedActions]
       properties:
-        description: { type: string }
-        category: { type: string }
-        colour: { type: string }
-        sizeHint: { type: string }
-        language: { type: string }
-        sensitive: { type: boolean }
-    AuditEventInput:
-      type: object
-      required: [eventType, occurredAt, actorType]
-      properties:
-        eventType: { type: string }
-        occurredAt: { type: string, format: date-time }
-        actorType: { type: string, enum: [system, passenger, driver, operations] }
-        status: { $ref: '#/components/schemas/CaseStatus' }
-        note: { type: string }
-        details: { type: object }
-    AuditEvent:
-      allOf:
-        - $ref: '#/components/schemas/AuditEventInput'
-        - type: object
-          required: [eventId]
-          properties:
-            eventId: { type: string }
-    Case:
-      type: object
-      required: [caseId, tripId, status, createdAt, updatedAt, sourceType, privacy, auditTimeline]
-      properties:
+        alertId: { type: string }
         caseId: { type: string }
         tripId: { type: string }
-        status: { $ref: '#/components/schemas/CaseStatus' }
         createdAt: { type: string, format: date-time }
         updatedAt: { type: string, format: date-time }
-        sourceType: { $ref: '#/components/schemas/SourceType' }
-        privacy: { $ref: '#/components/schemas/Privacy' }
+        readAt: { type: string, format: date-time, nullable: true }
+        alertStatus: { type: string, enum: [new, in_progress, completed] }
+        caseStatus: { type: string }
         detectedItem:
-          anyOf:
-            - $ref: '#/components/schemas/DetectedItem'
-            - type: 'null'
-        passengerClaim:
-          anyOf:
-            - $ref: '#/components/schemas/PassengerClaim'
-            - type: 'null'
-        manualReviewReason:
-          type: [string, 'null']
-        auditTimeline:
-          type: array
-          items:
-            $ref: '#/components/schemas/AuditEvent'
-    MockClaim:
-      type: object
-      required: [category, colour, passengerWording]
-      properties:
-        category: { type: string }
-        colour: { type: [string, 'null'] }
-        passengerWording: { type: string }
-    MockAuditEvent:
-      type: object
-      required: [eventId, eventType, occurredAt, actorType, note]
-      properties:
-        eventId: { type: string }
-        eventType: { type: string }
-        occurredAt: { type: string, format: date-time }
-        actorType: { type: string }
-        note: { type: string }
-    MockCase:
-      type: object
-      required: [tripId, caseId, status, language, claim, responseType, safePassengerMessage, clarificationQuestion, manualReviewReason, auditTimeline]
-      properties:
-        tripId: { type: string }
-        caseId: { type: string }
-        status: { $ref: '#/components/schemas/CaseStatus' }
-        language: { type: string, enum: [en, ar] }
-        claim: { $ref: '#/components/schemas/MockClaim' }
-        responseType: { type: string, enum: [safe_status, clarification, manual_review] }
-        safePassengerMessage: { type: string }
-        clarificationQuestion: { type: [string, 'null'] }
-        manualReviewReason: { type: [string, 'null'] }
-        auditTimeline:
-          type: array
-          items: { $ref: '#/components/schemas/MockAuditEvent' }
-    MockClaimRequest:
-      type: object
-      required: [tripId]
-      properties:
-        tripId: { type: string, example: TRIP-1002 }
-        description: { type: string, description: Optional scripted passenger wording for UI testing. }
-        language: { type: string, enum: [en, ar] }
-    MockClaimResponse:
-      type: object
-      required: [tripId, caseId, status, responseType, safePassengerMessage, clarificationQuestion, manualReviewReason, claim]
-      properties:
-        tripId: { type: string }
-        caseId: { type: string }
-        status: { $ref: '#/components/schemas/CaseStatus' }
-        responseType: { type: string, enum: [safe_status, clarification, manual_review] }
-        safePassengerMessage: { type: string }
-        clarificationQuestion: { type: [string, 'null'] }
-        manualReviewReason: { type: [string, 'null'] }
-        claim: { $ref: '#/components/schemas/MockClaim' }
-    MockNotFoundResponse:
-      type: object
-      required: [error, safePassengerMessage]
-      properties:
-        error: { type: string, const: trip_not_found }
-        safePassengerMessage: { type: string }
+          type: object
+          properties:
+            category: { type: string }
+            colour: { type: string }
+            seatAreaHint: { type: string }
+            imageUrl: { type: string }
+            imageAlt: { type: string }
+        allowedActions: { type: array, items: { type: string, enum: [secure, no_item, ask_operations] } }
+        outcomeMessage: { type: string, nullable: true }

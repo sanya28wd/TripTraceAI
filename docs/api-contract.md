@@ -1,120 +1,63 @@
-# TripTrace AI API Contract Phase 1
+# Phase 2 Mock API Contract
 
-This is the shared contract for mock screens and future services. Phase 1 implements only the health check and scripted mock passenger endpoints. The earlier case endpoints remain the shared design for later phases and are not implemented yet.
+The API holds synthetic cases and driver alerts in memory. Restarting the API resets the demo. It has one fixed session: `DRIVER-MOCK-001` in `VEHICLE-MOCK-204`.
 
-All request and response bodies are JSON. IDs are synthetic. Timestamps use ISO 8601 UTC, for example `2026-09-21T09:15:00Z`.
+## Passenger endpoints
 
-## Status values
+### `GET /v1/mock/cases/{tripId}`
 
-The status must be exactly one of: `detected`, `claim_submitted`, `clarification_needed`, `matched`, `driver_alerted`, `secured`, `manual_review`, or `closed`.
+Returns the passenger-safe case projection: `tripId`, `caseId`, `status`, `language`, `responseType`, `safePassengerMessage`, and `clarificationQuestion`.
 
-## Endpoints
+It never returns a driver alert, assignment, item image, image URL, detector result, confidence, bounding box, audit history, internal review reason, or passenger claim content.
 
-### GET /health
+### `POST /v1/mock/claims`
 
-Checks whether the minimal local API is running.
+Accepts `{ "tripId": "TRIP-1001" }`. The scripted `TRIP-1001` report records `claim_submitted`, moves the case to `driver_alerted`, and creates one alert when safe evidence is available. Its passenger response remains neutral.
 
-Response: `200 OK`
+If no privacy-approved safe crop is available, the case moves to `manual_review` with internal reason `driver_alert_evidence_unavailable`; no driver alert is created.
 
-```json
-{"status":"ok"}
-```
+## Driver endpoints
 
-### POST /v1/trips
+### `GET /v1/mock/driver/session`
 
-Creates a synthetic Trip ID for demos and mock screens.
+Returns the fixed demo driver and vehicle summary.
 
-Response: `201 Created`
+### `GET /v1/mock/driver/alerts`
 
-```json
-{
-  "tripId": "trip_demo_001",
-  "createdAt": "2026-09-21T09:15:00Z"
-}
-```
+Returns alerts assigned to the fixed session, newest first. Each alert contains:
 
-### POST /v1/cases
+- `alertId`, `caseId`, `tripId`, timestamps, `readAt`, `alertStatus`, and `caseStatus`
+- one approved `detectedItem`: `category`, `colour`, `seatAreaHint`, `imageUrl`, and `imageAlt`
+- `allowedActions` and an action `outcomeMessage` after completion
 
-Creates a placeholder lost-property case. In Phase 0, frontends may mock this response locally.
+The response excludes passenger claim wording and identity, detector confidence, bounding boxes, model data, raw imagery, alternative items, and assignment identifiers.
 
-Required request fields: `tripId`, `sourceType`. Optional placeholder fields: `detectedItem`, `passengerClaim`.
+### `GET /v1/mock/driver/alerts/{alertId}`
 
-Response: `201 Created` with the complete case record.
+Returns one assigned driver-safe alert. Reading this endpoint does not change its read state.
 
-### GET /v1/cases/{caseId}
+### `POST /v1/mock/driver/alerts/{alertId}/read`
 
-Retrieves one case record by its `caseId`.
+Records `readAt` and moves a new alert to `in_progress`.
 
-Response: `200 OK` with the complete case record, or `404 Not Found` when it does not exist.
+### `POST /v1/mock/driver/alerts/{alertId}/actions`
 
-### POST /v1/cases/{caseId}/events
-
-Records a status change or audit event. The event has `eventType`, `occurredAt`, `actorType`, and optional `status`, `note`, and `details`.
-
-Response: `201 Created` with the recorded event and the updated case record.
-
-For full field definitions and examples, see [case-schema.md](case-schema.md) and [openapi.yaml](openapi.yaml).
-
-## Phase 1 implemented mock endpoints
-
-These endpoints use only the synthetic records in `api/mock-data/cases.json`. Their item categories and colour values follow Student B's shared files in `data/labels/`. They do not call an AI model, inspect an image, save a real database record, or decide ownership.
-
-### GET /v1/mock/cases/{tripId}
-
-Returns the scripted case that Student A can display in the passenger prototype.
-
-Supported Trip IDs:
-
-| Trip ID | UI outcome | Status |
-| --- | --- | --- |
-| `TRIP-1001` | Safe recorded-claim status | `claim_submitted` |
-| `TRIP-1002` | Clarification question | `clarification_needed` |
-| `TRIP-1003` | Arabic sensitive-item manual review | `manual_review` |
-| `TRIP-9999` | Safe not-found response | `404` |
-
-Example request:
-
-```bash
-curl http://localhost:8000/v1/mock/cases/TRIP-1002
-```
-
-Example response:
+Accepts one of:
 
 ```json
-{
-  "tripId": "TRIP-1002",
-  "caseId": "CASE-MOCK-1002",
-  "status": "clarification_needed",
-  "responseType": "clarification",
-  "safePassengerMessage": "We found a possible item matching your description. Please confirm one detail.",
-  "clarificationQuestion": "Can you confirm whether your item was dark coloured and approximately palm-sized?"
-}
+{ "action": "secure" }
 ```
 
-### POST /v1/mock/claims
+| Action | Case result | Audit event | Driver confirmation |
+| --- | --- | --- | --- |
+| `secure` | `secured` | `item_secured` | Item secured; operations provides next steps. |
+| `no_item` | `manual_review` | `manual_review_requested` with `driver_reported_no_item` | Operations has been asked to review. |
+| `ask_operations` | `manual_review` | `manual_review_requested` with `driver_requested_help` | Help request recorded. |
 
-Accepts a mock claim submission and returns the scripted safe response for its Trip ID. The optional `description` and `language` fields exist for UI testing only; they do not change the scripted decision.
+The first action completes the alert and removes all allowed actions. Repeated actions return `409`. The API also rejects alerts outside `driver_alerted` or missing privacy-approved evidence.
 
-Example request:
+## Safety and scope
 
-```bash
-curl -X POST http://localhost:8000/v1/mock/claims \
-  -H "Content-Type: application/json" \
-  -d '{"tripId":"TRIP-1002","description":"I lost a dark wallet","language":"en"}'
-```
+The crop at `/assets/mock/black-bag-safe-crop.png` is a committed synthetic retrieval asset. The fixture never contains raw cabin imagery. A possible-item association is a demo trigger; it does not determine ownership or authorize a passenger handover.
 
-Expected status codes:
-
-| Status | Meaning for the passenger UI |
-| --- | --- |
-| `200` | Render `safePassengerMessage`, and optionally `clarificationQuestion` or manual-review content. |
-| `400` | The UI did not send a valid JSON body with a `tripId`. Show a generic retry message. |
-| `404` | Use `safePassengerMessage`; do not expose implementation details. |
-
-## Student A integration notes
-
-Use `GET /v1/mock/cases/{tripId}` when loading a demo case and `POST /v1/mock/claims` after the passenger submits the form. Render only `safePassengerMessage`, `clarificationQuestion`, `manualReviewReason`, and safe claim attributes. Do not show the audit timeline as customer-facing evidence. Treat `responseType` as the UI state selector: `safe_status`, `clarification`, or `manual_review`.
-
-## Replacement in later phases
-
-Phase 3 replaces the JSON file with persistent case storage. Phase 4 adds privacy filtering and structured detector evidence. Phase 6 adds VLM descriptions and LLM claim parsing, but both must return validated structured fields. Phase 7 adds matching and deterministic rules. The passenger UI can retain this response shape while the data source changes.
+This phase has no real authentication, persistence, WebSockets, device push notifications, operations dashboard, or live object detection.

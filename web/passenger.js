@@ -30,9 +30,22 @@ const responseHeading = (responseType) => {
   return headings[responseType];
 };
 
+const statusHeading = (status, responseType) => {
+  const headings = {
+    detected: "Under review",
+    driver_alerted: "Under review",
+    secured: "Under review",
+    manual_review: "Being reviewed by our team",
+  };
+  if (Object.hasOwn(headings, status)) {
+    return headings[status];
+  }
+  return responseHeading(responseType);
+};
+
 /** @param {object} result @param {string} language @returns {void} */
 const showResult = (result, language) => {
-  const heading = result.responseType ? responseHeading(result.responseType) : "Trip not found";
+  const heading = result.responseType ? statusHeading(result.status, result.responseType) : "Trip not found";
   document.querySelector("#status-heading").textContent = heading;
   const message = document.querySelector("#status-message");
   message.textContent = result.safePassengerMessage;
@@ -45,6 +58,8 @@ const showResult = (result, language) => {
   const reference = document.querySelector("#case-reference");
   reference.textContent = result.caseId ? `Case reference · ${result.caseId}` : "";
   reference.hidden = !result.caseId;
+  document.querySelector("#refresh-status").hidden = !result.caseId || selectedTrip === null;
+  document.querySelector("#status-error").textContent = "";
   statusStep.hidden = false;
   statusStep.focus();
 };
@@ -53,6 +68,27 @@ document.querySelector("#trip-id").addEventListener("input", () => {
   selectedTrip = null;
   claimStep.hidden = true;
   statusStep.hidden = true;
+  document.querySelector("#refresh-status").hidden = true;
+  document.querySelector("#status-error").textContent = "";
+});
+
+document.querySelector("#refresh-status").addEventListener("click", async () => {
+  if (selectedTrip === null) {
+    throw new Error("Choose a trip before refreshing its status.");
+  }
+  const button = document.querySelector("#refresh-status");
+  button.disabled = true;
+  document.querySelector("#status-error").textContent = "";
+  try {
+    const response = await fetch(`/v1/mock/cases/${encodeURIComponent(selectedTrip.tripId)}`);
+    const result = await readResponse(response);
+    showResult(result, selectedTrip.language);
+  } catch (error) {
+    console.warn("Passenger status refresh failed", { tripId: selectedTrip.tripId, error });
+    document.querySelector("#status-error").textContent = "We couldn’t refresh this status. Please try again.";
+  } finally {
+    button.disabled = false;
+  }
 });
 
 tripForm.addEventListener("submit", async (event) => {

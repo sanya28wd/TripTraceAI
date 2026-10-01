@@ -2,13 +2,13 @@
 
 TripTrace AI is a privacy-first lost-property recovery project for taxi fleets. It will help a team record possible forgotten items, receive passenger claims, and keep a clear audit history. The project uses synthetic demo data only during development.
 
-## Current Phase 1 scope
+## Current Phase 2 scope
 
-This repository provides the shared project layout, Docker Compose, API and case-record contracts, and a small scripted mock API for the passenger prototype. It is intentionally limited to safe synthetic data while the team agrees on names, statuses, and screen flows.
+This repository provides the shared project layout, Docker Compose, API and case-record contracts, and scripted passenger and driver prototypes. The passenger and driver screens share an in-memory mock case for the `TRIP-1001` claim-to-driver-alert demo. The driver sees one safe item summary and can record secure, no-item, or operations-help actions. Data remains synthetic.
 
 ## Not included yet
 
-Do not add the full product, object detection, chatbot, VLM, LLM, database, authentication, cloud deployment, live taxi integrations, or real passenger data in Phase 1.
+Do not add the full product, object detection, chatbot, VLM, LLM, persistent database, authentication, cloud deployment, live taxi integrations, live notifications, or real passenger data in this phase.
 
 ## Folder structure
 
@@ -51,9 +51,9 @@ Run the API verification from the `api/` folder:
 npm run verify
 ```
 
-The placeholder web service is available at `http://localhost:8080`. Stop both services with `docker compose down`.
+The passenger app is available at `http://localhost:8080/passenger/` (the root redirects there). The driver app is at `http://localhost:8080/driver/`. Submit the `TRIP-1001` passenger report, then open or refresh the driver inbox; it does not ask for a Trip ID. Stop both services with `docker compose down`.
 
-Run the Phase 0 mock-data and transition check with:
+Run the mock-data and transition smoke check with:
 
 ```bash
 node web/smoke-test.js
