@@ -1,34 +1,29 @@
-# Phase 0 Screen Map
+# Phase 2 Screen Map
 
 ```mermaid
 flowchart LR
-    Start[Choose a role]
-    Start --> P1[Passenger: enter Trip ID]
-    P1 --> P2[Passenger: claim form]
-    P2 --> P3[Passenger: status]
-    P3 --> P4[Passenger: clarification]
-    P3 --> P5[Passenger: manual-review message]
-    Start --> D1[Driver: alert]
-    D1 --> D2[Driver: confirm secure]
-    D1 --> D3[Driver: report no item]
-    D1 --> D4[Driver: ask operations]
-    D3 -. later phase .-> O1[Operations: review queue]
-    D4 -. later phase .-> O1
-    P5 -. later phase .-> O1
+    Root[/] --> Passenger[/passenger/]
+    Passenger --> P1[Trip lookup]
+    P1 --> P2[Passenger report]
+    P2 --> P3[Neutral status]
+    P2 -->|TRIP-1001 with safe crop| A[Create assigned alert]
+    Driver[/driver/] --> D1[Assigned alert inbox]
+    A --> D1
+    D1 --> D2[Alert detail]
+    D2 --> D3[Secure item]
+    D2 --> D4[No item found]
+    D2 --> D5[Ask operations]
+    D3 --> P3
+    D4 --> P3
+    D5 --> P3
 ```
 
 ## Data boundaries
 
-| Screen | Reads | Safe display | Never displays |
-| --- | --- | --- | --- |
-| Role choice | None | Passenger and driver links | Case data |
-| Passenger Trip ID | `tripId` | Synthetic Trip ID input | Cabin imagery, passenger identity, detected-item details |
-| Passenger claim | `tripId` | Description, category, colour | Cabin imagery, another claim, identity data |
-| Passenger status | `caseId`, `tripId`, `status`, `manualReviewReason` | Friendly status and next step | Internal confidence, bounding boxes, driver identity, entitlement language |
-| Passenger clarification | `caseId`, `status`, `passengerClaim` | A request for safe descriptive detail | Detected-item evidence or comparison score |
-| Passenger manual review | `caseId`, `status` | A neutral review message | Internal reason codes, staff notes, outcome promises |
-| Driver alert | `caseId`, `status`, safe `detectedItem` fields | Category, colour, seat-area hint | Cabin imagery, passenger claim, passenger identity, confidence, bounding box |
-| Driver action result | `caseId`, `status`, `auditTimeline`, `manualReviewReason` | Resulting status and new safe audit event | Passenger identity or claim description |
-| Operations review queue | Future safe case summary | Not implemented in Phase 0 | Raw or unredacted material by default |
+| Screen | Safe display | Excluded data |
+| --- | --- | --- |
+| `/passenger/` | Synthetic trip ID, neutral status, clarification question | Driver route, driver identity, alert, safe crop, item evidence, audit records, review reason |
+| `/driver/` inbox | Mock driver and vehicle, unread count, Trip ID, case reference, safe crop, item category, colour, seat hint | Passenger identity, claim wording, raw cabin image, confidence, bounding box, model data, alternative items |
+| Driver detail | Larger approved crop, retrieval guidance, allowed actions, neutral completion result | Handover authorization and ownership decision |
 
-The static passenger and driver pages use separate in-memory copies of the mock records. They demonstrate the agreed journey; they do not synchronize state or call the API.
+`TRIP-1001` creates one alert only when its assigned driver, detected item, `noItem: false`, privacy-approved crop, and safe image metadata are present. Otherwise the case is routed to operations review without an incomplete driver alert. The driver inbox refreshes every 15 seconds while open; it has no device push capability. API state resets when the service restarts.

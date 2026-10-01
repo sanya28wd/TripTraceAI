@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Report an item — TripTrace AI</title>
     <link rel="icon" href="data:,">
-    <link rel="stylesheet" href="style.css">
-    <script src="passenger.js" defer></script>
+    <link rel="stylesheet" href="/style.css">
+    <script src="/passenger.js" defer></script>
   </head>
   <body class="passenger-page">
     <main class="passenger-shell">
       <header class="passenger-header">
-        <a class="brand" href="index.html" aria-label="TripTrace AI home"><span class="brand-mark" aria-hidden="true">✳</span> TripTrace<span class="brand-light">AI</span></a>
-        <a class="return-link" href="index.html">← Choose a journey</a>
+        <a class="brand" href="/passenger/" aria-label="TripTrace passenger home"><span class="brand-mark" aria-hidden="true">✳</span> TripTrace<span class="brand-light">AI</span></a>
+        <span class="passenger-header-note">Passenger support</span>
       </header>
 
       <div class="passenger-layout">
@@ -64,6 +64,8 @@
               <div class="response-thread question-thread" id="clarification" hidden><span class="thread-label">A question for you</span><p id="clarification-question"></p><small>This demo doesn’t accept a reply yet.</small></div>
               <p class="review-note" id="review-note" hidden>Sensitive item reports are reviewed by a person. No item match or return is confirmed here.</p>
               <p class="case-reference" id="case-reference"></p>
+              <button class="status-refresh" id="refresh-status" type="button" hidden>Check latest status <span aria-hidden="true">↻</span></button>
+              <p class="form-error" id="status-error" role="alert"></p>
             </div>
           </section>
         </div>

@@ -49,6 +49,10 @@ stateDiagram-v2
 | `matched` | `closed` | Resolution is recorded | operations | `case_closed` with note | — |
 | `manual_review` | `closed` | Operations closes without a match | operations | `case_closed` with note | Cleared |
 
+### Phase 2 scripted driver-alert path
+
+For the `TRIP-1001` demo, a passenger report uses one pre-scripted possible-item association. Record a `claim_submitted` audit event with no resulting status, then record `driver_alerted` with resulting status `driver_alerted`. This uses the existing status vocabulary and does not claim that the detected item belongs to the passenger. If the required privacy-approved item crop is unavailable, record `manual_review_requested`, set `manual_review` with `driver_alert_evidence_unavailable`, and create no driver alert. Driver actions then follow the existing `driver_alerted` transitions in the table above.
+
 ## Friendly labels
 
 | Internal status | Passenger label | Driver label |

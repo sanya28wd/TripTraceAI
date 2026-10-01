@@ -1,15 +1,18 @@
-# Phase 0 Demo Story
+# Phase 2 Demo Story
 
-Use synthetic Trip IDs only. The prototype demonstrates language and transitions, not a working recovery service.
+Use synthetic Trip IDs only. The passenger and driver prototypes share a mock case held in API memory; the state resets when the API restarts.
 
-## High-confidence path
+## Passenger report to driver action
 
-Open the driver journey for `trip_demo_001`. The driver sees only a placeholder bag category, colour, and seat area, then selects **Secure item**. The case moves from `driver_alerted` to `secured` and a safe audit event appears. In the passenger journey, submit a claim for the same Trip ID. The passenger sees **Under review** with no promise about the outcome. The documented continuation is `claim_submitted` → `matched` → `closed` after the item is secured and the claim is reviewed.
+1. Open the passenger journey and enter `TRIP-1001`.
+2. Submit a synthetic black-bag report. The passenger receives a neutral review message. The case records `claim_submitted`, then moves to `driver_alerted` for the scripted possible-item association.
+3. Open `/driver/`. The demo driver inbox receives one unread alert automatically. It shows `TRIP-1001`, `CASE-MOCK-1001`, a privacy-approved synthetic black-bag crop, and the safe summary: bag, black, right seat. It does not show claim wording, passenger identity, raw cabin imagery, or detector internals.
+4. Select **Secure item**. The case moves to `secured`; the driver sees that operations will provide next steps. The passenger can select **Check latest status** to see neutral review progress. This flow does not decide ownership or authorize a handover.
 
-## Clarification path
+## Driver follow-up alternatives
 
-Submit the passenger journey for `trip_demo_002`. The case displays **More details needed** and asks for an additional safe description. It does not expose detected-item evidence or imply that the item has been found for that passenger.
+From a fresh API run, submit the same sample passenger report, then choose **No item found** or **Ask operations for help** in the driver journey. Either action moves the case to `manual_review` and records its distinct review reason and audit event. The passenger sees a neutral review message.
 
-## Sensitive-item path
+## Other passenger paths
 
-Submit the passenger journey for `trip_demo_003`, the synthetic passport example. A sensitive claim never moves directly to `matched`; it displays **Being reviewed by our team**. `trip_demo_004` shows the same neutral review message for a claim that has no detection. Operations handling is deliberately outside the Phase 0 prototype.
+`TRIP-1002` demonstrates clarification and does not create a driver alert. `TRIP-1003` demonstrates Arabic sensitive-item review; it remains with operations. Neither path shows detected-item evidence to the passenger.

@@ -3,77 +3,71 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Driver journey — TripTrace AI</title>
+    <meta name="theme-color" content="#f3f5ee">
+    <title>Driver inbox — TripTrace AI</title>
     <link rel="icon" href="data:,">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/style.css">
+    <script src="/driver.js" defer></script>
   </head>
-  <body>
-    <main class="shell">
-      <a class="back-link" href="index.html">← Change role</a>
-      <p class="eyebrow">Driver journey</p>
-      <h1>Item alert</h1>
+  <body class="driver-page">
+    <main class="driver-app-shell">
+      <header class="driver-app-header">
+        <a class="brand" href="/driver/" aria-label="Driver inbox"><span class="brand-mark" aria-hidden="true">✳</span> TripTrace<span class="brand-light">AI</span></a>
+        <div class="driver-session" id="driver-session" aria-live="polite">
+          <span class="driver-avatar" aria-hidden="true">D</span>
+          <span><strong id="driver-name">Loading driver…</strong><small id="vehicle-label"></small></span>
+        </div>
+      </header>
 
-      <section class="panel" id="alert-card">
-        <div class="alert-heading">
+      <section class="driver-inbox" aria-labelledby="inbox-heading">
+        <div class="inbox-heading-row">
           <div>
-            <p class="eyebrow">Action requested</p>
-            <h2>Check the vehicle</h2>
+            <p class="driver-kicker">Driver alerts</p>
+            <h1 id="inbox-heading">Your vehicle inbox</h1>
+            <p class="inbox-copy">Review item alerts assigned to your vehicle. Images are privacy-approved synthetic crops.</p>
           </div>
-          <span class="status-chip">New</span>
+          <button class="refresh-button" id="refresh-alerts" type="button"><span aria-hidden="true">↻</span> Refresh</button>
         </div>
-        <dl class="safe-fields">
-          <div><dt>Category</dt><dd id="item-category"></dd></div>
-          <div><dt>Colour</dt><dd id="item-colour"></dd></div>
-          <div><dt>Seat area</dt><dd id="item-seat"></dd></div>
+
+        <section class="new-alert-banner" id="new-alert-banner" aria-live="polite" hidden>
+          <strong>New item alert</strong><span id="new-alert-message"></span>
+        </section>
+
+        <nav class="alert-filters" aria-label="Alert filters">
+          <button type="button" data-filter="all" class="active">All <span id="count-all">0</span></button>
+          <button type="button" data-filter="new">New <span id="count-new">0</span></button>
+          <button type="button" data-filter="in_progress">In progress <span id="count-in-progress">0</span></button>
+          <button type="button" data-filter="completed">Completed <span id="count-completed">0</span></button>
+        </nav>
+
+        <p class="driver-error" id="driver-error" role="alert"></p>
+        <section class="alert-list" id="alert-list" aria-live="polite" aria-label="Assigned item alerts"></section>
+        <section class="driver-empty" id="driver-empty" hidden>
+          <span aria-hidden="true">✓</span>
+          <h2>No alerts here</h2>
+          <p>New privacy-approved item reports assigned to this vehicle will appear here.</p>
+        </section>
+      </section>
+
+      <aside class="alert-detail" id="alert-detail" aria-labelledby="alert-detail-heading" aria-live="polite" tabindex="-1" hidden>
+        <button class="detail-back" id="close-detail" type="button">← Back to inbox</button>
+        <div class="detail-topline"><span class="alert-state" id="detail-state"></span><span id="detail-time"></span></div>
+        <p class="driver-kicker" id="detail-trip"></p>
+        <h2 id="alert-detail-heading"></h2>
+        <p class="detail-instructions">Use the item photo and location hint to check your vehicle. Secure any item you find for operations.</p>
+        <img class="detail-image" id="detail-image" alt="">
+        <dl class="detail-fields">
+          <div><dt>Colour</dt><dd id="detail-colour"></dd></div>
+          <div><dt>Location</dt><dd id="detail-seat"></dd></div>
+          <div><dt>Case</dt><dd id="detail-case"></dd></div>
         </dl>
-        <div class="actions">
-          <button type="button" data-action="secure">Secure item</button>
-          <button type="button" class="secondary" data-action="no_item">No item found</button>
-          <button type="button" class="secondary" data-action="ask_operations">Ask operations</button>
+        <div class="detail-actions" id="detail-actions">
+          <button class="secure-button" type="button" data-action="secure">Secure item <span aria-hidden="true">→</span></button>
+          <button class="driver-secondary" type="button" data-action="no_item">No item found</button>
+          <button class="driver-help" type="button" data-action="ask_operations"><span class="help-mark" aria-hidden="true">?</span> Ask operations for help</button>
         </div>
-      </section>
-
-      <section class="panel status-panel" id="result" aria-live="polite" hidden>
-        <p class="eyebrow">Result</p>
-        <h2 id="result-status"></h2>
-        <p>This update exists only in this browser page.</p>
-        <h3>New audit event</h3>
-        <pre id="audit-event"></pre>
-      </section>
+        <section class="detail-outcome" id="detail-outcome" aria-live="polite" hidden></section>
+      </aside>
     </main>
-
-    <script src="mock-cases.js"></script>
-    <script>
-      "use strict";
-
-      const displayValue = (value) => value.replaceAll("placeholder_", "").replaceAll("_", " ");
-      let caseRecord = TripTrace.findCaseByTripId("trip_demo_001");
-
-      if (caseRecord === null || caseRecord.detectedItem === null) {
-        throw new Error("The driver demo requires trip_demo_001 with a detected item.");
-      }
-
-      document.querySelector("#item-category").textContent = displayValue(caseRecord.detectedItem.category);
-      document.querySelector("#item-colour").textContent = displayValue(caseRecord.detectedItem.colour);
-      document.querySelector("#item-seat").textContent = displayValue(caseRecord.detectedItem.seatAreaHint);
-
-      document.querySelector(".actions").addEventListener("click", (event) => {
-        const action = event.target.dataset.action;
-        if (action === undefined) {
-          return;
-        }
-
-        const occurredAt = new Date().toISOString();
-        const eventId = `event_demo_driver_${Date.now()}`;
-        caseRecord = TripTrace.transitionDriverCase(caseRecord, action, occurredAt, eventId);
-        const auditEvent = caseRecord.auditTimeline.at(-1);
-        document.querySelector("#result-status").textContent = TripTrace.DRIVER_STATUS[caseRecord.status];
-        document.querySelector("#audit-event").textContent = JSON.stringify(auditEvent, null, 2);
-        document.querySelector("#result").hidden = false;
-        document.querySelectorAll(".actions button").forEach((button) => {
-          button.disabled = true;
-        });
-      });
-    </script>
   </body>
 </html>
