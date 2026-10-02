@@ -47,6 +47,29 @@ assert.equal("claim" in driverView, false);
 const securedCase = transitionDriverCase(alertedCase, "secure", "2026-10-01T12:01:00.000Z", "EVENT-SMOKE-SECURE");
 assert.equal(securedCase.status, "secured");
 assert.equal(securedCase.auditTimeline.at(-1).eventType, "item_secured");
+assert.equal(securedCase.auditTimeline.at(-1).actorType, "driver");
+assert.equal(securedCase.auditTimeline.length, alertedCase.auditTimeline.length + 1);
+assert.throws(() => transitionDriverCase(securedCase, "no_item", "2026-10-01T12:02:00.000Z", "EVENT-SMOKE-DUPLICATE"), /cannot accept a driver action/);
+assert.equal(securedCase.auditTimeline.length, alertedCase.auditTimeline.length + 1);
+
+/** @type {Array<{action: "no_item" | "ask_operations", reason: string}>} */
+const reviewOutcomes = [
+  { action: "no_item", reason: "driver_reported_no_item" },
+  { action: "ask_operations", reason: "driver_requested_help" },
+];
+for (const { action, reason } of reviewOutcomes) {
+  const reviewedCase = transitionDriverCase(alertedCase, action, "2026-10-01T12:01:00.000Z", `EVENT-SMOKE-${action}`);
+  assert.equal(reviewedCase.status, "manual_review");
+  assert.equal(reviewedCase.manualReviewReason, reason);
+  assert.equal(reviewedCase.auditTimeline.length, alertedCase.auditTimeline.length + 1);
+  assert.equal(reviewedCase.auditTimeline.at(-1).eventType, "manual_review_requested");
+  assert.equal(reviewedCase.auditTimeline.at(-1).actorType, "driver");
+  assert.equal(reviewedCase.auditTimeline.at(-1).status, "manual_review");
+  assert.ok(reviewedCase.auditTimeline.at(-1).note);
+  assert.equal("manualReviewReason" in passengerCaseView(reviewedCase), false);
+}
+assert.equal(alertedCase.status, "driver_alerted");
+assert.equal(alertedCase.auditTimeline.at(-1).eventType, "driver_alerted");
 
 const missingEvidenceCase = structuredClone(demoCase);
 missingEvidenceCase.detectedItem.image.privacyStatus = "failed";
@@ -55,5 +78,10 @@ const reviewCase = routeCaseToOperations(missingEvidenceCase, "2026-10-01T12:00:
 assert.equal(reviewCase.status, "manual_review");
 assert.equal(reviewCase.manualReviewReason, "driver_alert_evidence_unavailable");
 assert.equal(reviewCase.auditTimeline.at(-1).eventType, "manual_review_requested");
+
+assert.equal(hasSafeDriverEvidence({ ...demoCase, detectedItem: null }), false);
+assert.equal(hasSafeDriverEvidence({ ...demoCase, detectedItem: { ...demoCase.detectedItem, noItem: true } }), false);
+assert.equal(hasSafeDriverEvidence({ ...demoCase, detectedItem: { ...demoCase.detectedItem, image: undefined } }), false);
+assert.equal(hasSafeDriverEvidence({ ...demoCase, detectedItem: { ...demoCase.detectedItem, image: { ...demoCase.detectedItem.image, privacyStatus: "pending" } } }), false);
 
 console.log("TripTrace web smoke test passed.");
