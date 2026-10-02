@@ -1,0 +1,44 @@
+[
+  {
+    "method": "GET",
+    "route": "/v1/mock/cases/TRIP-1001",
+    "status": 200,
+    "body": {
+      "tripId": "TRIP-1001",
+      "caseId": "CASE-MOCK-1001",
+      "status": "manual_review",
+      "language": "en",
+      "responseType": "safe_status",
+      "safePassengerMessage": "Your report has been sent for review. No action is needed unless our team contacts you.",
+      "clarificationQuestion": null
+    }
+  },
+  {
+    "method": "GET",
+    "route": "/v1/mock/driver/alerts",
+    "status": 200,
+    "body": {
+      "alerts": [
+        {
+          "alertId": "ALERT-MOCK-6a9340f9-4162-4350-9a3c-ccba83b85fd3",
+          "caseId": "CASE-MOCK-1001",
+          "tripId": "TRIP-1001",
+          "createdAt": "2026-10-02T08:24:12.918Z",
+          "updatedAt": "2026-10-02T08:24:25.840Z",
+          "readAt": "2026-10-02T08:24:25.447Z",
+          "alertStatus": "completed",
+          "caseStatus": "manual_review",
+          "detectedItem": {
+            "category": "bag",
+            "colour": "black",
+            "seatAreaHint": "right_seat",
+            "imageUrl": "/assets/mock/black-bag-safe-crop.png",
+            "imageAlt": "Synthetic close crop of a plain black shoulder bag on a blurred fabric seat."
+          },
+          "allowedActions": [],
+          "outcomeMessage": "No item found was recorded. Operations has been asked to review."
+        }
+      ]
+    }
+  }
+]

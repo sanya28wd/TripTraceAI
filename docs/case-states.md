@@ -1,4 +1,4 @@
-# Phase 0 Case States
+# Shared Case States
 
 The eight status values below are the shared internal vocabulary. Every transition records an audit event. Any transition out of `manual_review` requires an operations actor and a safe note.
 
@@ -52,6 +52,35 @@ stateDiagram-v2
 ### Phase 2 scripted driver-alert path
 
 For the `TRIP-1001` demo, a passenger report uses one pre-scripted possible-item association. Record a `claim_submitted` audit event with no resulting status, then record `driver_alerted` with resulting status `driver_alerted`. This uses the existing status vocabulary and does not claim that the detected item belongs to the passenger. If the required privacy-approved item crop is unavailable, record `manual_review_requested`, set `manual_review` with `driver_alert_evidence_unavailable`, and create no driver alert. Driver actions then follow the existing `driver_alerted` transitions in the table above.
+
+### Phase 2 operations rules
+
+The full lifecycle above includes future design. Phase 2 implements only the scripted report, alert acknowledgement, and three driver outcomes; matching, reopening, and closure remain outside this phase.
+
+| Action | Actor | Case result | Alert result | Required record |
+| --- | --- | --- | --- | --- |
+| Submit eligible mock report | passenger, then system | `detected` → `driver_alerted` | One `new` alert | `claim_submitted` event, then `driver_alerted` event |
+| Review alert | driver | Stays `driver_alerted` | `new` → `in_progress` | Set `readAt` once; repeated review preserves it |
+| Secure item | driver | `driver_alerted` → `secured` | `completed`, no actions | `item_secured`, driver actor, resulting status, safe note |
+| No item found | driver | `driver_alerted` → `manual_review` | `completed`, no actions | `manual_review_requested`, driver actor, safe note; reason `driver_reported_no_item` |
+| Ask operations | driver | `driver_alerted` → `manual_review` | `completed`, no actions | `manual_review_requested`, driver actor, safe note; reason `driver_requested_help` |
+| Report without approved evidence | system | `detected` → `manual_review` | No alert | `manual_review_requested`, system actor, safe note; reason `driver_alert_evidence_unavailable` |
+
+Review acknowledgement does not confirm an item was found or secured. Securing confirms physical custody only, never ownership or authorization to return an item.
+
+The first successful driver action wins. Repeated or conflicting actions return `409` without another transition or audit event. The agreed driver behavior is to retrieve the current alert and show the recorded outcome. Repeated passenger submissions return the existing case without creating another alert. Completed alerts cannot be used to revise an outcome.
+
+Passengers refresh status manually. The agreed secured message is “An item has been secured. Your report remains under review.” Both escalation paths use neutral review wording; internal reasons remain hidden. Approved synthetic item crops are driver-only. Restarting the mock API resets cases and alerts; save evidence before resetting.
+
+These are acceptance rules, not a claim that all current UI/API behavior complies. Remaining integration checks and baseline evidence are maintained in [the Student A plan](../tasks/phase-2-student-a.md).
+
+### Open questions for the later operations handoff
+
+- What operational response and timing follow each escalation reason?
+- Who may request another vehicle check or correct a recorded outcome?
+- What evidence is required before matching or closing a case?
+
+These questions are deferred to the later phase; Phase 2 adds no operations dashboard or exit-transition service.
 
 ## Friendly labels
 

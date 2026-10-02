@@ -1,0 +1,38 @@
+[
+  {
+    "method": "GET",
+    "route": "/v1/mock/cases/TRIP-1001",
+    "status": 200,
+    "body": {
+      "tripId": "TRIP-1001",
+      "caseId": "CASE-MOCK-1001",
+      "status": "detected",
+      "language": "en",
+      "responseType": "safe_status",
+      "safePassengerMessage": "This demo trip is ready for an item report.",
+      "clarificationQuestion": null
+    }
+  },
+  {
+    "method": "GET",
+    "route": "/v1/mock/driver/alerts",
+    "status": 200,
+    "body": {
+      "alerts": []
+    }
+  },
+  {
+    "method": "POST",
+    "route": "/v1/mock/claims",
+    "status": 200,
+    "body": {
+      "tripId": "TRIP-1001",
+      "caseId": "CASE-MOCK-1001",
+      "status": "driver_alerted",
+      "language": "en",
+      "responseType": "safe_status",
+      "safePassengerMessage": "Your report is being reviewed. We will share next steps when available.",
+      "clarificationQuestion": null
+    }
+  }
+]
