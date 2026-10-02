@@ -1,0 +1,154 @@
+[
+  {
+    "method": "GET",
+    "route": "/v1/mock/cases/TRIP-1001",
+    "status": 200,
+    "body": {
+      "tripId": "TRIP-1001",
+      "caseId": "CASE-MOCK-1001",
+      "status": "detected",
+      "language": "en",
+      "responseType": "safe_status",
+      "safePassengerMessage": "This demo trip is ready for an item report.",
+      "clarificationQuestion": null
+    }
+  },
+  {
+    "method": "GET",
+    "route": "/v1/mock/driver/alerts",
+    "status": 200,
+    "body": {
+      "alerts": []
+    }
+  },
+  {
+    "method": "POST",
+    "route": "/v1/mock/claims",
+    "status": 200,
+    "body": {
+      "tripId": "TRIP-1001",
+      "caseId": "CASE-MOCK-1001",
+      "status": "driver_alerted",
+      "language": "en",
+      "responseType": "safe_status",
+      "safePassengerMessage": "Your report is being reviewed. We will share next steps when available.",
+      "clarificationQuestion": null
+    }
+  },
+  {
+    "method": "POST",
+    "route": "/v1/mock/claims",
+    "status": 200,
+    "body": {
+      "tripId": "TRIP-1001",
+      "caseId": "CASE-MOCK-1001",
+      "status": "driver_alerted",
+      "language": "en",
+      "responseType": "safe_status",
+      "safePassengerMessage": "Your report is being reviewed. We will share next steps when available.",
+      "clarificationQuestion": null
+    }
+  },
+  {
+    "method": "GET",
+    "route": "/v1/mock/driver/alerts",
+    "status": 200,
+    "body": {
+      "alerts": [
+        {
+          "alertId": "ALERT-MOCK-3eda2f63-699b-4ec6-961b-420ef4f87ebb",
+          "caseId": "CASE-MOCK-1001",
+          "tripId": "TRIP-1001",
+          "createdAt": "2026-10-02T08:26:51.412Z",
+          "updatedAt": "2026-10-02T08:26:51.412Z",
+          "readAt": null,
+          "alertStatus": "new",
+          "caseStatus": "driver_alerted",
+          "detectedItem": {
+            "category": "bag",
+            "colour": "black",
+            "seatAreaHint": "right_seat",
+            "imageUrl": "/assets/mock/black-bag-safe-crop.png",
+            "imageAlt": "Synthetic close crop of a plain black shoulder bag on a blurred fabric seat."
+          },
+          "allowedActions": [
+            "secure",
+            "no_item",
+            "ask_operations"
+          ],
+          "outcomeMessage": null
+        }
+      ]
+    }
+  },
+  {
+    "method": "POST",
+    "route": "/v1/mock/driver/alerts/ALERT-MOCK-3eda2f63-699b-4ec6-961b-420ef4f87ebb/read",
+    "status": 200,
+    "body": {
+      "alertId": "ALERT-MOCK-3eda2f63-699b-4ec6-961b-420ef4f87ebb",
+      "caseId": "CASE-MOCK-1001",
+      "tripId": "TRIP-1001",
+      "createdAt": "2026-10-02T08:26:51.412Z",
+      "updatedAt": "2026-10-02T08:26:51.422Z",
+      "readAt": "2026-10-02T08:26:51.422Z",
+      "alertStatus": "in_progress",
+      "caseStatus": "driver_alerted",
+      "detectedItem": {
+        "category": "bag",
+        "colour": "black",
+        "seatAreaHint": "right_seat",
+        "imageUrl": "/assets/mock/black-bag-safe-crop.png",
+        "imageAlt": "Synthetic close crop of a plain black shoulder bag on a blurred fabric seat."
+      },
+      "allowedActions": [
+        "secure",
+        "no_item",
+        "ask_operations"
+      ],
+      "outcomeMessage": null
+    }
+  },
+  {
+    "method": "POST",
+    "route": "/v1/mock/driver/alerts/ALERT-MOCK-3eda2f63-699b-4ec6-961b-420ef4f87ebb/read",
+    "status": 200,
+    "body": {
+      "alertId": "ALERT-MOCK-3eda2f63-699b-4ec6-961b-420ef4f87ebb",
+      "caseId": "CASE-MOCK-1001",
+      "tripId": "TRIP-1001",
+      "createdAt": "2026-10-02T08:26:51.412Z",
+      "updatedAt": "2026-10-02T08:26:51.422Z",
+      "readAt": "2026-10-02T08:26:51.422Z",
+      "alertStatus": "in_progress",
+      "caseStatus": "driver_alerted",
+      "detectedItem": {
+        "category": "bag",
+        "colour": "black",
+        "seatAreaHint": "right_seat",
+        "imageUrl": "/assets/mock/black-bag-safe-crop.png",
+        "imageAlt": "Synthetic close crop of a plain black shoulder bag on a blurred fabric seat."
+      },
+      "allowedActions": [
+        "secure",
+        "no_item",
+        "ask_operations"
+      ],
+      "outcomeMessage": null
+    }
+  },
+  {
+    "method": "GET",
+    "route": "/v1/mock/cases/TRIP-1001",
+    "status": 200,
+    "body": {
+      "tripId": "TRIP-1001",
+      "caseId": "CASE-MOCK-1001",
+      "status": "driver_alerted",
+      "language": "en",
+      "responseType": "safe_status",
+      "safePassengerMessage": "Your report is being reviewed. We will share next steps when available.",
+      "clarificationQuestion": null
+    }
+  }
+]

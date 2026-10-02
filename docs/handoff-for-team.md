@@ -4,6 +4,8 @@
 
 Use `/passenger/` as the public entry point. `TRIP-1001` submits a passenger report and shows only neutral case progress. Refreshing the case after a driver action must not reveal the driver, alert assignment, safe crop, item data, audit records, review code, or any ownership result.
 
+Student A's accepted decisions, baseline verification evidence, and remaining integration checks are recorded in [the Phase 2 plan](../tasks/phase-2-student-a.md). Final integration verification follows the remaining team implementation. Phase 2 operations rules are maintained in [case-states.md](case-states.md); future operations questions remain deferred.
+
 ## Student B: driver app
 
 Use `/driver/` as a standalone inbox for one fixed mock driver and vehicle. Do not ask the driver for a Trip ID. Each alert shows its Trip ID, case reference, unread state, approved synthetic crop, category, colour, and `seatAreaHint` using the shared taxonomy.

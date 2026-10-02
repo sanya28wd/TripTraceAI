@@ -1,0 +1,104 @@
+[
+  {
+    "method": "GET",
+    "route": "/v1/mock/cases/TRIP-1001",
+    "status": 200,
+    "body": {
+      "tripId": "TRIP-1001",
+      "caseId": "CASE-MOCK-1001",
+      "status": "secured",
+      "language": "en",
+      "responseType": "safe_status",
+      "safePassengerMessage": "Your report is being reviewed. We will share next steps when available.",
+      "clarificationQuestion": null
+    }
+  },
+  {
+    "method": "GET",
+    "route": "/v1/mock/driver/alerts",
+    "status": 200,
+    "body": {
+      "alerts": [
+        {
+          "alertId": "ALERT-MOCK-161b7547-5c6e-4771-91f7-d0dd3b804c0b",
+          "caseId": "CASE-MOCK-1001",
+          "tripId": "TRIP-1001",
+          "createdAt": "2026-10-02T08:21:44.515Z",
+          "updatedAt": "2026-10-02T08:22:05.395Z",
+          "readAt": "2026-10-02T08:21:52.055Z",
+          "alertStatus": "completed",
+          "caseStatus": "secured",
+          "detectedItem": {
+            "category": "bag",
+            "colour": "black",
+            "seatAreaHint": "right_seat",
+            "imageUrl": "/assets/mock/black-bag-safe-crop.png",
+            "imageAlt": "Synthetic close crop of a plain black shoulder bag on a blurred fabric seat."
+          },
+          "allowedActions": [],
+          "outcomeMessage": "Item secured. Operations will provide next steps."
+        }
+      ]
+    }
+  },
+  {
+    "method": "GET",
+    "route": "/v1/mock/cases/TRIP-1002",
+    "status": 200,
+    "body": {
+      "tripId": "TRIP-1002",
+      "caseId": "CASE-MOCK-1002",
+      "status": "clarification_needed",
+      "language": "en",
+      "responseType": "clarification",
+      "safePassengerMessage": "We found a possible item matching your description. Please confirm one detail.",
+      "clarificationQuestion": "Can you confirm whether your item was dark coloured and approximately palm-sized?"
+    }
+  },
+  {
+    "method": "GET",
+    "route": "/v1/mock/cases/TRIP-1003",
+    "status": 200,
+    "body": {
+      "tripId": "TRIP-1003",
+      "caseId": "CASE-MOCK-1003",
+      "status": "manual_review",
+      "language": "ar",
+      "responseType": "manual_review",
+      "safePassengerMessage": "Your report has been sent for review. No action is needed unless our team contacts you.",
+      "clarificationQuestion": null
+    }
+  },
+  {
+    "method": "GET",
+    "route": "/v1/mock/cases/TRIP-9999",
+    "status": 404,
+    "body": {
+      "error": "trip_not_found",
+      "safePassengerMessage": "We could not verify this request from the available information."
+    }
+  },
+  {
+    "method": "POST",
+    "route": "/v1/mock/claims",
+    "status": 200,
+    "body": {
+      "tripId": "TRIP-1001",
+      "caseId": "CASE-MOCK-1001",
+      "status": "secured",
+      "language": "en",
+      "responseType": "safe_status",
+      "safePassengerMessage": "Your report is being reviewed. We will share next steps when available.",
+      "clarificationQuestion": null
+    }
+  },
+  {
+    "method": "POST",
+    "route": "/v1/mock/driver/alerts/ALERT-MOCK-161b7547-5c6e-4771-91f7-d0dd3b804c0b/actions",
+    "status": 409,
+    "body": {
+      "error": "driver_action_not_available",
+      "message": "This alert has already been completed."
+    }
+  }
+]
