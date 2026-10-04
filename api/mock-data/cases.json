@@ -2,40 +2,24 @@
   {
     "tripId": "TRIP-1001",
     "caseId": "CASE-MOCK-1001",
-    "status": "detected",
+    "status": "claim_submitted",
     "language": "en",
     "claim": {
       "category": "bag",
       "colour": "black",
       "passengerWording": "I may have left a black bag in the back seat."
     },
-    "detectedItem": {
-      "category": "bag",
-      "colour": "black",
-      "seatAreaHint": "right_seat",
-      "confidence": null,
-      "boundingBox": null,
-      "noItem": false,
-      "modelVersion": null,
-      "image": {
-        "imageUrl": "/assets/mock/black-bag-safe-crop.png",
-        "imageAlt": "Synthetic close crop of a plain black shoulder bag on a blurred fabric seat.",
-        "privacyStatus": "passed",
-        "crop": { "width": 1024, "height": 1024 }
-      }
-    },
     "responseType": "safe_status",
-    "safePassengerMessage": "This demo trip is ready for an item report.",
+    "safePassengerMessage": "Your claim has been recorded. We will update you after the available information is reviewed.",
     "clarificationQuestion": null,
     "manualReviewReason": null,
     "auditTimeline": [
       {
-        "eventId": "EVENT-MOCK-1001-0",
-        "eventType": "case_created",
+        "eventId": "EVENT-MOCK-1001-1",
+        "eventType": "mock_claim_created",
         "occurredAt": "2026-09-26T09:00:00Z",
-        "actorType": "system",
-        "status": "detected",
-        "note": "Synthetic black bag candidate created for the driver demo."
+        "actorType": "passenger",
+        "note": "Synthetic English mock claim created for the passenger prototype."
       }
     ]
   },
@@ -84,6 +68,80 @@
         "occurredAt": "2026-09-26T09:10:00Z",
         "actorType": "system",
         "note": "Synthetic sensitive-item path escalated to manual review."
+      }
+    ]
+  },
+  {
+    "tripId": "TRIP-1004", "caseId": "CASE-MOCK-1004", "status": "detected", "language": "en",
+    "detectedItem": { "category": "none", "colour": "none", "seatAreaHint": "rear_seat", "confidence": null, "boundingBox": null, "noItem": true, "modelVersion": null },
+    "responseType": "safe_status", "safePassengerMessage": "This demo trip is ready for an item report.",
+    "clarificationQuestion": null, "manualReviewReason": null,
+    "auditTimeline": [{ "eventId": "EVENT-MOCK-1004-0", "eventType": "case_created", "occurredAt": "2026-09-26T09:15:00Z", "actorType": "system", "status": "detected", "note": "No-item edge case." }]
+  },
+  {
+    "tripId": "TRIP-1005", "caseId": "CASE-MOCK-1005", "status": "detected", "language": "en",
+    "detectedItem": { "category": "bag", "colour": "black", "seatAreaHint": "rear_seat", "confidence": null, "boundingBox": null, "noItem": false, "modelVersion": null,
+      "image": { "imageUrl": "/assets/mock/blocked.png", "imageAlt": "Blocked image", "privacyStatus": "failed", "crop": { "width": 1024, "height": 1024 } } },
+    "responseType": "safe_status", "safePassengerMessage": "This demo trip is ready for an item report.",
+    "clarificationQuestion": null, "manualReviewReason": null,
+    "auditTimeline": [{ "eventId": "EVENT-MOCK-1005-0", "eventType": "case_created", "occurredAt": "2026-09-26T09:20:00Z", "actorType": "system", "status": "detected", "note": "Privacy-failed edge case." }]
+  },
+  {
+    "tripId": "TRIP-1006", "caseId": "CASE-MOCK-1006", "status": "detected", "language": "en",
+    "detectedItem": { "category": "bag", "colour": "black", "seatAreaHint": "right_seat", "confidence": null, "boundingBox": null, "noItem": false, "modelVersion": null,
+      "image": { "imageUrl": "/assets/mock/black-bag-safe-crop.png", "imageAlt": "Synthetic black bag crop.", "privacyStatus": "passed", "crop": { "width": 1024, "height": 1024 } } },
+    "responseType": "safe_status", "safePassengerMessage": "This demo trip is ready for an item report.",
+    "clarificationQuestion": null, "manualReviewReason": null,
+    "auditTimeline": [{ "eventId": "EVENT-MOCK-1006-0", "eventType": "case_created", "occurredAt": "2026-09-26T09:25:00Z", "actorType": "system", "status": "detected", "note": "For the no_item action." }]
+  },
+  {
+    "tripId": "TRIP-1007", "caseId": "CASE-MOCK-1007", "status": "detected", "language": "en",
+    "detectedItem": { "category": "bag", "colour": "black", "seatAreaHint": "right_seat", "confidence": null, "boundingBox": null, "noItem": false, "modelVersion": null,
+      "image": { "imageUrl": "/assets/mock/black-bag-safe-crop.png", "imageAlt": "Synthetic black bag crop.", "privacyStatus": "passed", "crop": { "width": 1024, "height": 1024 } } },
+    "responseType": "safe_status", "safePassengerMessage": "This demo trip is ready for an item report.",
+    "clarificationQuestion": null, "manualReviewReason": null,
+    "auditTimeline": [{ "eventId": "EVENT-MOCK-1007-0", "eventType": "case_created", "occurredAt": "2026-09-26T09:30:00Z", "actorType": "system", "status": "detected", "note": "For the ask_operations action." }]
+  },
+  {
+    "tripId": "TRIP-1008", "caseId": "CASE-MOCK-1008", "status": "detected", "language": "en",
+    "detectedItem": { "category": "bag", "colour": "black", "seatAreaHint": "right_seat", "confidence": null, "boundingBox": null, "noItem": false, "modelVersion": null,
+      "image": { "imageUrl": "/assets/mock/black-bag-safe-crop.png", "imageAlt": "Synthetic black bag crop.", "privacyStatus": "passed", "crop": { "width": 1024, "height": 1024 } } },
+    "responseType": "safe_status", "safePassengerMessage": "This demo trip is ready for an item report.",
+    "clarificationQuestion": null, "manualReviewReason": null,
+    "auditTimeline": [{ "eventId": "EVENT-MOCK-1008-0", "eventType": "case_created", "occurredAt": "2026-09-26T09:35:00Z", "actorType": "system", "status": "detected", "note": "For read and replay tests." }]
+  },
+  {
+    "tripId": "TRIP-2001",
+    "caseId": "CASE-MOCK-2001",
+    "status": "detected",
+    "language": "en",
+    "responseType": "safe_status",
+    "safePassengerMessage": "Your report has been received. We will update you after review.",
+    "clarificationQuestion": null,
+    "manualReviewReason": null,
+    "detectedItem": {
+      "category": "bag",
+      "colour": "black",
+      "seatAreaHint": "rear_seat",
+      "confidence": null,
+      "boundingBox": null,
+      "noItem": false,
+      "modelVersion": null,
+      "image": {
+        "imageUrl": "/mock-images/bag.png",
+        "imageAlt": "Redacted staged image of a black bag on the rear seat",
+        "privacyStatus": "passed",
+        "crop": { "width": 320, "height": 240 }
+      }
+    },
+    "auditTimeline": [
+      {
+        "eventId": "event_2001_001",
+        "eventType": "case_created",
+        "occurredAt": "2026-10-04T06:00:00Z",
+        "actorType": "system",
+        "status": "detected",
+        "note": "Synthetic bag candidate recorded."
       }
     ]
   }
