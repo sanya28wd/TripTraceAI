@@ -50,7 +50,7 @@ def build_review(source: Path, audit_dir: Path) -> None:
     review_dir.mkdir(exist_ok=False)
     font: ImageFont.FreeTypeFont = ImageFont.load_default(size=18)
     with (audit_dir / "review.csv").open("x", newline="") as stream:
-        writer: csv.DictWriter[str] = csv.DictWriter(stream, fieldnames=REVIEW_FIELDS)
+        writer: csv.DictWriter[str] = csv.DictWriter(stream, fieldnames=REVIEW_FIELDS, lineterminator="\n")
         writer.writeheader()
         for record in ordered:
             writer.writerow({"image": record["image"], "decision": "pending", "group": "", "split": "", "privacy": "not_approved", "reviewer": "", "note": ""})
