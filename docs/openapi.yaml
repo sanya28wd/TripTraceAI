@@ -1,13 +1,104 @@
 openapi: 3.0.3
 info:
-  title: TripTrace AI Phase 2 Mock API
-  version: 2.0.0
-  description: Synthetic in-memory passenger and driver-alert prototype. Restarting the API resets state.
+  title: TripTrace AI API
+  version: 3.0.0
+  description: Phase 3 persistent trips, cases, image upload and audit timeline (SQLite + local object storage), plus the unchanged Phase 2 in-memory mock endpoints under /v1/mock.
 paths:
   /health:
     get:
       responses:
         '200': { description: API available }
+  /v1/trips:
+    post:
+      summary: Create a synthetic trip
+      responses:
+        '201': { description: Trip created, content: { application/json: { schema: { $ref: '#/components/schemas/Trip' } } } }
+  /v1/trips/{tripId}:
+    get:
+      parameters:
+        - $ref: '#/components/parameters/TripId'
+      responses:
+        '200': { description: Stored trip, content: { application/json: { schema: { $ref: '#/components/schemas/Trip' } } } }
+        '404': { description: trip_not_found, content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } } }
+  /v1/cases:
+    post:
+      summary: Create a case and its first audit event
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [tripId, sourceType]
+              properties:
+                tripId: { type: string }
+                sourceType: { type: string, enum: [detection, passenger_claim] }
+      responses:
+        '201': { description: Case created, content: { application/json: { schema: { $ref: '#/components/schemas/StoredCase' } } } }
+        '400': { description: invalid_json or invalid_case, content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } } }
+        '404': { description: trip_not_found, content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } } }
+  /v1/cases/{caseId}:
+    get:
+      parameters:
+        - $ref: '#/components/parameters/CaseId'
+      responses:
+        '200':
+          description: Case with its images
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/StoredCase'
+                  - type: object
+                    required: [images]
+                    properties: { images: { type: array, items: { $ref: '#/components/schemas/CaseImage' } } }
+        '404': { description: case_not_found, content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } } }
+  /v1/cases/{caseId}/images:
+    post:
+      summary: Upload one staged image (raw bytes, max 5 MB)
+      parameters:
+        - $ref: '#/components/parameters/CaseId'
+      requestBody:
+        required: true
+        content:
+          image/jpeg: { schema: { type: string, format: binary } }
+          image/png: { schema: { type: string, format: binary } }
+      responses:
+        '201': { description: Image stored and image_uploaded audit event appended, content: { application/json: { schema: { $ref: '#/components/schemas/CaseImage' } } } }
+        '400': { description: empty_image, content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } } }
+        '404': { description: case_not_found, content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } } }
+        '413': { description: image_too_large, content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } } }
+        '415': { description: unsupported_image_type (wrong type, or bytes do not match it), content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } } }
+  /v1/cases/{caseId}/timeline:
+    get:
+      summary: Append-only audit timeline (operations view, not for passengers)
+      parameters:
+        - $ref: '#/components/parameters/CaseId'
+      responses:
+        '200':
+          description: Events oldest first
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [caseId, tripId, status, auditTimeline]
+                properties:
+                  caseId: { type: string }
+                  tripId: { type: string }
+                  status: { type: string }
+                  auditTimeline: { type: array, items: { $ref: '#/components/schemas/AuditEvent' } }
+        '404': { description: case_not_found, content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } } }
+  /v1/images/{imageId}:
+    get:
+      parameters:
+        - { name: imageId, in: path, required: true, schema: { type: string } }
+      responses:
+        '200':
+          description: Image bytes (sent with nosniff and no-store headers)
+          content:
+            image/jpeg: { schema: { type: string, format: binary } }
+            image/png: { schema: { type: string, format: binary } }
+        '404': { description: image_not_found, content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } } }
   /v1/mock/cases/{tripId}:
     get:
       parameters:
@@ -65,7 +156,53 @@ components:
   parameters:
     TripId: { name: tripId, in: path, required: true, schema: { type: string } }
     AlertId: { name: alertId, in: path, required: true, schema: { type: string } }
+    CaseId: { name: caseId, in: path, required: true, schema: { type: string } }
   schemas:
+    Error:
+      type: object
+      required: [error, message]
+      properties:
+        error: { type: string }
+        message: { type: string }
+    Trip:
+      type: object
+      required: [tripId, createdAt]
+      properties:
+        tripId: { type: string, pattern: '^TRIP-[0-9]{8}-[23456789ABCDEFGHJKMNPQRSTUVWXYZ]{4}$' }
+        createdAt: { type: string, format: date-time }
+    StoredCase:
+      type: object
+      required: [caseId, tripId, status, sourceType, privacy, createdAt, updatedAt]
+      properties:
+        caseId: { type: string }
+        tripId: { type: string }
+        status: { type: string }
+        sourceType: { type: string, enum: [detection, passenger_claim] }
+        privacy: { type: string }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+    CaseImage:
+      type: object
+      required: [imageId, caseId, contentType, sizeBytes, sha256, uploadedAt, url]
+      properties:
+        imageId: { type: string }
+        caseId: { type: string }
+        contentType: { type: string, enum: [image/jpeg, image/png] }
+        sizeBytes: { type: integer }
+        sha256: { type: string }
+        uploadedAt: { type: string, format: date-time }
+        url: { type: string, description: Relative download URL, e.g. /v1/images/IMAGE-... }
+    AuditEvent:
+      type: object
+      required: [eventId, eventType, occurredAt, actorType]
+      properties:
+        eventId: { type: string }
+        eventType: { type: string }
+        occurredAt: { type: string, format: date-time }
+        actorType: { type: string }
+        status: { type: string, description: Present only when the event changed the case status }
+        note: { type: string }
+        details: { type: object, additionalProperties: true }
     PassengerCase:
       type: object
       required: [tripId, caseId, status, language, responseType, safePassengerMessage]

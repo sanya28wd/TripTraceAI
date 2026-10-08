@@ -9,4 +9,4 @@ COPY src ./src
 
 EXPOSE 8000
 
-CMD ["node", "src/server.js"]
+CMD ["node", "--disable-warning=ExperimentalWarning", "src/server.js"]

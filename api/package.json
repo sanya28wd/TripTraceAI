@@ -2,10 +2,11 @@
   "name": "triptrace-api",
   "private": true,
   "version": "0.0.1",
-  "description": "Phase 1 mock API for TripTrace AI passenger screens",
+  "description": "TripTrace AI API: Phase 2 mock flows and Phase 3 persistent trips, cases, and image upload",
   "scripts": {
-    "start": "node src/server.js",
-    "verify": "node scripts/verify-mock-api.js"
+    "start": "node --disable-warning=ExperimentalWarning src/server.js",
+    "verify": "node scripts/verify-mock-api.js",
+    "verify:real": "node --disable-warning=ExperimentalWarning scripts/verify-real-api.js"
   },
   "engines": {
     "node": ">=22"
