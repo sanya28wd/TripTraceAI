@@ -42,6 +42,14 @@ SOURCE_CLASSES: tuple[str, ...] = (
 )
 
 
+def validate_source_classes(source: Path) -> None:
+    """Read the published flat names list; reject changed class ordering."""
+    text: str = (source / "data.yaml").read_text()
+    names: tuple[str, ...] = tuple(re.findall(r"^- ([a-z_]+)\s*$", text, re.MULTILINE))
+    if names != SOURCE_CLASSES or re.search(r"^nc: 10\s*$", text, re.MULTILINE) is None:
+        raise ValueError(f"{source / 'data.yaml'}: expected the ten published LeftInCAR classes in order")
+
+
 def checksum(path: Path) -> str:
     """Hash bytes without loading an entire source file into memory."""
     with path.open("rb") as stream:
@@ -89,6 +97,7 @@ def inspect_image(source: Path, image: Path) -> ImageRecord:
 
 def audit(source: Path, output: Path) -> None:
     """Inventory the entire flat source collection and fail on orphan annotations."""
+    validate_source_classes(source)
     image_paths: list[Path] = sorted((source / "images").glob("*.bmp"))
     if not image_paths:
         raise ValueError(f"No BMP images found in {source / 'images'}")

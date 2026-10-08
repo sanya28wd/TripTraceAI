@@ -22,3 +22,7 @@ api/storage/
 data/.venv/
 data/scripts/__pycache__/
 data/review/
+
+# Reviewed manifests and numeric annotations; no image bytes.
+!data/labels/leftincar-v1/
+!data/labels/leftincar-v1/**

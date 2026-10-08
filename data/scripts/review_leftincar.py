@@ -17,7 +17,7 @@ from PIL import Image, ImageDraw, ImageFont
 from audit_leftincar import ImageRecord, SOURCE_CLASSES, checksum
 
 
-REVIEW_FIELDS: tuple[str, ...] = ("image", "decision", "group", "reviewer", "note")
+REVIEW_FIELDS: tuple[str, ...] = ("image", "decision", "group", "split", "privacy", "reviewer", "note")
 COLORS: tuple[str, ...] = ("red", "lime", "cyan", "yellow", "magenta", "orange", "white", "pink", "skyblue", "violet")
 
 
@@ -53,7 +53,7 @@ def build_review(source: Path, audit_dir: Path) -> None:
         writer: csv.DictWriter[str] = csv.DictWriter(stream, fieldnames=REVIEW_FIELDS)
         writer.writeheader()
         for record in ordered:
-            writer.writerow({"image": record["image"], "decision": "pending", "group": "", "reviewer": "", "note": ""})
+            writer.writerow({"image": record["image"], "decision": "pending", "group": "", "split": "", "privacy": "not_approved", "reviewer": "", "note": ""})
     for start in range(0, len(ordered), 25):
         sheet: Image.Image = Image.new("RGB", (2500, 2250), "#eeeeee")
         draw: ImageDraw.ImageDraw = ImageDraw.Draw(sheet)
