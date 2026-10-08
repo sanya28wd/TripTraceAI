@@ -104,7 +104,12 @@ const readBinaryBody = (request, maxBytes) => new Promise((resolve, reject) => {
   let receivedBytes = 0;
   request.on("data", (chunk) => {
     receivedBytes += chunk.length;
-    if (receivedBytes <= maxBytes) chunks.push(chunk);
+    if (receivedBytes > maxBytes) {
+      chunks.length = 0;
+      reject(new PayloadTooLargeError());
+      return;
+    }
+    chunks.push(chunk);
   });
   request.on("end", () => {
     if (receivedBytes > maxBytes) reject(new PayloadTooLargeError());
@@ -264,7 +269,7 @@ const createRequestHandler = ({ db, dataDir }) => {
     if (request.method === "GET" && requestUrl.pathname === "/health") return sendJson(response, 200, { status: "ok" });
 
     if (request.method === "POST" && requestUrl.pathname === "/v1/trips") {
-      return sendJson(response, 201, createTrip(db));
+      return sendJson(response, 201, createTrip(db, new Date()));
     }
     const tripMatch = requestUrl.pathname.match(/^\/v1\/trips\/([^/]+)$/);
     if (request.method === "GET" && tripMatch) {
@@ -278,7 +283,7 @@ const createRequestHandler = ({ db, dataDir }) => {
       try { body = await readJsonBody(request); } catch (error) { return sendJson(response, 400, { error: "invalid_json", message: error instanceof Error ? error.message : "Request body must be valid JSON." }); }
       if (!isCreateCaseRequest(body)) return sendJson(response, 400, { error: "invalid_case", message: `A string tripId and a sourceType of ${caseSourceTypes.join(" or ")} are required.` });
       try {
-        return sendJson(response, 201, createCase(db, { tripId: body.tripId, sourceType: body.sourceType }));
+        return sendJson(response, 201, createCase(db, { tripId: body.tripId, sourceType: body.sourceType }, new Date()));
       } catch (error) {
         if (error instanceof TripNotFoundError) return sendJson(response, 404, { error: "trip_not_found", message: "No trip exists for this ID." });
         throw error;
@@ -303,7 +308,7 @@ const createRequestHandler = ({ db, dataDir }) => {
       if (bytes.byteLength === 0) return sendJson(response, 400, { error: "empty_image", message: "The request did not include an image." });
       if (!bytesMatchContentType(bytes, contentType)) return sendJson(response, 415, { error: "unsupported_image_type", message: imageRejectedMessage });
       try {
-        return sendJson(response, 201, await saveCaseImage(db, dataDir, { caseId, contentType, bytes }));
+        return sendJson(response, 201, await saveCaseImage(db, dataDir, { caseId, contentType, bytes }, new Date()));
       } catch (error) {
         if (error instanceof CaseNotFoundError) return sendJson(response, 404, { error: "case_not_found", message: "No case exists for this ID." });
         throw error;
@@ -420,7 +425,7 @@ if (require.main === module) {
   const server = http.createServer((request, response) => {
     // An unexpected error becomes a safe 500 instead of crashing the process and losing every request.
     Promise.resolve(handleRequest(request, response)).catch((error) => {
-      console.error(JSON.stringify({ message: "Unhandled request error", path: request.url, error: error instanceof Error ? error.message : String(error) }));
+      console.error(JSON.stringify({ message: "Unhandled request error", path: request.url, error: error instanceof Error ? error.message : String(error), causes: error instanceof AggregateError ? error.errors.map((cause) => cause instanceof Error ? cause.message : String(cause)) : [] }));
       if (!response.headersSent) sendJson(response, 500, { error: "internal_error", message: "Something went wrong. Please try again." });
       else response.end();
     });

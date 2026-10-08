@@ -66,10 +66,10 @@ const publicImage = ({ storageKey, ...image }) => image;
  * @param {DatabaseSync} db
  * @param {string} dataDir
  * @param {{caseId: string, contentType: ImageContentType, bytes: Uint8Array}} upload
- * @param {Date} [now]
+ * @param {Date} now
  * @returns {Promise<StoredImage>}
  */
-const saveCaseImage = async (db, dataDir, { caseId, contentType, bytes }, now = new Date()) => {
+const saveCaseImage = async (db, dataDir, { caseId, contentType, bytes }, now) => {
   const stored = await putObject(dataDir, bytes);
   const imageId = newImageId();
   const uploadedAt = now.toISOString();
@@ -90,7 +90,11 @@ const saveCaseImage = async (db, dataDir, { caseId, contentType, bytes }, now = 
       });
     });
   } catch (error) {
-    await deleteObject(dataDir, stored.storageKey);
+    try {
+      await deleteObject(dataDir, stored.storageKey);
+    } catch (cleanupError) {
+      throw new AggregateError([error, cleanupError], "Operation failed and cleanup also failed.");
+    }
     throw error;
   }
   return { imageId, caseId, contentType, sizeBytes: stored.sizeBytes, sha256: stored.sha256, uploadedAt, url: `/v1/images/${imageId}` };

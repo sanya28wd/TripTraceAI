@@ -79,7 +79,11 @@ const withTransaction = (db, work) => {
     db.exec("COMMIT;");
     return result;
   } catch (error) {
-    db.exec("ROLLBACK;");
+    try {
+      db.exec("ROLLBACK;");
+    } catch (cleanupError) {
+      throw new AggregateError([error, cleanupError], "Operation failed and cleanup also failed.");
+    }
     throw error;
   }
 };

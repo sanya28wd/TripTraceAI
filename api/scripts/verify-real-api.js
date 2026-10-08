@@ -1,13 +1,14 @@
 "use strict";
 
 const assert = require("node:assert/strict");
+const http = require("node:http");
 const { once } = require("node:events");
 const { spawn } = require("node:child_process");
 const fs = require("node:fs");
 const os = require("node:os");
 const path = require("node:path");
 const { DatabaseSync } = require("node:sqlite");
-const { databaseFileName, openDatabase } = require("../src/db");
+const { databaseFileName, openDatabase, withTransaction } = require("../src/db");
 const { appendAuditEvent, createCase, getCaseTimeline, listAuditEvents, TripNotFoundError } = require("../src/cases-repo");
 const { createTrip } = require("../src/trips-repo");
 const { deleteObject, getObjectPath, objectsDirectoryName, putObject, readObject, sha256Hex } = require("../src/object-store");
@@ -73,8 +74,8 @@ const verifyTripIdGeneration = () => {
   const retried = generateUniqueTripId(() => { checks += 1; return checks <= 3; }, fixedDate);
   assert.equal(checks, 4, "A taken Trip ID must be retried.");
   assert.ok(isTripId(retried));
-  assert.throws(() => generateUniqueTripId(() => true), /Could not generate an unused Trip ID/);
-  assert.ok(isTripId(newTripId()));
+  assert.throws(() => generateUniqueTripId(() => true, fixedDate), /Could not generate an unused Trip ID/);
+  assert.ok(isTripId(newTripId(fixedDate)));
   console.log("ok - collisions are retried, and exhaustion fails loudly");
 };
 
@@ -131,25 +132,25 @@ const verifyCaseCreation = (dataDir) => {
   /** @param {string} table @returns {number} */
   const count = (table) => Number(db.prepare(`SELECT COUNT(*) AS count FROM ${table}`).get().count);
   try {
-    const trip = createTrip(db);
-    const detected = createCase(db, { tripId: trip.tripId, sourceType: "detection" });
+    const trip = createTrip(db, new Date());
+    const detected = createCase(db, { tripId: trip.tripId, sourceType: "detection" }, new Date());
     assert.equal(detected.status, "detected");
     assert.equal(detected.privacy, "not_started");
     const detectedEvents = listAuditEvents(db, detected.caseId);
     assert.deepEqual(detectedEvents.map((event) => [event.eventType, event.actorType, event.status]), [["case_created", "system", "detected"]]);
     assert.equal(detectedEvents[0].occurredAt, detected.createdAt, "The audit event and the case must share one timestamp.");
 
-    const claimed = createCase(db, { tripId: trip.tripId, sourceType: "passenger_claim" });
+    const claimed = createCase(db, { tripId: trip.tripId, sourceType: "passenger_claim" }, new Date());
     assert.equal(claimed.status, "claim_submitted");
     assert.deepEqual(listAuditEvents(db, claimed.caseId).map((event) => [event.eventType, event.actorType]), [["claim_submitted", "passenger"]]);
     console.log("ok - detection and passenger_claim cases start in their documented states with one audit event");
 
-    assert.throws(() => createCase(db, { tripId: "TRIP-20260101-ZZZZ", sourceType: "detection" }), TripNotFoundError);
+    assert.throws(() => createCase(db, { tripId: "TRIP-20260101-ZZZZ", sourceType: "detection" }, new Date()), TripNotFoundError);
     assert.equal(count("cases"), 2, "An unknown trip must not create a case.");
 
     // Force the second write (the audit event) to fail, and prove the first write (the case) is undone.
     db.exec("CREATE TEMP TRIGGER fail_audit BEFORE INSERT ON audit_events BEGIN SELECT RAISE(ABORT, 'simulated audit failure'); END;");
-    assert.throws(() => createCase(db, { tripId: trip.tripId, sourceType: "detection" }), /simulated audit failure/);
+    assert.throws(() => createCase(db, { tripId: trip.tripId, sourceType: "detection" }, new Date()), /simulated audit failure/);
     db.exec("DROP TRIGGER fail_audit;");
     assert.equal(count("cases"), 2, "A failed audit write must roll back the case insert.");
     assert.equal(count("audit_events"), 2);
@@ -191,14 +192,14 @@ const verifyObjectStore = async (dataDir) => {
 const verifyImageSaveCleanup = async (dataDir) => {
   const db = openDatabase(dataDir);
   try {
-    const trip = createTrip(db);
-    const storedCase = createCase(db, { tripId: trip.tripId, sourceType: "detection" });
+    const trip = createTrip(db, new Date());
+    const storedCase = createCase(db, { tripId: trip.tripId, sourceType: "detection" }, new Date());
 
-    await assert.rejects(saveCaseImage(db, dataDir, { caseId: "CASE-missing", contentType: "image/jpeg", bytes: fakeJpegBytes }), CaseNotFoundError);
+    await assert.rejects(saveCaseImage(db, dataDir, { caseId: "CASE-missing", contentType: "image/jpeg", bytes: fakeJpegBytes }, new Date()), CaseNotFoundError);
     assert.deepEqual(listObjectFiles(dataDir), [], "An upload for an unknown case must not leave a file behind.");
 
     db.exec("CREATE TEMP TRIGGER fail_audit BEFORE INSERT ON audit_events BEGIN SELECT RAISE(ABORT, 'simulated audit failure'); END;");
-    await assert.rejects(saveCaseImage(db, dataDir, { caseId: storedCase.caseId, contentType: "image/jpeg", bytes: fakeJpegBytes }), /simulated audit failure/);
+    await assert.rejects(saveCaseImage(db, dataDir, { caseId: storedCase.caseId, contentType: "image/jpeg", bytes: fakeJpegBytes }, new Date()), /simulated audit failure/);
     db.exec("DROP TRIGGER fail_audit;");
     assert.deepEqual(listObjectFiles(dataDir), [], "A failed database write must delete the stored file.");
     assert.equal(Number(db.prepare("SELECT COUNT(*) AS count FROM images").get().count), 0, "A failed audit write must roll back the image row.");
@@ -271,6 +272,30 @@ const verifyImageUploadEndpoints = async (baseUrl, dataDir, caseId) => {
   return image;
 };
 
+/** @param {string} baseUrl @param {string} caseId @returns {Promise<void>} */
+const verifyEarlyUploadRejection = (baseUrl, caseId) => new Promise((resolve, reject) => {
+  const request = http.request(`${baseUrl}/v1/cases/${caseId}/images`, {
+    method: "POST",
+    headers: { "Content-Type": "image/png" },
+  }, (response) => {
+    let body = "";
+    response.setEncoding("utf8");
+    response.on("data", (chunk) => { body += chunk; });
+    response.on("end", () => {
+      request.destroy();
+      try {
+        assert.equal(response.statusCode, 413);
+        assert.equal(JSON.parse(body).error, "image_too_large");
+        console.log("ok - oversized chunked upload is rejected before the client ends it");
+        resolve();
+      } catch (error) { reject(error); }
+    });
+  });
+  request.on("error", reject);
+  request.setTimeout(3000, () => request.destroy(new Error("Oversized upload was not rejected before request end.")));
+  request.write(Buffer.alloc(5 * 1024 * 1024 + 1));
+});
+
 /** @param {string} baseUrl @param {string} tripId */
 const verifyCaseEndpoints = async (baseUrl, tripId) => {
   /** @param {unknown} body */
@@ -302,7 +327,7 @@ const verifyCaseEndpoints = async (baseUrl, tripId) => {
 const verifyTimelineOrdering = (dataDir) => {
   const db = openDatabase(dataDir);
   try {
-    const trip = createTrip(db);
+    const trip = createTrip(db, new Date());
     const storedCase = createCase(db, { tripId: trip.tripId, sourceType: "detection" }, new Date("2026-10-08T10:00:00.000Z"));
     const sameInstant = "2026-10-08T10:05:00.000Z";
     // Inserted out of time order, and two share one millisecond, like the mock's claim + alert pair.
@@ -384,6 +409,13 @@ const main = async () => {
     verifyTripIdGeneration();
     verifySchema(path.join(tempRoot, "schema-check"));
     verifyCaseCreation(path.join(tempRoot, "case-check"));
+    const closedDb = openDatabase(path.join(tempRoot, "rollback-error-check"));
+    const originalError = new Error("Original transaction failure");
+    assert.throws(() => withTransaction(closedDb, () => {
+      closedDb.close();
+      throw originalError;
+    }), (error) => error instanceof AggregateError && error.errors[0] === originalError && error.errors.length === 2);
+    console.log("ok - a failed rollback preserves both the original error and the cleanup error");
     await verifyObjectStore(path.join(tempRoot, "object-check"));
     await verifyImageSaveCleanup(path.join(tempRoot, "image-cleanup-check"));
     verifyTimelineOrdering(path.join(tempRoot, "timeline-check"));
@@ -398,6 +430,7 @@ const main = async () => {
       trip = await verifyCreateTripEndpoint(baseUrl);
       storedCase = await verifyCaseEndpoints(baseUrl, trip.tripId);
       image = await verifyImageUploadEndpoints(baseUrl, dataDir, storedCase.caseId);
+      await verifyEarlyUploadRejection(baseUrl, storedCase.caseId);
       timeline = await verifyTimelineEndpoints(baseUrl, storedCase.caseId, image);
     } finally {
       await stopServer(server);

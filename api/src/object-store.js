@@ -54,7 +54,11 @@ const putObject = async (dataDir, bytes) => {
     }
     await fs.rename(tempPath, finalPath);
   } catch (error) {
-    await fs.rm(tempPath, { force: true });
+    try {
+      await fs.rm(tempPath, { force: true });
+    } catch (cleanupError) {
+      throw new AggregateError([error, cleanupError], "Operation failed and cleanup also failed.");
+    }
     throw error;
   }
   return { storageKey, sha256: sha256Hex(bytes), sizeBytes: bytes.byteLength };

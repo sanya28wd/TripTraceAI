@@ -89,10 +89,10 @@ const appendAuditEvent = (db, event) => {
  * without the history entry that explains how it began.
  * @param {DatabaseSync} db
  * @param {{tripId: string, sourceType: CaseSourceType}} input
- * @param {Date} [now]
+ * @param {Date} now
  * @returns {StoredCase}
  */
-const createCase = (db, { tripId, sourceType }, now = new Date()) => {
+const createCase = (db, { tripId, sourceType }, now) => {
   const start = caseStarts[sourceType];
   const caseId = newCaseId();
   const occurredAt = now.toISOString();

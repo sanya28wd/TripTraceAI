@@ -12,10 +12,10 @@ const tripExists = (db, tripId) => db.prepare("SELECT 1 FROM trips WHERE trip_id
  * Creates a trip with a fresh Trip ID. The database is the source of truth for "is this ID
  * taken?", and the primary key rejects a duplicate even if that check were skipped.
  * @param {DatabaseSync} db
- * @param {Date} [now]
+ * @param {Date} now
  * @returns {Trip}
  */
-const createTrip = (db, now = new Date()) => {
+const createTrip = (db, now) => {
   const tripId = generateUniqueTripId((candidate) => tripExists(db, candidate), now);
   const createdAt = now.toISOString();
   db.prepare("INSERT INTO trips (trip_id, created_at) VALUES (?, ?)").run(tripId, createdAt);

@@ -17,10 +17,10 @@ const maxTripIdAttempts = 10;
  * read; the random suffix makes them unguessable. 31^4 ≈ 923k suffixes per day means
  * collisions are likely after about 1,000 IDs (birthday paradox), so callers that need
  * uniqueness must use generateUniqueTripId.
- * @param {Date} [now]
+ * @param {Date} now
  * @returns {string}
  */
-const newTripId = (now = new Date()) => {
+const newTripId = (now) => {
   let suffix = "";
   for (let index = 0; index < tripIdSuffixLength; index += 1) {
     suffix += tripIdAlphabet[randomInt(tripIdAlphabet.length)];
@@ -32,10 +32,10 @@ const newTripId = (now = new Date()) => {
  * Generates Trip IDs until one is not taken. isTaken is backed by an in-memory Set for now
  * and by the trips table primary key from Phase 3 Step 2.
  * @param {(tripId: string) => boolean} isTaken
- * @param {Date} [now]
+ * @param {Date} now
  * @returns {string}
  */
-const generateUniqueTripId = (isTaken, now = new Date()) => {
+const generateUniqueTripId = (isTaken, now) => {
   for (let attempt = 0; attempt < maxTripIdAttempts; attempt += 1) {
     const tripId = newTripId(now);
     if (!isTaken(tripId)) return tripId;
