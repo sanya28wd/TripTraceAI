@@ -61,7 +61,7 @@ def verify() -> None:
 def write_reviews(path: Path, rows: list[dict[str, str]]) -> None:
     """Write explicit smoke-fixture review decisions."""
     with path.open("w", newline="") as stream:
-        writer: csv.DictWriter[str] = csv.DictWriter(stream, fieldnames=list(rows[0]))
+        writer: csv.DictWriter[str] = csv.DictWriter(stream, fieldnames=list(rows[0]), lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
 

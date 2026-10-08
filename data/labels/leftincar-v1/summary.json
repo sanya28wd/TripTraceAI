@@ -7,7 +7,7 @@
   "target_held_out_fraction": 0.2,
   "actual_held_out_fraction": 0.1930261519302615,
   "inventory_sha256": "cf0770bac0307db32700a1767ad5394b5df879ed9cf928ba3c589f24ca620d63",
-  "review_sha256": "4640e24f0f322955754a8a32c49047f68d7862ac1f8c92e56e6d5a6775e72565",
+  "review_sha256": "79d408f61418d0aa7e299ef1974dfb58fb09bcb12611a1a01a87e3c7383732b9",
   "negative_scope": [
     "smartphone",
     "laptop",
