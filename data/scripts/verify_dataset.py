@@ -38,6 +38,10 @@ def verify() -> None:
         records: list[dict[str, object]] = json.loads((output / "inventory.json").read_text())
         assert records[0]["label"] is None and records[0]["boxes"] == []
         run_script("audit_leftincar.py", [str(source), str(output)], False)
+        run_script("review_leftincar.py", [str(source), str(output)], True)
+        assert len(list((output / "visual").glob("sheet-*.jpg"))) == 1
+        assert "pending" in (output / "review.csv").read_text()
+        run_script("review_leftincar.py", [str(source), str(output)], False)
         label: Path = source / "labels" / f"{stem}.txt"
         for index, annotation in enumerate(("0 nan .5 .2 .2", "10 .5 .5 .2 .2", "0 .9 .5 .4 .2", "0 .5 .5 .2")):
             label.write_text(annotation)
