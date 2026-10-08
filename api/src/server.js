@@ -4,10 +4,16 @@ const http = require("node:http");
 const fs = require("node:fs");
 const path = require("node:path");
 const { randomUUID } = require("node:crypto");
+const { openDatabase } = require("./db");
+const { createTrip, getTrip } = require("./trips-repo");
+const { caseSourceTypes, createCase, getCase, getCaseTimeline, isCaseSourceType, TripNotFoundError } = require("./cases-repo");
+const { bytesMatchContentType, CaseNotFoundError, getImage, isImageContentType, listCaseImages, maxImageBytes, saveCaseImage } = require("./images-repo");
+const { getObjectPath } = require("./object-store");
 
 const port = Number(process.env.PORT ?? 8000);
 const host = process.env.HOST ?? "0.0.0.0";
 const mockCasesPath = path.join(__dirname, "..", "mock-data", "cases.json");
+const dataDir = process.env.DATA_DIR ?? path.join(__dirname, "..", "storage");
 
 /** @typedef {"detected" | "claim_submitted" | "clarification_needed" | "matched" | "driver_alerted" | "secured" | "manual_review" | "closed"} CaseStatus */
 /** @typedef {"secure" | "no_item" | "ask_operations"} DriverAction */
@@ -83,9 +89,40 @@ const readJsonBody = (request) => new Promise((resolve, reject) => {
   request.on("error", reject);
 });
 
+class PayloadTooLargeError extends Error {}
+
+/**
+ * Reads a raw request body, keeping at most maxBytes in memory. Past the limit the rest is
+ * drained and discarded, so a huge upload cannot exhaust memory.
+ * @param {http.IncomingMessage} request
+ * @param {number} maxBytes
+ * @returns {Promise<Buffer>}
+ */
+const readBinaryBody = (request, maxBytes) => new Promise((resolve, reject) => {
+  /** @type {Buffer[]} */
+  const chunks = [];
+  let receivedBytes = 0;
+  request.on("data", (chunk) => {
+    receivedBytes += chunk.length;
+    if (receivedBytes <= maxBytes) chunks.push(chunk);
+  });
+  request.on("end", () => {
+    if (receivedBytes > maxBytes) reject(new PayloadTooLargeError());
+    else resolve(Buffer.concat(chunks));
+  });
+  request.on("error", reject);
+});
+
+const imageRejectedMessage = "Only JPEG or PNG images up to 5 MB are accepted.";
+
 /** @param {unknown} value @returns {value is {tripId: string, description?: string, language?: string}} */
 const isClaimRequest = (value) => typeof value === "object" && value !== null
   && "tripId" in value && typeof value.tripId === "string";
+
+/** @param {unknown} value @returns {value is {tripId: string, sourceType: import("./cases-repo").CaseSourceType}} */
+const isCreateCaseRequest = (value) => typeof value === "object" && value !== null
+  && "tripId" in value && typeof value.tripId === "string"
+  && "sourceType" in value && isCaseSourceType(value.sourceType);
 
 /** @param {unknown} value @returns {value is {action: DriverAction}} */
 const isDriverActionRequest = (value) => typeof value === "object" && value !== null
@@ -206,8 +243,8 @@ const driverAlertView = (alert) => ({
   outcomeMessage: alert.outcomeMessage,
 });
 
-/** @returns {http.RequestListener} */
-const createRequestHandler = () => {
+/** @param {{db: import("node:sqlite").DatabaseSync, dataDir: string}} dependencies @returns {http.RequestListener} */
+const createRequestHandler = ({ db, dataDir }) => {
   /** @type {MockCase[]} */
   let mockCases = loadMockCases();
   /** @type {MockAlert[]} */
@@ -225,6 +262,80 @@ const createRequestHandler = () => {
   return async (request, response) => {
     const requestUrl = new URL(request.url ?? "/", `http://${request.headers.host ?? "localhost"}`);
     if (request.method === "GET" && requestUrl.pathname === "/health") return sendJson(response, 200, { status: "ok" });
+
+    if (request.method === "POST" && requestUrl.pathname === "/v1/trips") {
+      return sendJson(response, 201, createTrip(db));
+    }
+    const tripMatch = requestUrl.pathname.match(/^\/v1\/trips\/([^/]+)$/);
+    if (request.method === "GET" && tripMatch) {
+      const trip = getTrip(db, decodeURIComponent(tripMatch[1]));
+      if (trip === null) return sendJson(response, 404, { error: "trip_not_found", message: "No trip exists for this ID." });
+      return sendJson(response, 200, trip);
+    }
+
+    if (request.method === "POST" && requestUrl.pathname === "/v1/cases") {
+      /** @type {unknown} */ let body;
+      try { body = await readJsonBody(request); } catch (error) { return sendJson(response, 400, { error: "invalid_json", message: error instanceof Error ? error.message : "Request body must be valid JSON." }); }
+      if (!isCreateCaseRequest(body)) return sendJson(response, 400, { error: "invalid_case", message: `A string tripId and a sourceType of ${caseSourceTypes.join(" or ")} are required.` });
+      try {
+        return sendJson(response, 201, createCase(db, { tripId: body.tripId, sourceType: body.sourceType }));
+      } catch (error) {
+        if (error instanceof TripNotFoundError) return sendJson(response, 404, { error: "trip_not_found", message: "No trip exists for this ID." });
+        throw error;
+      }
+    }
+    const caseImagesMatch = requestUrl.pathname.match(/^\/v1\/cases\/([^/]+)\/images$/);
+    if (request.method === "POST" && caseImagesMatch) {
+      const caseId = decodeURIComponent(caseImagesMatch[1]);
+      // Cheap checks first, before reading any bytes.
+      if (getCase(db, caseId) === null) return sendJson(response, 404, { error: "case_not_found", message: "No case exists for this ID." });
+      const contentType = (request.headers["content-type"] ?? "").split(";")[0].trim().toLowerCase();
+      if (!isImageContentType(contentType)) return sendJson(response, 415, { error: "unsupported_image_type", message: imageRejectedMessage });
+      if (Number(request.headers["content-length"] ?? 0) > maxImageBytes) {
+        response.setHeader("Connection", "close");
+        return sendJson(response, 413, { error: "image_too_large", message: imageRejectedMessage });
+      }
+      /** @type {Buffer} */ let bytes;
+      try { bytes = await readBinaryBody(request, maxImageBytes); } catch (error) {
+        if (error instanceof PayloadTooLargeError) return sendJson(response, 413, { error: "image_too_large", message: imageRejectedMessage });
+        throw error;
+      }
+      if (bytes.byteLength === 0) return sendJson(response, 400, { error: "empty_image", message: "The request did not include an image." });
+      if (!bytesMatchContentType(bytes, contentType)) return sendJson(response, 415, { error: "unsupported_image_type", message: imageRejectedMessage });
+      try {
+        return sendJson(response, 201, await saveCaseImage(db, dataDir, { caseId, contentType, bytes }));
+      } catch (error) {
+        if (error instanceof CaseNotFoundError) return sendJson(response, 404, { error: "case_not_found", message: "No case exists for this ID." });
+        throw error;
+      }
+    }
+    const timelineMatch = requestUrl.pathname.match(/^\/v1\/cases\/([^/]+)\/timeline$/);
+    if (request.method === "GET" && timelineMatch) {
+      const timeline = getCaseTimeline(db, decodeURIComponent(timelineMatch[1]));
+      if (timeline === null) return sendJson(response, 404, { error: "case_not_found", message: "No case exists for this ID." });
+      return sendJson(response, 200, timeline);
+    }
+    const imageMatch = requestUrl.pathname.match(/^\/v1\/images\/([^/]+)$/);
+    if (request.method === "GET" && imageMatch) {
+      const image = getImage(db, decodeURIComponent(imageMatch[1]));
+      if (image === null) return sendJson(response, 404, { error: "image_not_found", message: "No image exists for this ID." });
+      const bytes = await fs.promises.readFile(getObjectPath(dataDir, image.storageKey));
+      response.writeHead(200, {
+        "Content-Type": image.contentType,
+        "Content-Length": bytes.byteLength,
+        // Never let a browser guess a different type, and never cache case evidence in shared caches.
+        "X-Content-Type-Options": "nosniff",
+        "Cache-Control": "private, no-store",
+      });
+      return response.end(bytes);
+    }
+    const storedCaseMatch = requestUrl.pathname.match(/^\/v1\/cases\/([^/]+)$/);
+    if (request.method === "GET" && storedCaseMatch) {
+      const storedCase = getCase(db, decodeURIComponent(storedCaseMatch[1]));
+      if (storedCase === null) return sendJson(response, 404, { error: "case_not_found", message: "No case exists for this ID." });
+      // Images are included so the case-history screen needs one request, not two.
+      return sendJson(response, 200, { ...storedCase, images: listCaseImages(db, storedCase.caseId) });
+    }
 
     if (request.method === "GET" && requestUrl.pathname === "/v1/mock/driver/session") {
       return sendJson(response, 200, { driver: demoDriver, vehicle: demoVehicle });
@@ -305,7 +416,15 @@ const createRequestHandler = () => {
 };
 
 if (require.main === module) {
-  const server = http.createServer(createRequestHandler());
+  const handleRequest = createRequestHandler({ db: openDatabase(dataDir), dataDir });
+  const server = http.createServer((request, response) => {
+    // An unexpected error becomes a safe 500 instead of crashing the process and losing every request.
+    Promise.resolve(handleRequest(request, response)).catch((error) => {
+      console.error(JSON.stringify({ message: "Unhandled request error", path: request.url, error: error instanceof Error ? error.message : String(error) }));
+      if (!response.headersSent) sendJson(response, 500, { error: "internal_error", message: "Something went wrong. Please try again." });
+      else response.end();
+    });
+  });
   server.listen(port, host, () => {
     const address = server.address();
     const listeningPort = typeof address === "object" && address !== null ? address.port : port;

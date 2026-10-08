@@ -14,3 +14,6 @@ data/labels/*
 # Safe documentation can be versioned; dataset files remain ignored.
 !data/staged/*.md
 !data/labels/*.md
+
+# Local API database and uploaded objects (Phase 3). Never commit case data.
+api/storage/

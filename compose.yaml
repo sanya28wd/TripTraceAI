@@ -6,9 +6,21 @@ services:
     volumes:
       - "./web:/usr/share/nginx/html:ro"
       - "./web/nginx.conf:/etc/nginx/conf.d/default.conf:ro"
+    # nginx exits at startup if the "api" host does not exist yet, so start the API first.
+    depends_on:
+      - api
 
   api:
     build:
       context: ./api
     ports:
       - "8000:8000"
+    environment:
+      DATA_DIR: /app/storage
+    volumes:
+      # Keeps the SQLite database and uploaded images across `docker compose down` / `up`.
+      # `docker compose down -v` deletes this volume and resets all local case data.
+      - "api-data:/app/storage"
+
+volumes:
+  api-data:
