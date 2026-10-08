@@ -17,3 +17,8 @@ data/labels/*
 
 # Local API database and uploaded objects (Phase 3). Never commit case data.
 api/storage/
+
+# Dataset tooling environment and local review images.
+data/.venv/
+data/scripts/__pycache__/
+data/review/
