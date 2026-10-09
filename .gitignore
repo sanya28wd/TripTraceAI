@@ -2,6 +2,7 @@
 .DS_Store
 
 # Never commit staged images or other dataset contents.
+api/node_modules/
 data/staged/*
 data/development/*
 data/held_out/*
