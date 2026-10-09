@@ -58,21 +58,6 @@ const showResult = (result, language) => {
   const reference = document.querySelector("#case-reference");
   reference.textContent = result.caseId ? `Case reference · ${result.caseId}` : "";
   reference.hidden = !result.caseId;
-  const history = Array.isArray(result.history) ? result.history : [];
-  const historyList = document.querySelector("#history-list");
-  historyList.replaceChildren();
-  const labels = {
-    claim_submitted: "Claim submitted",
-    driver_alerted: "Driver notified",
-    item_secured: "Item secured",
-    manual_review_requested: "Operations review requested",
-  };
-  history.forEach(({ eventType, occurredAt }) => {
-    const li = document.createElement("li");
-    li.textContent = `${labels[eventType] ?? "Case updated"} — ${new Date(occurredAt).toLocaleString()}`;
-    historyList.appendChild(li);
-  });
-  document.querySelector("#case-history").hidden = history.length === 0;
   document.querySelector("#refresh-status").hidden = !result.caseId || selectedTrip === null;
   document.querySelector("#status-error").textContent = "";
   statusStep.hidden = false;
@@ -103,15 +88,6 @@ document.querySelector("#refresh-status").addEventListener("click", async () => 
     document.querySelector("#status-error").textContent = "We couldn’t refresh this status. Please try again.";
   } finally {
     button.disabled = false;
-  }
-});
-document.querySelector("#item-image").addEventListener("change", (event) => {
-  const hasImage = event.target.files.length > 0;
-  const section = document.querySelector("#consent-section");
-  section.hidden = !hasImage;
-
-  if (!hasImage) {
-    document.querySelector("#image-consent").checked = false;
   }
 });
 
@@ -147,14 +123,6 @@ tripForm.addEventListener("submit", async (event) => {
 
 claimForm.addEventListener("submit", async (event) => {
   event.preventDefault();
-  const image = document.querySelector("#item-image").files[0];
-  const consent = document.querySelector("#image-consent").checked;
-  if (image && !consent) {
-    document.querySelector("#upload-error").textContent =
-      "Please consent to your uploaded image being used before continuing.";
-    document.querySelector("#image-consent").focus();
-    return;
-  }
   if (selectedTrip === null) {
     throw new Error("Choose a trip before submitting a report.");
   }
@@ -165,14 +133,15 @@ claimForm.addEventListener("submit", async (event) => {
   claimError.textContent = "";
   statusStep.hidden = true;
   try {
-    const formData = new FormData(claimForm);
-    formData.append("tripId", selectedTrip.tripId);
-    formData.append("language", selectedTrip.language);
     const response = await fetch("/v1/mock/claims", {
       method: "POST",
-      body: formData,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        tripId: selectedTrip.tripId,
+        description: String(new FormData(claimForm).get("description")).trim(),
+        language: selectedTrip.language,
+      }),
     });
-
     const result = await readResponse(response);
     showResult(result, selectedTrip.language);
   } catch (error) {

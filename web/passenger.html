@@ -50,31 +50,6 @@
               <form id="claim-form">
                 <label for="description">What did you leave behind?</label>
                 <textarea id="description" name="description" placeholder="For example, a small black bag" required></textarea>
-                
-                <label for="item-image">Upload a photo of the item</label>
-                <input
-                  id="item-image"
-                  name="itemImage"
-                  type="file"
-                  accept="image/jpeg,image/png,image/webp"
-                  aria-describedby="image-hint upload-error"
-                />
-                <div id="consent-section" hidden>
-                  <p class="consent-message">
-                    Please upload only an image relevant to your report. Avoid images containing
-                    faces, personal documents, or other sensitive information.
-                  </p>                  
-                  <label class="consent-label" for="image-consent">
-                    <input id="image-consent" name="imageConsent" type="checkbox" value="true">
-                    I consent to my uploaded image being processed for this demo's lost-item report.
-                  </label>
-                </div>
-                <p class="field-hint" id="image-hint">
-                  Upload a JPG, PNG, or WebP image. Avoid images containing unnecessary personal information.
-                </p>
-
-                <p class="form-error" id="upload-error" role="alert"></p>
-
                 <button class="passenger-button" type="submit"><span>Submit report</span><span class="button-icon" aria-hidden="true">↗</span></button>
                 <p class="form-error" id="claim-error" role="alert"></p>
               </form>
@@ -89,10 +64,6 @@
               <div class="response-thread question-thread" id="clarification" hidden><span class="thread-label">A question for you</span><p id="clarification-question"></p><small>This demo doesn’t accept a reply yet.</small></div>
               <p class="review-note" id="review-note" hidden>Sensitive item reports are reviewed by a person. No item match or return is confirmed here.</p>
               <p class="case-reference" id="case-reference"></p>
-              <section id="case-history" aria-labelledby="history-heading" hidden>
-                <h3 id="history-heading">Case history</h3>
-                <ol id="history-list"></ol>
-              </section>
               <button class="status-refresh" id="refresh-status" type="button" hidden>Check latest status <span aria-hidden="true">↻</span></button>
               <p class="form-error" id="status-error" role="alert"></p>
             </div>
