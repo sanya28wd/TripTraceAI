@@ -27,3 +27,9 @@ data/review/
 # Reviewed manifests and numeric annotations; no image bytes.
 !data/labels/leftincar-v1/
 !data/labels/leftincar-v1/**
+!data/labels/leftincar-v1-card-review.csv
+!data/labels/leftincar-v1-card-splits/
+data/labels/leftincar-v1-card-splits/*
+!data/labels/leftincar-v1-card-splits/category-map.json
+!data/labels/leftincar-v1-card-splits/train.json
+!data/labels/leftincar-v1-card-splits/validation.json

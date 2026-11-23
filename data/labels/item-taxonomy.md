@@ -8,6 +8,7 @@
 | `bag` | Bag | Backpack, handbag, tote, laptop bag | No | Common, visually distinct |
 | `wallet` | Wallet | Wallet, cardholder, purse | Yes | Often contains ID/cards |
 | `passport_or_id` | Passport / ID | Passport, national ID, driving license | Yes | Sensitive personal document |
+| `card` | Card | Card of unspecified type | Yes | Detector records the category and bounding box |
 | `medication` | Medication | Pill bottle, inhaler, medical device | Yes | Health-sensitive, urgent |
 | `electronics_small` | Small Electronics | Earbuds, charger, power bank, smartwatch | No | Common, low sensitivity |
 | `electronics_large` | Large Electronics | Laptop, tablet, camera | No | High value, low sensitivity |

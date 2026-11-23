@@ -1,0 +1,898 @@
+[
+  {
+    "image": "images/image__0_2024-09-19_17-56-17.bmp",
+    "sha256": "84b1b4772b166f924e380d7fd6db02fc1fe5d936ba25d2d3a0606a4b8ff2f371",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__0_2024-09-19_17-56-17.txt",
+    "label_sha256": "b9c69b80bcc1c5844db804fa8adc55ad091b41cce958fd9259b6b9974abe9fc8"
+  },
+  {
+    "image": "images/image__0_2024-09-19_18-40-52.bmp",
+    "sha256": "d81fd661491645af793ac4a2a0448b7ad513fe13c2fc2079851a24b070656203",
+    "capture_session": "capture-session-04",
+    "label": "labels/val/image__0_2024-09-19_18-40-52.txt",
+    "label_sha256": "0f6c6adfd72762cd46bff688415e498d54cfdd85b541dff41b02990a1238ba0a"
+  },
+  {
+    "image": "images/image__10_2024-09-19_17-59-46.bmp",
+    "sha256": "71072726418c1ec6ebd27e32fe70a5288e2b7b49471c184315374a83c7f7461e",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__10_2024-09-19_17-59-46.txt",
+    "label_sha256": "42f9247947d69a86bd1f9f58864a6d06a78da9d67d5a99abf71c7aaf409e25fb"
+  },
+  {
+    "image": "images/image__10_2024-09-19_18-45-52.bmp",
+    "sha256": "76374a6bd087efecadf6e1bf5446e497e442d78ff613c110640218833af353f6",
+    "capture_session": "capture-session-04",
+    "label": "labels/val/image__10_2024-09-19_18-45-52.txt",
+    "label_sha256": "618e740efec15cc2eb552b6e1de00737324623dcc7ce7fab6faad8376f38ec8e"
+  },
+  {
+    "image": "images/image__11_2024-09-19_17-59-50.bmp",
+    "sha256": "033bd7d40fd0bdb27443bdb8eeba6cbc34244ebef757346929ee2e22a5c6bac0",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__11_2024-09-19_17-59-50.txt",
+    "label_sha256": "4888e234fcd831ddfde729d60d0508f3a19e84dec9e72aff32b6813b52e74ac3"
+  },
+  {
+    "image": "images/image__11_2024-09-19_18-46-18.bmp",
+    "sha256": "b624feb7c98980810fbe828bca1d34e5a17dafbaaa628d6913f71bf10829700c",
+    "capture_session": "capture-session-04",
+    "label": "labels/val/image__11_2024-09-19_18-46-18.txt",
+    "label_sha256": "f3a91378492a60fe312675bf8607811c4d2f841f7801d01302f5c53356a784b3"
+  },
+  {
+    "image": "images/image__12_2024-09-19_17-59-55.bmp",
+    "sha256": "8dac2d3c09ab65c61b7c7c7deb0c642338a1e5ec4bea39fbf0c87dd0ef0efa3d",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__12_2024-09-19_17-59-55.txt",
+    "label_sha256": "693e98dd76483010b444184bf866782cc37959e8f9ee562dece8e19fc94fec19"
+  },
+  {
+    "image": "images/image__12_2024-09-19_18-46-19.bmp",
+    "sha256": "f6933c043061a87d266d4f6a157471d5e972a1cc54d7479c6ca6584739e47f53",
+    "capture_session": "capture-session-04",
+    "label": "labels/val/image__12_2024-09-19_18-46-19.txt",
+    "label_sha256": "7b5e4fb69bd0ea69817aba343f15c42d603c6ebd543b0bc529789cb74e810ae0"
+  },
+  {
+    "image": "images/image__13_2024-09-19_17-59-59.bmp",
+    "sha256": "c2d17a01f1a4f0927c4e48439d234180c6af3a1590d1e54d7b993fa4d7b04d0e",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__13_2024-09-19_17-59-59.txt",
+    "label_sha256": "710d34b50fad8b6e7d637986d25b57bee484b00c92110a6fff304a4efee9d84b"
+  },
+  {
+    "image": "images/image__13_2024-09-19_18-46-47.bmp",
+    "sha256": "6dee0e8e9c9adb45b068922541366fc83573d5e8bc6792f9e8547fb76c391c0e",
+    "capture_session": "capture-session-04",
+    "label": "labels/val/image__13_2024-09-19_18-46-47.txt",
+    "label_sha256": "7201aa745df983fff5f6ec36bb0e13e43b98282add57473a8538a070aafcf316"
+  },
+  {
+    "image": "images/image__14_2024-09-19_18-00-03.bmp",
+    "sha256": "468e136d49b0d116ea84ad8ddaae4e05e4a314ed8e99a9ed55028632520d526d",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__14_2024-09-19_18-00-03.txt",
+    "label_sha256": "4be64ea68d53cd28ad668e734960de94fe22856a68d05e8ebafaee36d7e87f75"
+  },
+  {
+    "image": "images/image__14_2024-09-19_18-46-56.bmp",
+    "sha256": "dcd5ba506db251cccef52902ef0a14e0b5041003e8693ad4b7570a074d9eb5c9",
+    "capture_session": "capture-session-04",
+    "label": "labels/val/image__14_2024-09-19_18-46-56.txt",
+    "label_sha256": "a636582b32be89e7e525383e566008053b0d6d808aa880d23b13de451eac36e5"
+  },
+  {
+    "image": "images/image__15_2024-09-19_18-00-39.bmp",
+    "sha256": "227e40f3090d1bf3227b9550e0f316f6370ca7ba9d9dc20319c129b6a693fc13",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__15_2024-09-19_18-00-39.txt",
+    "label_sha256": "b12e87152bee7015fc75b4ec9ee0158f94419af0adb52323d2dfe629baba229e"
+  },
+  {
+    "image": "images/image__15_2024-09-19_18-48-19.bmp",
+    "sha256": "d3c1936b1644ca4f90f02698e6098d772b38befb63c8f6c7077009725536cae3",
+    "capture_session": "capture-session-04",
+    "label": "labels/val/image__15_2024-09-19_18-48-19.txt",
+    "label_sha256": "d1d0e3dd1714e656c34b75724d3e84e74cb9a4adf05cb5a8879466c9625899d1"
+  },
+  {
+    "image": "images/image__16_2024-09-19_18-00-43.bmp",
+    "sha256": "f473e252c6d90e97acdf5e4962d45479dc75b3223607d7c9962793e4bd067f8a",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__16_2024-09-19_18-00-43.txt",
+    "label_sha256": "432a8e65f97dd1749b7ba5732e940acbc97080bf81425bfca1817a33e59ac0fc"
+  },
+  {
+    "image": "images/image__16_2024-09-19_18-48-20.bmp",
+    "sha256": "9bbbc7679da0f77eff41a93c07069304648765da9d4de3f964649792c2b972c9",
+    "capture_session": "capture-session-04",
+    "label": "labels/val/image__16_2024-09-19_18-48-20.txt",
+    "label_sha256": "5ed15428195debb7d98dd559782ff51d5078f7df732bf20ac4d9be27e288636a"
+  },
+  {
+    "image": "images/image__17_2024-09-19_18-01-13.bmp",
+    "sha256": "28f595503c0c3035683ff88517d28cbccdec9c2198fefa2c6a6cbea0745c77ec",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__17_2024-09-19_18-01-13.txt",
+    "label_sha256": "359872d03c54b0751714716d7b09771f79d5b3a8c46d0713b77d7483a83a5174"
+  },
+  {
+    "image": "images/image__17_2024-09-19_18-48-21.bmp",
+    "sha256": "b33f04d99415fac57dea9cd334232baecb0b9efdafab416557dc4c47c0f5db69",
+    "capture_session": "capture-session-04",
+    "label": "labels/val/image__17_2024-09-19_18-48-21.txt",
+    "label_sha256": "d9ab29c1d9e5e6644d2cbd7502e9f6c1ae513b919e10927fc39fdeafa29fe1b9"
+  },
+  {
+    "image": "images/image__18_2024-09-19_18-01-20.bmp",
+    "sha256": "afdbba7de1843e06ca1e384987ba01e917dab727d36cb8f9956f1e5bd7fb632b",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__18_2024-09-19_18-01-20.txt",
+    "label_sha256": "e8cb581c5c8fa6ee9f969eedca3c87bbe242b7b1a8667c421a0e33c1d4d3961e"
+  },
+  {
+    "image": "images/image__18_2024-09-19_18-48-43.bmp",
+    "sha256": "daab0efa222361ce35da383b566d96fde932eb02cc75b5a364a83c8044f12948",
+    "capture_session": "capture-session-04",
+    "label": "labels/val/image__18_2024-09-19_18-48-43.txt",
+    "label_sha256": "d08874a37f0c8ba427ef2238af9121d7e707d0740f7105812d9db568298af474"
+  },
+  {
+    "image": "images/image__19_2024-09-19_18-01-23.bmp",
+    "sha256": "4abfe790fcb3ffc07fcf2b6ef87d0bb037dc4fc612d268492b4ca23b4d53c97f",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__19_2024-09-19_18-01-23.txt",
+    "label_sha256": "81d29e499861c00d0e8d19fa8062d0e60e880b04e138695bbdeea48820f8088f"
+  },
+  {
+    "image": "images/image__19_2024-09-19_18-48-45.bmp",
+    "sha256": "1f04a561fd823a6a7142628d503c67ee9996af32fe848e2e3ed8eb5b0cdaad73",
+    "capture_session": "capture-session-04",
+    "label": "labels/val/image__19_2024-09-19_18-48-45.txt",
+    "label_sha256": "8368ff6d35acc8ba5515e818096598d457d48c6fc2762c40928395fc67cc070c"
+  },
+  {
+    "image": "images/image__1_2024-09-19_17-56-18.bmp",
+    "sha256": "0e9faf2d9bfffed92532dc2959bea9163b8283d33fb098e96758ea974a678cf9",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__1_2024-09-19_17-56-18.txt",
+    "label_sha256": "42faf90a91ad2d3aab0c3c212c70d6bb2db5d9cd23342dc7393224b6c382e22d"
+  },
+  {
+    "image": "images/image__1_2024-09-19_18-41-47.bmp",
+    "sha256": "c79f5945e684f91858daf8e0858ec4635de4fe6f59b5ed56c27f2874eb1cc75f",
+    "capture_session": "capture-session-04",
+    "label": "labels/val/image__1_2024-09-19_18-41-47.txt",
+    "label_sha256": "d0d87210ac8f4b8a87e42a2396ac6c015ef0b2f9534a5ac9064f3846b1a55336"
+  },
+  {
+    "image": "images/image__20_2024-09-19_18-05-21.bmp",
+    "sha256": "01fbecf725f7dd2a9fc7b07034857b0c8f1ce17429b5a247e83196cd40cde3dd",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__20_2024-09-19_18-05-21.txt",
+    "label_sha256": "72dd35ac0bd4aab17ea5e46fafddd95965bbf855f8e7410186cfc8867d310453"
+  },
+  {
+    "image": "images/image__21_2024-09-19_18-05-30.bmp",
+    "sha256": "7041eb7df7b4dd62d5c72a5c9b4496c534309623ea978b2a2a60c4c13b6cbcf1",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__21_2024-09-19_18-05-30.txt",
+    "label_sha256": "b5fafcde568b674c53acf418cc0c4ed169ddce33f68b5fd34c6d0648fd618be9"
+  },
+  {
+    "image": "images/image__22_2024-09-19_18-05-33.bmp",
+    "sha256": "901ae9076dd976a2d7ed7f4af6942508bcc76e89e9eecd35eb45e12b210d8d7e",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__22_2024-09-19_18-05-33.txt",
+    "label_sha256": "a4baef77e5fa47c16459fd5e66b9657974e8085ec1f6e519c7190d14a1f23a25"
+  },
+  {
+    "image": "images/image__23_2024-09-19_18-05-59.bmp",
+    "sha256": "f55e24d00c88505be77789b18c81dbaf4d5203e154d9906c44155b2800832971",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__23_2024-09-19_18-05-59.txt",
+    "label_sha256": "7033812b6b819c9d02c7bee99282ed3f2d5c5ed2f46aa69a1a3a2b66f4e3b0ba"
+  },
+  {
+    "image": "images/image__24_2024-09-19_18-06-04.bmp",
+    "sha256": "c3b6857d769d80b81d5f8d2d9a577cb50c7dda0060268a5c6db27017ad7ac496",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__24_2024-09-19_18-06-04.txt",
+    "label_sha256": "bd52ae8de2beb334291e47cfb96a7a140b422380c867d26847144d660dabec1c"
+  },
+  {
+    "image": "images/image__24_2024-09-19_18-51-14.bmp",
+    "sha256": "99671ee91afcda3d0d4205c736712a57f6c17329fd9e0abbe8c9e4f22de0515c",
+    "capture_session": "capture-session-04",
+    "label": "labels/val/image__24_2024-09-19_18-51-14.txt",
+    "label_sha256": "c61e9233c90a09bcf838099bafbe45fc495e95412a662654dddecfd6512b052a"
+  },
+  {
+    "image": "images/image__25_2024-09-19_18-06-59.bmp",
+    "sha256": "63d753515ed34078dadacf9cc376565d8477e0df36b5c4cf5c5ff7d12ed05ea8",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__25_2024-09-19_18-06-59.txt",
+    "label_sha256": "809740ae8fc1bfa8f7aa5a9b3a2e66daae24d8d681fd686150a7ccb77a86049a"
+  },
+  {
+    "image": "images/image__25_2024-09-19_18-51-16.bmp",
+    "sha256": "fcee65497fba53e8a735c00bb2604b00f14a46e2b09796264add9c9053751475",
+    "capture_session": "capture-session-04",
+    "label": "labels/val/image__25_2024-09-19_18-51-16.txt",
+    "label_sha256": "5295c1dd94382244f0bd66f5b98c63b6af4b0511af9c6fa7057799c7b7f7079f"
+  },
+  {
+    "image": "images/image__26_2024-09-19_18-07-08.bmp",
+    "sha256": "3432e209e897b0f88556a2e6f9c5407d2e62fbc7ad6983b6a7d010b805e1df2c",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__26_2024-09-19_18-07-08.txt",
+    "label_sha256": "39684072445ae59cf4031f485ab7496732f42487085f354f3b09cac8be5dc1cb"
+  },
+  {
+    "image": "images/image__26_2024-09-19_18-51-57.bmp",
+    "sha256": "415969faaf02550d510f6f6b0b5e451399760d44b367d6138ee56dd851b40e2d",
+    "capture_session": "capture-session-04",
+    "label": "labels/val/image__26_2024-09-19_18-51-57.txt",
+    "label_sha256": "a2ab1aec4ede69449cc5beb7d80fe59aeaa921ffc2b217a78e594ae595ca3b3c"
+  },
+  {
+    "image": "images/image__27_2024-09-19_18-07-39.bmp",
+    "sha256": "e8664916f4be77357a47b5ff9432fd31562c6558dae914507e257b1ecff8f360",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__27_2024-09-19_18-07-39.txt",
+    "label_sha256": "1eaac7c346caa43e5f60e9b2896f817508bddf4a0cdc13f17b3bc2deee09245d"
+  },
+  {
+    "image": "images/image__27_2024-09-19_18-52-00.bmp",
+    "sha256": "059bb2909cd1b0dc60fbcc5769c723a9e82382c3e925df4885ab2a2599d9539a",
+    "capture_session": "capture-session-04",
+    "label": "labels/val/image__27_2024-09-19_18-52-00.txt",
+    "label_sha256": "e50282165929e79cae092beb4e445964105475aed1b6c37a3238790c2334e015"
+  },
+  {
+    "image": "images/image__28_2024-09-19_18-07-41.bmp",
+    "sha256": "bb33c78210df095e478fe9a70f4e6793b8418fffd24589ca3cd4d80003155d0b",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__28_2024-09-19_18-07-41.txt",
+    "label_sha256": "27d111b3b4a570cb384dd4c70c8dc30378aac0f9bfa523efc84fdc4de104f11f"
+  },
+  {
+    "image": "images/image__28_2024-09-19_18-52-46.bmp",
+    "sha256": "ba678eccb583e2f2e1346e6420c3a229c685285c5b0fe1423973165679d524f7",
+    "capture_session": "capture-session-04",
+    "label": "labels/val/image__28_2024-09-19_18-52-46.txt",
+    "label_sha256": "bf0a027d5b3605c0dfda2b08cd815c5147fa313b03b3f972407e2af3534d9f08"
+  },
+  {
+    "image": "images/image__29_2024-09-19_18-07-42.bmp",
+    "sha256": "63759b1229354e39211e4f8c2b026553dddd29c350c8e5d0cdb4ab65443a1535",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__29_2024-09-19_18-07-42.txt",
+    "label_sha256": "261347c148043e8b1fdc600fe35b76ac46b4aedc7cba9ce274d063adbbb060e5"
+  },
+  {
+    "image": "images/image__29_2024-09-19_18-52-47.bmp",
+    "sha256": "39c91182a2aaf5ac5ab6a374d53529351060f886010172d77d28637d8c40c460",
+    "capture_session": "capture-session-04",
+    "label": "labels/val/image__29_2024-09-19_18-52-47.txt",
+    "label_sha256": "427842e553342fa6f2ab50f9f01ebf9e92d5aea85086281f0c95525291975627"
+  },
+  {
+    "image": "images/image__2_2024-09-19_17-56-44.bmp",
+    "sha256": "ed15806c30366b3859c97de7fbf03d2d7e00473ac74dbc2bcbd5928d360d39ea",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__2_2024-09-19_17-56-44.txt",
+    "label_sha256": "e83d685c2c07dcad6a86c6b990315c3a64a37cc60f8adf6209c34b148d33e776"
+  },
+  {
+    "image": "images/image__2_2024-09-19_18-42-20.bmp",
+    "sha256": "7237b786eb2ce68d1b8ee42830fdc549e312b7a757d266c6dd4895f111e656fc",
+    "capture_session": "capture-session-04",
+    "label": "labels/val/image__2_2024-09-19_18-42-20.txt",
+    "label_sha256": "59550c57a4d5e6603a0a964d619e7541627c7bab05ab474b4fa6f73023db5a07"
+  },
+  {
+    "image": "images/image__30_2024-09-19_18-53-25.bmp",
+    "sha256": "15d43b13a5f409a4a1d00fbd2a44080c1fb2b90075c91a5cfeee793c8935c410",
+    "capture_session": "capture-session-04",
+    "label": "labels/val/image__30_2024-09-19_18-53-25.txt",
+    "label_sha256": "9cf5a099df23a6415e7ef68c99616d736d0c1177157ad8cab6520605143672c7"
+  },
+  {
+    "image": "images/image__31_2024-09-19_18-07-53.bmp",
+    "sha256": "24dba6be4c51db15b0a24fe19cf9e81e1915fc4957af0aaec72d9e99065f3c93",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__31_2024-09-19_18-07-53.txt",
+    "label_sha256": "a9ff503fddc3cba25b9a412d129f8c14c47d58a7ed3f5e910142e0ce130d76c3"
+  },
+  {
+    "image": "images/image__31_2024-09-19_18-53-27.bmp",
+    "sha256": "aa05932e4593b977ca07bb121b9078dcab4f359da5346194c6102efd1b0e0724",
+    "capture_session": "capture-session-04",
+    "label": "labels/val/image__31_2024-09-19_18-53-27.txt",
+    "label_sha256": "ebcf65dac507e5f40b3bb39ffcbe3624f581c1247f60ea3203fc08357dfce6c4"
+  },
+  {
+    "image": "images/image__32_2024-09-19_18-08-27.bmp",
+    "sha256": "535acdc251cf4fae0cd2240cbfb6fd64c3dceca497607bdf85e7e8079bc14718",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__32_2024-09-19_18-08-27.txt",
+    "label_sha256": "e955ad67cac163fdbc20d856dcd82b6a2128b7f5848064fe10b246ad9321ba6e"
+  },
+  {
+    "image": "images/image__32_2024-09-19_18-54-55.bmp",
+    "sha256": "034047797bbd9facd6c2ad7e72c0c0e443bb46ab2ea8be681089b1ee2de4c19c",
+    "capture_session": "capture-session-04",
+    "label": "labels/val/image__32_2024-09-19_18-54-55.txt",
+    "label_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "image": "images/image__33_2024-09-19_18-08-34.bmp",
+    "sha256": "e0f82904064055e9f705568905863fed7835f42245b9c6e2190e1265eab8a536",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__33_2024-09-19_18-08-34.txt",
+    "label_sha256": "7107938abcb692e8e54adc39479a0339708d8a7a8778e68f23754d3f46dd945a"
+  },
+  {
+    "image": "images/image__33_2024-09-19_18-54-57.bmp",
+    "sha256": "cbbbbbfbce80678a352737a270c9a7a53f7b513b1dff89f44008aa61ef327a9c",
+    "capture_session": "capture-session-04",
+    "label": "labels/val/image__33_2024-09-19_18-54-57.txt",
+    "label_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "image": "images/image__34_2024-09-19_18-08-37.bmp",
+    "sha256": "fc4984aabaa0ca6d046f38cdea2926a5e6af3a8d2cbf086c16541dabadb281d4",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__34_2024-09-19_18-08-37.txt",
+    "label_sha256": "067b15bbf291cd256230a291b4cc717d7dc0c1928067c28f8a2d18683eb179a4"
+  },
+  {
+    "image": "images/image__34_2024-09-19_18-55-04.bmp",
+    "sha256": "523f4d8b551a11c383cbb59355aba9b2afdcb5905b1a64f524e277c7e8e0ce32",
+    "capture_session": "capture-session-04",
+    "label": "labels/val/image__34_2024-09-19_18-55-04.txt",
+    "label_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "image": "images/image__35_2024-09-19_18-09-17.bmp",
+    "sha256": "da9dd5edabe85babef8444478b0395b25a18bae15a9c06e8bf3a69588a1c47a6",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__35_2024-09-19_18-09-17.txt",
+    "label_sha256": "7fde13b0e54d34b095ee2d87c74909e4a5994140f5c3d33df0939154e6f0b8ad"
+  },
+  {
+    "image": "images/image__35_2024-09-19_18-55-11.bmp",
+    "sha256": "71a85a7db324e7ead7af8d97764b86dcba7ef190015cef0604ad69dfe9dad162",
+    "capture_session": "capture-session-04",
+    "label": "labels/val/image__35_2024-09-19_18-55-11.txt",
+    "label_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "image": "images/image__36_2024-09-19_18-09-22.bmp",
+    "sha256": "fba767f8c91c7630fc4c081b813e32f25ae132e553d08a11adb2cc12639f286e",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__36_2024-09-19_18-09-22.txt",
+    "label_sha256": "fdd37fc4ad3cac032c0b293fa55b8a7cc9584fb0ebaafbb06cd6ac99e6bd3f2d"
+  },
+  {
+    "image": "images/image__36_2024-09-19_18-55-13.bmp",
+    "sha256": "5d822dc4b3c80cde929050a508f48ec08d5b98c1c62a69ba935cdc77ba19e8f5",
+    "capture_session": "capture-session-04",
+    "label": "labels/val/image__36_2024-09-19_18-55-13.txt",
+    "label_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "image": "images/image__37_2024-09-19_18-09-27.bmp",
+    "sha256": "f44d5d701d10e5172cd0fbe67a6f60bbdda54b3ed1ad47e9ad139753a2f29bbe",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__37_2024-09-19_18-09-27.txt",
+    "label_sha256": "9d5afa1b574e401896ac627b4626d6845beef1e32d83cc2ea741d50315a445b1"
+  },
+  {
+    "image": "images/image__37_2024-09-19_18-55-21.bmp",
+    "sha256": "94fcbf6f70f39c12a672516561243336ff9aa6b71f5ef499585156b224e971e7",
+    "capture_session": "capture-session-04",
+    "label": "labels/val/image__37_2024-09-19_18-55-21.txt",
+    "label_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "image": "images/image__38_2024-09-19_18-10-02.bmp",
+    "sha256": "4c56489697789dcab32b18e854b47491fbf0ca36bed7c332e248232a7181134e",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__38_2024-09-19_18-10-02.txt",
+    "label_sha256": "e87105f70566df00e1d38f55a11a8bbc0a7b4a103286e476f1e6454c423256b2"
+  },
+  {
+    "image": "images/image__38_2024-09-19_18-55-22.bmp",
+    "sha256": "e3bfc098bcc778a3fc01ca9c01abeaf9bb790533a87f0399399e3ad21272ec86",
+    "capture_session": "capture-session-04",
+    "label": "labels/val/image__38_2024-09-19_18-55-22.txt",
+    "label_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "image": "images/image__39_2024-09-19_18-10-07.bmp",
+    "sha256": "fded32449ad06cfddbbfdeed56bbcd9eff43cd2ca6845329e4179a6d445223f7",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__39_2024-09-19_18-10-07.txt",
+    "label_sha256": "db98b8471635697adf58138770a1519d9913dd271cf342d231d0cafa5132f6eb"
+  },
+  {
+    "image": "images/image__39_2024-09-19_18-56-05.bmp",
+    "sha256": "137f29cc2c8609bc966224480e417dff96ba89d7693a6f472ff6d7fd2bbf0092",
+    "capture_session": "capture-session-04",
+    "label": "labels/val/image__39_2024-09-19_18-56-05.txt",
+    "label_sha256": "acfb0ada23eb138eea8e7ed90d9db907f1e1c77f51fa99979f0880de27611860"
+  },
+  {
+    "image": "images/image__3_2024-09-19_17-57-14.bmp",
+    "sha256": "46d1bf99d0aedb2fde25b58566485e65ebd7623ee0380f6afad097ec43c6dbe1",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__3_2024-09-19_17-57-14.txt",
+    "label_sha256": "0a709ff03c53d3056bfc0fc3873ebce310a82d906177c8c204f0f6e01296856e"
+  },
+  {
+    "image": "images/image__3_2024-09-19_18-42-44.bmp",
+    "sha256": "2a7c89b7eb0170d91f67ab5c854e0e98d44e8d8e565c76b6dd7e94461aebbb14",
+    "capture_session": "capture-session-04",
+    "label": "labels/val/image__3_2024-09-19_18-42-44.txt",
+    "label_sha256": "8b131940e715da7e8fdca7207b6b4eae0407642fb917ea43ed92b7889b2fff98"
+  },
+  {
+    "image": "images/image__40_2024-09-19_18-10-11.bmp",
+    "sha256": "64c26fd58c8d2792459e286e6213d926dc470aa175b6d60791ca8f659fd1211b",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__40_2024-09-19_18-10-11.txt",
+    "label_sha256": "c0521735937b21e8b404ba9073c1ed694da1318b13fa698185334bb94559b3b8"
+  },
+  {
+    "image": "images/image__40_2024-09-19_18-56-07.bmp",
+    "sha256": "038ceb989d73eccdf0a552d94c8f05fa30da6e48141741f207455831c66e6917",
+    "capture_session": "capture-session-04",
+    "label": "labels/val/image__40_2024-09-19_18-56-07.txt",
+    "label_sha256": "199c3ea61412b25c9bf95f28f4147642d6e4102dbc18dba780edcb684205469e"
+  },
+  {
+    "image": "images/image__41_2024-09-19_18-11-00.bmp",
+    "sha256": "01d82f4482e7dd671c10e773a42cd29deb7ae0ea65e55bfa1069a60ffbef4a51",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__41_2024-09-19_18-11-00.txt",
+    "label_sha256": "4678cab9194db45559e7fe64af96969e0d1c47bb9c2e8351dc8ad8f1157ba4cd"
+  },
+  {
+    "image": "images/image__41_2024-09-19_18-56-30.bmp",
+    "sha256": "5f11600a95b815440944442ce498ff32bf182fb399636b4442a3844b4acbe746",
+    "capture_session": "capture-session-04",
+    "label": "labels/val/image__41_2024-09-19_18-56-30.txt",
+    "label_sha256": "7a1075ecd2b397e2df5f55482886f27a9fb27457f4a7a463df970650f1eaa5fd"
+  },
+  {
+    "image": "images/image__42_2024-09-19_18-11-01.bmp",
+    "sha256": "87bd94d5d7d37f2ed538198fb8cb865d424094be38648bdcd205b76a9358afb0",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__42_2024-09-19_18-11-01.txt",
+    "label_sha256": "6aca20d3d23677e3e12d4ea4b0d5098758c064befdc03a2d90b68e41dfd37101"
+  },
+  {
+    "image": "images/image__42_2024-09-19_18-56-52.bmp",
+    "sha256": "c9f2ecf1f62f0314fec567955eab78f6251e8deb4a07dba4dfe141cdbce2225c",
+    "capture_session": "capture-session-04",
+    "label": "labels/val/image__42_2024-09-19_18-56-52.txt",
+    "label_sha256": "5cbd1cca2f8f438235f904cf28eb6a75701a5a9f5b38d54b77e881ca50c969e1"
+  },
+  {
+    "image": "images/image__43_2024-09-19_18-11-04.bmp",
+    "sha256": "dffec1b0ccde5295904893e1ada85d6e409b260bed8917fa0b43a742acdb4614",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__43_2024-09-19_18-11-04.txt",
+    "label_sha256": "a99994f707393a23c0ff46613633736f64563ba8c6154e48b154d452cd4957b4"
+  },
+  {
+    "image": "images/image__44_2024-09-19_18-11-09.bmp",
+    "sha256": "5f62543d6505995d2dbbc8cbd8b97152b89b130c1588798053d6f91561f546d4",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__44_2024-09-19_18-11-09.txt",
+    "label_sha256": "e2226c9f9b63c44e3c4127ea8180eb0d399b717447eb5ad4a3e564c88de9619f"
+  },
+  {
+    "image": "images/image__44_2024-09-19_18-57-34.bmp",
+    "sha256": "08053775a901db0a1ee7bc0057cf4e98d32aaeea29de827021fdc804a960d616",
+    "capture_session": "capture-session-04",
+    "label": "labels/val/image__44_2024-09-19_18-57-34.txt",
+    "label_sha256": "d3730c44c95e72a5c3d48ad0327c2d6582115d0db56f0ece69e62fa61976025f"
+  },
+  {
+    "image": "images/image__45_2024-09-19_18-12-10.bmp",
+    "sha256": "4330defbf56e75fda54317b158fd5fef16934aa2f2cc682126ae0fe146ec0c1d",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__45_2024-09-19_18-12-10.txt",
+    "label_sha256": "bb859b6f528334393d2c6c6231d23c0eb18d6c9495865393ccb279ea6b4ac7f7"
+  },
+  {
+    "image": "images/image__45_2024-09-19_18-57-37.bmp",
+    "sha256": "fe775f3567b95d70c280b50076799c43a83c84e96da6f483da93ccb982763a19",
+    "capture_session": "capture-session-04",
+    "label": "labels/val/image__45_2024-09-19_18-57-37.txt",
+    "label_sha256": "defd48a19278a2c9271f472d02f6b9521faa49148bef71ed3789291904c85d80"
+  },
+  {
+    "image": "images/image__46_2024-09-19_18-12-15.bmp",
+    "sha256": "954c31a04cc594366c445bc9882c2938579f32cb396c53d6ea7e788c521154fd",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__46_2024-09-19_18-12-15.txt",
+    "label_sha256": "1c1c4fef5e3d6b28bd76a2d0b5b5ec837b0af9162ce05e72e04ce5572bf55948"
+  },
+  {
+    "image": "images/image__46_2024-09-19_18-58-05.bmp",
+    "sha256": "417332686fc46cfda819c93fa38365457eb94aa3afa698ecaffc19fde4216e9e",
+    "capture_session": "capture-session-04",
+    "label": "labels/val/image__46_2024-09-19_18-58-05.txt",
+    "label_sha256": "2a6121d372a63edd9ba8f15fcf83baa75e6820229cf85ac337ef4d9318ec70f3"
+  },
+  {
+    "image": "images/image__47_2024-09-19_18-12-22.bmp",
+    "sha256": "af774565491b0347c86bc3cb0356d73c876086fd14413aa883185b1f0f4dfb8e",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__47_2024-09-19_18-12-22.txt",
+    "label_sha256": "a3f12010cea8c6390ff849e87bf8912fefca21c68ad487972f4d7f182dd89b5b"
+  },
+  {
+    "image": "images/image__47_2024-09-19_18-58-31.bmp",
+    "sha256": "b154b3d94e69c49f7f1169b3eb90c4944316573c01899199ce2cafaaed54b55c",
+    "capture_session": "capture-session-04",
+    "label": "labels/val/image__47_2024-09-19_18-58-31.txt",
+    "label_sha256": "94d50baf47ce99fd829e4f43e8e0796e214cd56307353cb4cbd57e0259193e79"
+  },
+  {
+    "image": "images/image__48_2024-09-19_18-12-49.bmp",
+    "sha256": "9020a8f533993630e5d8af7a6ec60b3d7d9863ef0fd9a6e5e89423146b0a3184",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__48_2024-09-19_18-12-49.txt",
+    "label_sha256": "1362e23748d967db8f9b42e240905d5275ffb241cf6e0517a3476a7936d59137"
+  },
+  {
+    "image": "images/image__48_2024-09-19_18-58-58.bmp",
+    "sha256": "2a48442bdfc3552fb2561a7215ee753f619e0a6bfadb4e37753fac66d0acae48",
+    "capture_session": "capture-session-04",
+    "label": "labels/val/image__48_2024-09-19_18-58-58.txt",
+    "label_sha256": "82169f03f583bb1ac4c0e5932e354f0f0e5f9817a5dfec478c4a8bb8d448abfd"
+  },
+  {
+    "image": "images/image__49_2024-09-19_18-12-54.bmp",
+    "sha256": "f3458bb8d932c85a83c7191bc9369907df85709efdcabeec31e5a4ba02b2a421",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__49_2024-09-19_18-12-54.txt",
+    "label_sha256": "519a4e671ebf060b9ae95bb5b970f35622624e070bace90147bdc246bbb5eb56"
+  },
+  {
+    "image": "images/image__49_2024-09-19_18-59-31.bmp",
+    "sha256": "ba8a12943452c2a01e9c2132a587ae94963e3e5eed486de94367284b7aca9d1d",
+    "capture_session": "capture-session-04",
+    "label": "labels/val/image__49_2024-09-19_18-59-31.txt",
+    "label_sha256": "e7b95b9e4bb9982b1c62b8c7169d2e707fef53f8ae5ce6e6d5ff9bb4186b90a6"
+  },
+  {
+    "image": "images/image__4_2024-09-19_17-57-21.bmp",
+    "sha256": "bc187e5f0d180ec414ccd5be267c1dbf13df962f075c4c432e0d9c2400b1e675",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__4_2024-09-19_17-57-21.txt",
+    "label_sha256": "afa307a9ed568c56eba841a96446a5b1d5b1ab9203bca4d4de09c401241f9971"
+  },
+  {
+    "image": "images/image__4_2024-09-19_18-43-02.bmp",
+    "sha256": "a4d79cea2d5ac5c8505158a0d3605a62f5cc8202dab04653f7dec84db70d5a99",
+    "capture_session": "capture-session-04",
+    "label": "labels/val/image__4_2024-09-19_18-43-02.txt",
+    "label_sha256": "4dc8abdf271d1e7fd049e284cf2336675daa72dec3a02176fbce6a325602022d"
+  },
+  {
+    "image": "images/image__50_2024-09-19_18-13-03.bmp",
+    "sha256": "91861cb2f80cec9ecd697c72add708a7841ca9c641a67a323d864d66741a2198",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__50_2024-09-19_18-13-03.txt",
+    "label_sha256": "775c595f4f4870734106e5edcb3cc7b86773febeb787e32115f6d11d8202e2e8"
+  },
+  {
+    "image": "images/image__50_2024-09-19_18-59-33.bmp",
+    "sha256": "1b197c1c8cae193bda9f0fcdab9e2103bfd6eb158211708dd196b2256d2e9971",
+    "capture_session": "capture-session-04",
+    "label": "labels/val/image__50_2024-09-19_18-59-33.txt",
+    "label_sha256": "5fee2fab0608eaec9b3b34f797232a62e66569bb10989e33986751811a42c8b1"
+  },
+  {
+    "image": "images/image__51_2024-09-19_18-13-07.bmp",
+    "sha256": "2b1ee0d79e59e79848f4adf01acc57e189d5c5d77d0acb5945990f477348689c",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__51_2024-09-19_18-13-07.txt",
+    "label_sha256": "25bad69e293a68e8a7ea5f2cebd4c6ae141b4edafd13b3749947f6c614d36c8f"
+  },
+  {
+    "image": "images/image__51_2024-09-19_19-00-27.bmp",
+    "sha256": "1defc8d7cb035732b676fd184b7aaaa5e8dc0908a242005b779292e83b723786",
+    "capture_session": "capture-session-04",
+    "label": "labels/val/image__51_2024-09-19_19-00-27.txt",
+    "label_sha256": "988c3007c69813d187a586d69dcdb62c4fc17396470d81238f8565095b4bef8a"
+  },
+  {
+    "image": "images/image__52_2024-09-19_18-13-45.bmp",
+    "sha256": "9bc1a5df479d77aa75b7c20ab58a7626d8a884699ed10e50b00a8b64d89ec216",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__52_2024-09-19_18-13-45.txt",
+    "label_sha256": "6b5a95ee83f18f0496cdbf27f509347cfa8dfd72c93e4c12e5564b69f7cc2f5b"
+  },
+  {
+    "image": "images/image__52_2024-09-19_19-00-33.bmp",
+    "sha256": "3aa89b091c28100eaa6c9814bd63c60ef4d64328d49abcb5998cbde651192648",
+    "capture_session": "capture-session-04",
+    "label": "labels/val/image__52_2024-09-19_19-00-33.txt",
+    "label_sha256": "eecd07821af11e4731d8fd1d175fa8fc481dbc734546930c73fc89da4bb0f3ec"
+  },
+  {
+    "image": "images/image__53_2024-09-19_18-13-49.bmp",
+    "sha256": "30a3ef7563032dc754c49e2a0b285def83cb994f9edf0d84292d7b742615f731",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__53_2024-09-19_18-13-49.txt",
+    "label_sha256": "b547a99cc1cf84dc5cdaed1d19a2df0bb0a7a50ecaffce6bbb1176cb268c26a2"
+  },
+  {
+    "image": "images/image__53_2024-09-19_19-00-35.bmp",
+    "sha256": "30fcb0becfd559251b63ba9403d0f881d835e59c90ac7a8b490872a37138b773",
+    "capture_session": "capture-session-04",
+    "label": "labels/val/image__53_2024-09-19_19-00-35.txt",
+    "label_sha256": "44aac40634554271241f32e6775fafdfbaf3cbc79e09e19a01edd747f7198792"
+  },
+  {
+    "image": "images/image__54_2024-09-19_18-13-54.bmp",
+    "sha256": "59255de28d27c63bc5284ae0168a7e4270cc334f7e724a96850ef5e9a445f1e0",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__54_2024-09-19_18-13-54.txt",
+    "label_sha256": "ae73acf28bb3c4e4d9ee521749d1e1228003be27a418e78999cdf974ef863ec0"
+  },
+  {
+    "image": "images/image__55_2024-09-19_18-13-59.bmp",
+    "sha256": "8695b7cc895e124e83e84e60d7426fa92f47791b1f93cead705cbc3b4f2a45c3",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__55_2024-09-19_18-13-59.txt",
+    "label_sha256": "fd8bbbc3ca79dda10f196a748864af9f2948cf30434b3c35d245472b5f4ea615"
+  },
+  {
+    "image": "images/image__56_2024-09-19_18-14-29.bmp",
+    "sha256": "fba4f2bf7c9805ba78ab9f9b849d0f795c1edd68a1313f057768c9a29855aea7",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__56_2024-09-19_18-14-29.txt",
+    "label_sha256": "8841c5c7e44a3002c8be745507d1f95853d34257496d67ba3e4f11eb30b5cc11"
+  },
+  {
+    "image": "images/image__57_2024-09-19_18-14-34.bmp",
+    "sha256": "cec043d628e4ec50ddc4384b791cd086dd05cd71ffaed9f96d5f8aa40e44e657",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__57_2024-09-19_18-14-34.txt",
+    "label_sha256": "04c03cff1ab4d4cbc6b7b98d63c9809764f4598a8e64aabda9af1265dc99c0cb"
+  },
+  {
+    "image": "images/image__58_2024-09-19_18-14-41.bmp",
+    "sha256": "a3394bdd2e888e336f1bb9ee7b8a5bbd2cda7aedda0cd24a8515f9909657ae75",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__58_2024-09-19_18-14-41.txt",
+    "label_sha256": "c00546162bcf5ddec8e7d5202e64bb80025ebbbce78d5e556f89e883795c07ca"
+  },
+  {
+    "image": "images/image__58_2024-09-19_19-03-26.bmp",
+    "sha256": "abc275c4bd1732eba634d0f9c33a8be1ec4a5763eed55d1fc3cd7d293df0e13d",
+    "capture_session": "capture-session-04",
+    "label": "labels/val/image__58_2024-09-19_19-03-26.txt",
+    "label_sha256": "2b3af58cbf395a51b05ade39e54791ba1e457488e164901cbc248a2e7c1f1425"
+  },
+  {
+    "image": "images/image__59_2024-09-19_18-14-47.bmp",
+    "sha256": "508afcd783b998d905b7a0f300fa240bccd2c6c6a0e78fe8ca5f9930de668b01",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__59_2024-09-19_18-14-47.txt",
+    "label_sha256": "9737a305dcc50a88b6bdaacfad60be3cd45619e0a1bdad93e0d8b16a6a55edf6"
+  },
+  {
+    "image": "images/image__5_2024-09-19_17-57-39.bmp",
+    "sha256": "4d2c7a9a499587d6602484d5fc71cd612b610ed9a84d97e39a7617d2f8f83152",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__5_2024-09-19_17-57-39.txt",
+    "label_sha256": "362873674eec2bab0232416a730db35c88b451d32c1d4e27c607a96c00ae35b3"
+  },
+  {
+    "image": "images/image__5_2024-09-19_18-43-36.bmp",
+    "sha256": "49c24c4bce13561cef94374cfbf5e828ba4bfb9a7cf2a0fa9efc66f450549ec5",
+    "capture_session": "capture-session-04",
+    "label": "labels/val/image__5_2024-09-19_18-43-36.txt",
+    "label_sha256": "8e5cc693c5fff7f8ec31adc9c45d7097a9b9426f32a9db1cadc697b533d9912c"
+  },
+  {
+    "image": "images/image__60_2024-09-19_18-14-50.bmp",
+    "sha256": "260080d539e5802e63e376fd19de2d6332bcb08eab7052aedd0ce1fcff360746",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__60_2024-09-19_18-14-50.txt",
+    "label_sha256": "3ba9566d4df1a179688aad11c8fe79f3e48e17c675eec44dd016ba3cc1a911e3"
+  },
+  {
+    "image": "images/image__61_2024-09-19_18-18-50.bmp",
+    "sha256": "56606bd7833d8903a01976c718bd1cf6b77a665d73c63a51ffd61025b1343be9",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__61_2024-09-19_18-18-50.txt",
+    "label_sha256": "09f0b26af2f3620454d6318b257c82dd0dea19d63601ccd801c9137ad906c13b"
+  },
+  {
+    "image": "images/image__62_2024-09-19_18-18-54.bmp",
+    "sha256": "6a26c7d899a6e89b162d785e7263e1a77ade0865141f39a1cd00cdd3e29ae145",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__62_2024-09-19_18-18-54.txt",
+    "label_sha256": "127065c55431bf4e27e65ecacd842d9b8ffe3bbc70dab75e4a6ca735b5279179"
+  },
+  {
+    "image": "images/image__63_2024-09-19_18-18-58.bmp",
+    "sha256": "cc55b25063c86417f5a53c16fb0e1e29660f1953b4f2ff371de014ade96b593d",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__63_2024-09-19_18-18-58.txt",
+    "label_sha256": "4ce821a5f006b7789bbace700b320a8cd2c5b10087a53997b01b2344130fc847"
+  },
+  {
+    "image": "images/image__64_2024-09-19_18-19-56.bmp",
+    "sha256": "e37a52b070e9092cd5b300d3ab10d90120df3fc0080d3a49ae9433d02f8ab263",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__64_2024-09-19_18-19-56.txt",
+    "label_sha256": "1d619890c35171965a0251d44f0656f3be6a10d5676cbf78ee69ebd46442c0a2"
+  },
+  {
+    "image": "images/image__65_2024-09-19_18-20-01.bmp",
+    "sha256": "daeee23b470e91fd06dc9692f33daf57f54fbe103794ab3fb32426434d7a48d2",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__65_2024-09-19_18-20-01.txt",
+    "label_sha256": "7ec38525ff153757821f938aaaa64047c3308061bd24373f28164fc8f24a50c6"
+  },
+  {
+    "image": "images/image__66_2024-09-19_18-20-05.bmp",
+    "sha256": "cde79769b1085234fcafbcbc5879264822f156685498f3bc30e23024d0653e28",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__66_2024-09-19_18-20-05.txt",
+    "label_sha256": "97f1a61305051df3ceb7c3b6dcdb03274372fe5b1cfd97667810aa6c4742c58c"
+  },
+  {
+    "image": "images/image__67_2024-09-19_18-20-30.bmp",
+    "sha256": "92f838c7a6e02cd7773601bff0a532a28f00de22b3f98c0e468892db5731e08e",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__67_2024-09-19_18-20-30.txt",
+    "label_sha256": "3da784be0da002f87c29f4cb8ac88fe5a2b421c5ca55b53d3064a05c66f11dd8"
+  },
+  {
+    "image": "images/image__68_2024-09-19_18-20-38.bmp",
+    "sha256": "f2c43654319817417c562a277f88ef17798f17a74913732e45ec1ea523d0b41f",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__68_2024-09-19_18-20-38.txt",
+    "label_sha256": "a5857b853cf800ef5ea92f1e52d27bde8ccb69838a999897a0cb780fd23f0a46"
+  },
+  {
+    "image": "images/image__69_2024-09-19_18-20-45.bmp",
+    "sha256": "8b7f6c62823d076cb02904c884bbba3d4c5fb5e4bc65b45991f184c490ae8714",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__69_2024-09-19_18-20-45.txt",
+    "label_sha256": "9cb6dc969e7ad1517db51cd9dc2f756f998802bda17bb2f2b0222685f5a4711d"
+  },
+  {
+    "image": "images/image__6_2024-09-19_17-57-46.bmp",
+    "sha256": "4fb57120f8ee6258040b38a4727e7068fc4a5dc530dcf2da1a03c05a3a78f4f7",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__6_2024-09-19_17-57-46.txt",
+    "label_sha256": "62bd221f443e146a8488c01a73840e13526df291b5017a5ac92978ddf2efe783"
+  },
+  {
+    "image": "images/image__6_2024-09-19_18-44-17.bmp",
+    "sha256": "6136fd68faa595f3a44c6ab0b6242246af5d0e2ecac47fa8947e626555fc38c9",
+    "capture_session": "capture-session-04",
+    "label": "labels/val/image__6_2024-09-19_18-44-17.txt",
+    "label_sha256": "6948a021e5619ee6aa197a47f6fbd5b8db27c8f607006f54d231f90b4bad1c03"
+  },
+  {
+    "image": "images/image__70_2024-09-19_18-22-04.bmp",
+    "sha256": "ad011ad7d9c0349c3da6c62fdde809f0a1778ec58112eb7917c33d538a074038",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__70_2024-09-19_18-22-04.txt",
+    "label_sha256": "54533221ea4e5303f51a87ab343d8aea1b41171211f6dd76e2507b8c25790405"
+  },
+  {
+    "image": "images/image__71_2024-09-19_18-22-12.bmp",
+    "sha256": "fb577ea2d7cb93b84035be73582c92de98d65952de77f9d099d14d9a1016055c",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__71_2024-09-19_18-22-12.txt",
+    "label_sha256": "22801a2b3f3d6486c3b7f75ffca47e8cb5b7c754db8554bffaf1242fe354c28d"
+  },
+  {
+    "image": "images/image__72_2024-09-19_18-22-17.bmp",
+    "sha256": "00f8fc5d174c0bc4b29eb7f9fc5f28a65892b68bfe2344b0f46118509ddbb4a5",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__72_2024-09-19_18-22-17.txt",
+    "label_sha256": "d7929aba7cd7743b31a88400916553c320d84064454f46ec5719dbed3a562cbb"
+  },
+  {
+    "image": "images/image__73_2024-09-19_18-22-49.bmp",
+    "sha256": "22a98ba1da9ea1cd307601d5365df38f31dcc076baa0813a5207fce11bcf15f8",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__73_2024-09-19_18-22-49.txt",
+    "label_sha256": "cfc2f5a4284f665b4a860aff6102f58a1f643f30d1c6de93a9981c3fb6fb80bf"
+  },
+  {
+    "image": "images/image__74_2024-09-19_18-22-56.bmp",
+    "sha256": "b6d252084ecee4fa9ca546044392b5724986444f3b1582a9f91845ee906f7dd7",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__74_2024-09-19_18-22-56.txt",
+    "label_sha256": "96c669610980fd297656f3c9fe97c7ce9ef56b7f93555c5b86aa95f8e1c272fe"
+  },
+  {
+    "image": "images/image__75_2024-09-19_18-23-04.bmp",
+    "sha256": "2f86dd32200c386e91e343c9b08e585763da939efe6d7549f67552a3f5bd2d99",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__75_2024-09-19_18-23-04.txt",
+    "label_sha256": "8fb23bbc6748dbdc7ab5eb991df08c54a00a748eaed45e9904cfef755da16b6c"
+  },
+  {
+    "image": "images/image__76_2024-09-19_18-23-44.bmp",
+    "sha256": "7feb8246f26658bbb164e504b38bbc98b4cce06a2a41101867097a211bf350c1",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__76_2024-09-19_18-23-44.txt",
+    "label_sha256": "5fac410e63871fb443b152234df219387ff4fa1592cdbb244943eb95079863b4"
+  },
+  {
+    "image": "images/image__77_2024-09-19_18-23-56.bmp",
+    "sha256": "e0f18cb3544a2acd4145e979e953d3ae6e6d8cdf67ae10e8658711912493e613",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__77_2024-09-19_18-23-56.txt",
+    "label_sha256": "99def37fd6198033e185acb94dabc1f55cfcab8984b393e5dfb8089e7ad2a3f2"
+  },
+  {
+    "image": "images/image__78_2024-09-19_18-24-06.bmp",
+    "sha256": "0ab3c7c88264bbd2d60ef07c78b97146c0744c569e8187dcf3f65c22c6925095",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__78_2024-09-19_18-24-06.txt",
+    "label_sha256": "f408022e2ff4988f63e5d5441638ca21e3faa1abba188bd0d57e9640faf5a9e0"
+  },
+  {
+    "image": "images/image__7_2024-09-19_17-58-42.bmp",
+    "sha256": "da1797d1a0040c279a79eb444ecf3bb5d78aa194d750d67fae65693fe102a5df",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__7_2024-09-19_17-58-42.txt",
+    "label_sha256": "135d71123fd9ea6e3b93621aeae21004863d43524b0cb1ba307c54620c2fd526"
+  },
+  {
+    "image": "images/image__7_2024-09-19_18-44-49.bmp",
+    "sha256": "757fe7b4d10850709ecb68eaa564e7dbef59434d70471abe2f478bbfba10932b",
+    "capture_session": "capture-session-04",
+    "label": "labels/val/image__7_2024-09-19_18-44-49.txt",
+    "label_sha256": "e90aec27aae4b9f90c45de690b5774a528b704a43bf2589cc93027f63feb378b"
+  },
+  {
+    "image": "images/image__8_2024-09-19_17-58-49.bmp",
+    "sha256": "15ac8c9fb1aa329fa91e1adc5a8393bc9333448c9322c067f5226f806b116d02",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__8_2024-09-19_17-58-49.txt",
+    "label_sha256": "f65b218015a3b575636b17bf0577e41347cd788aeca9f277867b59427e1e5592"
+  },
+  {
+    "image": "images/image__8_2024-09-19_18-45-19.bmp",
+    "sha256": "0e9cf94f99c944534780870e708c693fc12fb85dc411c44d3d45c3fe5ba1c32f",
+    "capture_session": "capture-session-04",
+    "label": "labels/val/image__8_2024-09-19_18-45-19.txt",
+    "label_sha256": "b703f8fedf6371b20a928795dead4700bbe33e6aec6d0e1e9e79e3e41e31bb77"
+  },
+  {
+    "image": "images/image__9_2024-09-19_17-59-09.bmp",
+    "sha256": "b27170da16f695e8a7ecf5810a8380544e466084048dea56ca6858cf55e44292",
+    "capture_session": "capture-session-03",
+    "label": "labels/val/image__9_2024-09-19_17-59-09.txt",
+    "label_sha256": "6b2998bf122de2fced49a742346247d8676b2930ab35189cad04a1ed8075f033"
+  },
+  {
+    "image": "images/image__9_2024-09-19_18-45-50.bmp",
+    "sha256": "9c24f5d35cb2ff1266ddd20cf0ce4988aa0161b2a87deaa21e81e56bb5d49bd8",
+    "capture_session": "capture-session-04",
+    "label": "labels/val/image__9_2024-09-19_18-45-50.txt",
+    "label_sha256": "c34556c2aeb73c5cb139dc8019c90d4fcdf10ca560e732dff993a737a614e955"
+  }
+]

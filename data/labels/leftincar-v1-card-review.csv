@@ -1,0 +1,117 @@
+image,decision,reason
+images/image__13_2024-09-19_14-48-32.bmp,exclude,Active navigation display could expose location details
+images/image__14_2024-09-19_14-48-43.bmp,exclude,Active navigation display could expose location details
+images/image__15_2024-09-19_14-49-16.bmp,exclude,Active navigation display could expose location details
+images/image__16_2024-09-19_14-49-20.bmp,exclude,Active navigation display could expose location details
+images/image__17_2024-09-19_14-49-21.bmp,exclude,Active navigation display could expose location details
+images/image__18_2024-09-19_14-49-46.bmp,exclude,Active navigation display could expose location details
+images/image__19_2024-09-19_14-49-59.bmp,exclude,Active navigation display could expose location details
+images/image__20_2024-09-19_14-50-02.bmp,exclude,Active navigation display could expose location details
+images/image__21_2024-09-19_14-51-02.bmp,exclude,A boxed card is too occluded to confirm its extent
+images/image__22_2024-09-19_14-51-18.bmp,exclude,A boxed card is too occluded to confirm its extent
+images/image__23_2024-09-19_14-51-34.bmp,exclude,A boxed card is too occluded to confirm its extent
+images/image__24_2024-09-19_14-52-27.bmp,exclude,A boxed card is too occluded to confirm its extent
+images/image__25_2024-09-19_14-52-28.bmp,exclude,A boxed card is too occluded to confirm its extent
+images/image__26_2024-09-19_14-52-34.bmp,exclude,A boxed card is too occluded to confirm its extent
+images/image__27_2024-09-19_14-52-35.bmp,exclude,A boxed card is too occluded to confirm its extent
+images/image__28_2024-09-19_14-52-40.bmp,exclude,A boxed card is too occluded to confirm its extent
+images/image__29_2024-09-19_14-54-04.bmp,exclude,A boxed card is too occluded to confirm its extent
+images/image__30_2024-09-19_14-54-09.bmp,exclude,A boxed card is too occluded to confirm its extent
+images/image__31_2024-09-19_14-54-27.bmp,exclude,A boxed card is too occluded to confirm its extent
+images/image__32_2024-09-19_14-54-28.bmp,exclude,A boxed card is too occluded to confirm its extent
+images/image__33_2024-09-19_14-54-29.bmp,exclude,A boxed card is too occluded to confirm its extent
+images/image__34_2024-09-19_14-54-32.bmp,exclude,A boxed card is too occluded to confirm its extent
+images/image__35_2024-09-19_14-55-44.bmp,exclude,A boxed card is too occluded to confirm its extent
+images/image__36_2024-09-19_14-55-45.bmp,exclude,A boxed card is too occluded to confirm its extent
+images/image__37_2024-09-19_14-55-45.bmp,exclude,A boxed card is too occluded to confirm its extent
+images/image__38_2024-09-19_14-55-46.bmp,exclude,A boxed card is too occluded to confirm its extent
+images/image__39_2024-09-19_14-55-47.bmp,exclude,A boxed card is too occluded to confirm its extent
+images/image__59_2024-09-19_15-09-41.bmp,accept,Card boxes confirmed and no readable sensitive content observed
+images/image__60_2024-09-19_15-09-44.bmp,accept,Card boxes confirmed and no readable sensitive content observed
+images/image__61_2024-09-19_15-11-00.bmp,accept,Card boxes confirmed and no readable sensitive content observed
+images/image__62_2024-09-19_15-11-03.bmp,accept,Card boxes confirmed and no readable sensitive content observed
+images/image__63_2024-09-19_15-12-26.bmp,accept,Card boxes confirmed and no readable sensitive content observed
+images/image__64_2024-09-19_15-12-47.bmp,accept,Card boxes confirmed and no readable sensitive content observed
+images/image__65_2024-09-19_15-13-55.bmp,exclude,A boxed card is too occluded to confirm its extent
+images/image__66_2024-09-19_15-13-58.bmp,accept,Card boxes confirmed and no readable sensitive content observed
+images/image__67_2024-09-19_15-14-05.bmp,accept,Card boxes confirmed and no readable sensitive content observed
+images/image__68_2024-09-19_15-14-53.bmp,accept,Card boxes confirmed and no readable sensitive content observed
+images/image__69_2024-09-19_15-14-56.bmp,accept,Card boxes confirmed and no readable sensitive content observed
+images/image__70_2024-09-19_15-17-37.bmp,accept,Card boxes confirmed and no readable sensitive content observed
+images/image__71_2024-09-19_15-17-46.bmp,accept,Card boxes confirmed and no readable sensitive content observed
+images/image__70_2024-09-19_18-22-04.bmp,accept,Card boxes confirmed and no readable sensitive content observed
+images/image__71_2024-09-19_18-22-12.bmp,accept,Card boxes confirmed and no readable sensitive content observed
+images/image__75_2024-09-19_18-23-04.bmp,accept,Card boxes confirmed and no readable sensitive content observed
+images/image__76_2024-09-19_18-23-44.bmp,accept,Card boxes confirmed and no readable sensitive content observed
+images/image__77_2024-09-19_18-23-56.bmp,accept,Card boxes confirmed and no readable sensitive content observed
+images/image__78_2024-09-19_18-24-06.bmp,accept,Card boxes confirmed and no readable sensitive content observed
+images/image__6_2024-09-19_18-44-17.bmp,accept,Card boxes confirmed and no readable sensitive content observed
+images/image__7_2024-09-19_18-44-49.bmp,accept,Card boxes confirmed and no readable sensitive content observed
+images/image__15_2024-09-19_18-48-19.bmp,accept,Card boxes confirmed and no readable sensitive content observed
+images/image__16_2024-09-19_18-48-20.bmp,accept,Card boxes confirmed and no readable sensitive content observed
+images/image__17_2024-09-19_18-48-21.bmp,accept,Card boxes confirmed and no readable sensitive content observed
+images/image__18_2024-09-19_18-48-43.bmp,accept,Card boxes confirmed and no readable sensitive content observed
+images/image__19_2024-09-19_18-48-45.bmp,accept,Card boxes confirmed and no readable sensitive content observed
+images/image__20_2024-09-19_18-49-12.bmp,exclude,A boxed card is too occluded to confirm its extent
+images/image__21_2024-09-19_18-49-14.bmp,exclude,A boxed card is too occluded to confirm its extent
+images/image__22_2024-09-19_18-49-23.bmp,exclude,A boxed card is too occluded to confirm its extent
+images/image__23_2024-09-19_18-49-24.bmp,exclude,A boxed card is too occluded to confirm its extent
+images/image__24_2024-09-19_18-51-14.bmp,accept,Card boxes confirmed and no readable sensitive content observed
+images/image__25_2024-09-19_18-51-16.bmp,accept,Card boxes confirmed and no readable sensitive content observed
+images/image__26_2024-09-19_18-51-57.bmp,accept,Card boxes confirmed and no readable sensitive content observed
+images/image__27_2024-09-19_18-52-00.bmp,accept,Card boxes confirmed and no readable sensitive content observed
+images/image__48_2024-09-19_18-58-58.bmp,accept,Card boxes confirmed and no readable sensitive content observed
+images/image__49_2024-09-19_18-59-31.bmp,accept,Card boxes confirmed and no readable sensitive content observed
+images/image__50_2024-09-19_18-59-33.bmp,accept,Card boxes confirmed and no readable sensitive content observed
+images/image__51_2024-09-19_19-00-27.bmp,accept,Card boxes confirmed and no readable sensitive content observed
+images/image__52_2024-09-19_19-00-33.bmp,accept,Card boxes confirmed and no readable sensitive content observed
+images/image__53_2024-09-19_19-00-35.bmp,accept,Card boxes confirmed and no readable sensitive content observed
+images/image__54_2024-09-19_19-01-37.bmp,exclude,Potential identifying print could not be cleared
+images/image__55_2024-09-19_19-01-45.bmp,exclude,Potential identifying print could not be cleared
+images/image__56_2024-09-19_19-01-50.bmp,exclude,Potential identifying print could not be cleared
+images/image__57_2024-09-19_19-02-19.bmp,exclude,Potential identifying print could not be cleared
+images/image__146_2024-09-20_15-16-39.bmp,accept,Card boxes confirmed and no readable sensitive content observed
+images/image__147_2024-09-20_15-16-48.bmp,exclude,Potential identifying print could not be cleared
+images/image__149_2024-09-20_15-17-07.bmp,accept,Card boxes confirmed and no readable sensitive content observed
+images/image__151_2024-09-20_15-17-44.bmp,exclude,Potential identifying code could not be cleared
+images/image__152_2024-09-20_15-17-50.bmp,exclude,Potential identifying code could not be cleared
+images/image__153_2024-09-20_15-17-54.bmp,exclude,Potential identifying code could not be cleared
+images/image__58_2024-09-20_19-03-02.bmp,exclude,Potential identifying print or imagery could not be cleared
+images/image__59_2024-09-20_19-03-08.bmp,exclude,Potential identifying print or imagery could not be cleared
+images/image__60_2024-09-20_19-03-13.bmp,exclude,Potential identifying print or imagery could not be cleared
+images/image__61_2024-09-20_19-03-17.bmp,exclude,Potential identifying print or imagery could not be cleared
+images/image__62_2024-09-20_19-03-20.bmp,exclude,Potential identifying print or imagery could not be cleared
+images/image__63_2024-09-20_19-03-34.bmp,exclude,Potential identifying print or imagery could not be cleared
+images/image__64_2024-09-20_19-03-39.bmp,exclude,Potential identifying print or imagery could not be cleared
+images/image__65_2024-09-20_19-04-04.bmp,exclude,Potential identifying print or imagery could not be cleared
+images/image__66_2024-09-20_19-04-12.bmp,exclude,Potential identifying print or imagery could not be cleared
+images/image__67_2024-09-20_19-04-16.bmp,exclude,Potential identifying print or imagery could not be cleared
+images/image__68_2024-09-20_19-04-20.bmp,exclude,Potential identifying print or imagery could not be cleared
+images/image__69_2024-09-20_19-04-40.bmp,exclude,Potential identifying print or imagery could not be cleared
+images/image__70_2024-09-20_19-04-45.bmp,exclude,Potential identifying print or imagery could not be cleared
+images/image__71_2024-09-20_19-04-48.bmp,exclude,Potential identifying print or imagery could not be cleared
+images/image__100_2024-09-20_19-10-26.bmp,exclude,Potential identifying print or imagery could not be cleared
+images/image__101_2024-09-20_19-10-31.bmp,exclude,Potential identifying print or imagery could not be cleared
+images/image__102_2024-09-20_19-10-34.bmp,exclude,Potential identifying print or imagery could not be cleared
+images/image__103_2024-09-20_19-11-11.bmp,exclude,Potential identifying print or imagery could not be cleared
+images/image__104_2024-09-20_19-11-15.bmp,exclude,Potential identifying print or imagery could not be cleared
+images/image__105_2024-09-20_19-11-18.bmp,exclude,Potential identifying print or imagery could not be cleared
+images/image__106_2024-09-20_19-11-22.bmp,exclude,Potential identifying print or imagery could not be cleared
+images/image__107_2024-09-20_19-11-57.bmp,exclude,Potential identifying print or imagery could not be cleared
+images/image__108_2024-09-20_19-12-01.bmp,exclude,Potential identifying print or imagery could not be cleared
+images/image__136_2024-09-20_19-18-20.bmp,exclude,Potential identifying print or imagery could not be cleared
+images/image__138_2024-09-20_19-19-03.bmp,exclude,Potential identifying print or imagery could not be cleared
+images/image__139_2024-09-20_19-19-37.bmp,exclude,Potential identifying print or imagery could not be cleared
+images/image__140_2024-09-20_19-19-41.bmp,exclude,Potential identifying print or imagery could not be cleared
+images/image__145_2024-09-20_19-20-33.bmp,exclude,Potential identifying print or imagery could not be cleared
+images/image__146_2024-09-20_19-20-37.bmp,exclude,Potential identifying print or imagery could not be cleared
+images/image__147_2024-09-20_19-20-53.bmp,exclude,Potential identifying print or imagery could not be cleared
+images/image__148_2024-09-20_19-20-57.bmp,exclude,Potential identifying print or imagery could not be cleared
+images/image__171_2024-09-20_19-27-43.bmp,exclude,Potential identifying print or imagery could not be cleared
+images/image__172_2024-09-20_19-27-47.bmp,exclude,Potential identifying print or imagery could not be cleared
+images/image__173_2024-09-20_19-28-13.bmp,exclude,Potential identifying print or imagery could not be cleared
+images/image__174_2024-09-20_19-28-16.bmp,exclude,Potential identifying print or imagery could not be cleared
+images/image__198_2024-09-20_19-33-29.bmp,exclude,Potential identifying print or imagery could not be cleared
+images/image__218_2024-09-20_19-38-48.bmp,accept,Card boxes confirmed and no readable sensitive content observed
+images/image__229_2024-09-20_19-41-28.bmp,accept,Card boxes confirmed and no readable sensitive content observed
+images/image__230_2024-09-20_19-41-34.bmp,accept,Card boxes confirmed and no readable sensitive content observed

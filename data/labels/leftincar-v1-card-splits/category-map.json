@@ -1,0 +1,12 @@
+{
+  "smartphone": "phone",
+  "laptop": "electronics_large",
+  "card": "card",
+  "suitcase": "bag",
+  "wallet": "wallet",
+  "backpack": "bag",
+  "clothing": "clothing_accessory",
+  "keys": "keys",
+  "glasses": "clothing_accessory",
+  "handbag": "bag"
+}

@@ -75,3 +75,38 @@ No deployment or production data was touched.
 of baseline main `0c3db05bc222eedcd136feced39ead88150a6384`. These existing A/C
 issues remain outside this change. Independent code review identified the
 missing ratio guard; the guard and a rejection smoke check are now present.
+
+## Card-aware development splits
+
+`leftincar-v1-card-splits/` adds the broad, sensitive `card` category (source YOLO
+class 2) for local detector work. Each annotation retains its source class ID
+and box. The review records decisions and reasons, with no card subtypes or
+transcribed text. Review used full-frame previews and close-ups of card boxes,
+with higher-resolution checks on ambiguous regions. Of 116 development-session
+candidates, 40 were accepted and 76 were excluded for ambiguous card boxes or
+unresolved privacy. Acceptance applies to local detector work only.
+
+| Set | Capture sessions | Images | Card images | Source negatives |
+| --- | --- | ---: | ---: | ---: |
+| Train | 01, 02, 05, 07 | 560 | 17 | 15 |
+| Validation | 03, 04 | 128 | 23 | 7 |
+| Frozen test | 06 | 155 | 0 | 12 |
+
+The two validation sessions cover two capture periods and leave four sessions
+for training. The frozen test manifest is unchanged. The 33 excluded card
+images from its session stay outside development. Final card evaluation needs
+a separately reviewed test set.
+
+From the repository root, pass the local source directory and two new output
+directories. The first output contains reproducible manifests. The second
+contains BMPs and matching YOLO labels under `images/{train,val}` and
+`labels/{train,val}`. Both example output paths below are Git-ignored.
+
+```sh
+uv run --project data python data/scripts/build_leftincar_splits.py \
+  /Users/tacticalcamel/Downloads/leftincar-data \
+  data/labels/leftincar-v1-card-review.csv \
+  data/review/leftincar/card-split-manifests-rebuild \
+  data/development/leftincar-v1-card-rebuild
+diff -r data/labels/leftincar-v1-card-splits data/review/leftincar/card-split-manifests-rebuild
+```
