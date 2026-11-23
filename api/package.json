@@ -10,5 +10,8 @@
   },
   "engines": {
     "node": ">=22"
+  },
+  "dependencies": {
+    "busboy": "^1.6.0"
   }
 }

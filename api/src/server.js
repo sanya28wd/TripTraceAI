@@ -10,6 +10,7 @@ const { caseSourceTypes, createCase, getCase, getCaseTimeline, isCaseSourceType,
 const { bytesMatchContentType, CaseNotFoundError, getImage, isImageContentType, listCaseImages, maxImageBytes, saveCaseImage } = require("./images-repo");
 const { getObjectPath } = require("./object-store");
 
+const Busboy = require("busboy");
 const port = Number(process.env.PORT ?? 8000);
 const host = process.env.HOST ?? "0.0.0.0";
 const mockCasesPath = path.join(__dirname, "..", "mock-data", "cases.json");
@@ -89,36 +90,202 @@ const readJsonBody = (request) => new Promise((resolve, reject) => {
   request.on("error", reject);
 });
 
-class PayloadTooLargeError extends Error {}
-
 /**
- * Reads a raw request body, keeping at most maxBytes in memory. Past the limit the rest is
- * drained and discarded, so a huge upload cannot exhaust memory.
+ * Parse a multipart/form-data request.
+ * The uploaded image is kept in memory only and is not stored on disk.
+ *
  * @param {http.IncomingMessage} request
- * @param {number} maxBytes
- * @returns {Promise<Buffer>}
+ * @returns {Promise<{
+ *   tripId?: string,
+ *   description?: string,
+ *   language?: string,
+ *   imageConsent?: string,
+ *   image?: { buffer: Buffer, filename: string, mimeType: string }
+ * }>}
  */
-const readBinaryBody = (request, maxBytes) => new Promise((resolve, reject) => {
-  /** @type {Buffer[]} */
-  const chunks = [];
-  let receivedBytes = 0;
-  request.on("data", (chunk) => {
-    receivedBytes += chunk.length;
-    if (receivedBytes > maxBytes) {
-      chunks.length = 0;
-      reject(new PayloadTooLargeError());
+
+const readMultipartBody = (request) => new Promise((resolve, reject) => {
+  const contentType = request.headers["content-type"];
+
+  if (typeof contentType !== "string" || !contentType.startsWith("multipart/form-data")) {
+    reject(new Error("Request must use multipart/form-data."));
+    return;
+  }
+
+  let busboy;
+
+  try {
+    busboy = Busboy({
+      headers: request.headers,
+      limits: {
+        fieldSize: 10 * 1024,
+        fileSize: 5 * 1024 * 1024,
+        files: 1,
+        fields: 10,
+        parts: 11,
+      },
+    });
+  } catch {
+    reject(new Error("Invalid multipart request."));
+    return;
+  }
+
+  const fields = {};
+  let image;
+  let fileError = null;
+
+  busboy.on("field", (name, value) => {
+    fields[name] = value;
+  });
+
+  busboy.on("file", (name, file, info) => {
+    if (name !== "itemImage") {
+      file.resume();
       return;
     }
-    chunks.push(chunk);
+    // An unselected file input may arrive as an empty file field.
+    if (!info.filename) {
+      file.resume();
+      return;
+    }
+    const chunks = [];
+
+    file.on("data", (chunk) => {
+      chunks.push(chunk);
+    });
+
+    file.on("limit", () => {
+      fileError = new Error("Image must be 5 MB or smaller.");
+    });
+
+    file.on("end", () => {
+      if (fileError !== null) {
+        return;
+      }
+
+      image = {
+        buffer: Buffer.concat(chunks),
+        filename: info.filename,
+        mimeType: info.mimeType,
+      };
+    });
   });
-  request.on("end", () => {
-    if (receivedBytes > maxBytes) reject(new PayloadTooLargeError());
-    else resolve(Buffer.concat(chunks));
+
+  busboy.on("error", reject);
+
+  busboy.on("finish", () => {
+    if (fileError !== null) {
+      reject(fileError);
+      return;
+    }
+
+    resolve({
+      tripId: fields.tripId,
+      description: fields.description,
+      language: fields.language,
+      imageConsent: fields.imageConsent,
+      ...(image ? { image } : {}),
+    });
   });
-  request.on("error", reject);
+
+  request.pipe(busboy);
 });
 
-const imageRejectedMessage = "Only JPEG or PNG images up to 5 MB are accepted.";
+/**
+ * @param {unknown} value
+ * @returns {value is {
+ *   tripId: string,
+ *   description: string,
+ *   language: string,
+ *   imageConsent?: string,
+ *   image?: { buffer: Buffer, filename: string, mimeType: string }
+ * }}
+ */
+
+const isMultipartClaimRequest = (value) => {
+  if (typeof value !== "object" || value === null) {
+    return false;
+  }
+
+  const body = /** @type {Record<string, unknown>} */ (value);
+
+  if (typeof body.tripId !== "string" || body.tripId.trim() === "") { return false;}
+  if (typeof body.description !== "string" || body.description.trim() === "") {return false;}
+  if (typeof body.language !== "string" || body.language.trim() === "") {return false;}
+  if (body.imageConsent !== undefined && typeof body.imageConsent !== "string") {return false;}
+    const hasImage = body.image !== undefined && body.image !== null;
+  if (hasImage) {
+    const image = body.image;
+    if (
+      typeof image !== "object" ||
+      !Buffer.isBuffer(image.buffer) ||
+      typeof image.filename !== "string" ||
+      typeof image.mimeType !== "string"
+    ) {
+      return false;
+    }
+    if (body.imageConsent !== "true") return false;
+  }
+  return true;
+};
+
+
+/**
+ * Validate the actual file signature instead of trusting the filename
+ * or browser-supplied MIME type.
+ *
+ * @param {{ buffer: Buffer, filename: string, mimeType: string }} image
+ * @returns {string | null}
+ */
+const validateUploadedImage = (image) => {
+  const { buffer, mimeType } = image;
+
+  if (buffer.length === 0) {
+    return "The uploaded image is empty.";
+  }
+
+  if (buffer.length > 5 * 1024 * 1024) {
+    return "Image must be 5 MB or smaller.";
+  }
+
+  // JPEG signature: FF D8 FF
+  const isJpeg =
+    buffer.length >= 3 &&
+    buffer[0] === 0xff &&
+    buffer[1] === 0xd8 &&
+    buffer[2] === 0xff;
+
+  // PNG signature: 89 50 4E 47 0D 0A 1A 0A
+  const isPng =
+    buffer.length >= 8 &&
+    buffer.subarray(0, 8).equals(
+      Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a])
+    );
+
+  // WebP: "RIFF" followed by a file size and "WEBP"
+  const isWebp =
+    buffer.length >= 12 &&
+    buffer.toString("ascii", 0, 4) === "RIFF" &&
+    buffer.toString("ascii", 8, 12) === "WEBP";
+
+  const detectedType = isJpeg
+    ? "image/jpeg"
+    : isPng
+      ? "image/png"
+      : isWebp
+        ? "image/webp"
+        : null;
+
+  if (detectedType === null) {
+    return "Unsupported or invalid image. Upload a valid JPG, PNG, or WebP file.";
+  }
+
+  if (mimeType !== detectedType) {
+    return "The uploaded file type does not match its contents.";
+  }
+
+  return null;
+};
 
 /** @param {unknown} value @returns {value is {tripId: string, description?: string, language?: string}} */
 const isClaimRequest = (value) => typeof value === "object" && value !== null
@@ -142,6 +309,8 @@ const passengerCaseView = (mockCase) => ({
   responseType: mockCase.responseType,
   safePassengerMessage: passengerMessage(mockCase.status, mockCase.safePassengerMessage),
   clarificationQuestion: mockCase.clarificationQuestion,
+  history: mockCase.auditTimeline.map((event) => ({eventType: event.eventType, occurredAt: event.occurredAt, status: event.status ?? null,
+  })),
 });
 
 /** @param {CaseStatus} status @param {string} defaultMessage @returns {string} */
@@ -398,8 +567,18 @@ const createRequestHandler = ({ db, dataDir }) => {
 
     if (request.method === "POST" && requestUrl.pathname === "/v1/mock/claims") {
       /** @type {unknown} */ let body;
-      try { body = await readJsonBody(request); } catch (error) { return sendJson(response, 400, { error: "invalid_json", message: error instanceof Error ? error.message : "Request body must be valid JSON." }); }
-      if (!isClaimRequest(body)) return sendJson(response, 400, { error: "invalid_claim", message: "A string tripId is required." });
+      try { body = await readMultipartBody(request); } catch (error) { return sendJson(response, 400, { error: "invalid_multipart", message: error instanceof Error ? error.message : "Request body must be valid Multipart." }); }
+      if (!isMultipartClaimRequest(body)) return sendJson(response, 400, { error: "invalid_claim", message: "A tripId, description, and language are required." });      
+      if (body.image !== undefined && body.image !== null) {
+        const imageError = validateUploadedImage(body.image);
+        if (imageError !== null) {
+          return sendJson(response, 400, {
+            error: "invalid_image",
+            message: imageError,
+          });
+        }
+      }
+
       const mockCase = findCase(body.tripId);
       if (mockCase === null) return sendJson(response, 404, { error: "trip_not_found", safePassengerMessage: "We could not verify this request from the available information." });
       if (mockCase.status !== "detected") return sendJson(response, 200, passengerCaseView(mockCase));
