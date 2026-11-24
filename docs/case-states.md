@@ -32,6 +32,7 @@ stateDiagram-v2
 | --- | --- | --- | --- | --- | --- |
 | Start | `detected` | Candidate item detected | system | `case_created` | — |
 | Start | `claim_submitted` | Claim received with no detected case | passenger | `claim_submitted` | — |
+| `detected` | `manual_review` | Privacy redaction failed or was unavailable | system | `manual_review_requested` with note | `privacy_blocked` |
 | `detected` | `driver_alerted` | Safe alert sent | system | `driver_alerted` | — |
 | `driver_alerted` | `secured` | Driver confirms the item is secure | driver | `item_secured` | — |
 | `driver_alerted` | `manual_review` | Driver reports no item | driver | `manual_review_requested` with note | `driver_reported_no_item` |
@@ -48,6 +49,14 @@ stateDiagram-v2
 | `manual_review` | `matched` | Operations accepts candidate match | operations | `candidate_matched` with note | Cleared |
 | `matched` | `closed` | Resolution is recorded | operations | `case_closed` with note | — |
 | `manual_review` | `closed` | Operations closes without a match | operations | `case_closed` with note | Cleared |
+
+### Privacy-related audit events
+
+| Event | Details | When recorded |
+|---|---|---|
+| `redaction_passed` | Policy version, detector versions, region counts | Image successfully passes privacy redaction. |
+| `privacy_check_failed` | Failure reason (`reason`) | Redaction fails or the privacy gateway is unavailable. |
+| `manual_review_requested` | Note explaining the privacy failure; reason: `privacy_blocked` | A case in `detected` transitions to `manual_review` due to a privacy failure. |
 
 ### Phase 2 scripted driver-alert path
 
@@ -143,7 +152,7 @@ Friendly labels describe progress only. They do not confirm identity, entitlemen
 
 No stable field or status change is required. For consistent future validation, consider agreeing on these controlled values:
 
-- Event types: `case_created`, `claim_submitted`, `driver_alerted`, `item_secured`, `claim_attached`, `clarification_requested`, `clarification_submitted`, `candidate_matched`, `manual_review_requested`, `case_closed`.
+- Event types: `case_created`, `claim_submitted`, `driver_alerted`, `item_secured`, `claim_attached`, `clarification_requested`, `clarification_submitted`, `candidate_matched`, `manual_review_requested`, `case_closed`, `redaction_passed`, `privacy_check_failed`.
 - Manual-review reasons: `driver_reported_no_item`, `driver_requested_help`, `sensitive_item`, `claim_without_detection`.
 
 Until the team accepts that vocabulary, both fields remain strings under the current contract.

@@ -131,6 +131,11 @@
     "caseId": "CASE-MOCK-2001",
     "status": "detected",
     "language": "en",
+    "claim": {
+      "category": "phone",
+      "colour": "black",
+      "passengerWording": "I may have left a phone on the front passenger seat, beside a hair scrunchie and a student ID card. The phone screen was off."
+    },
     "responseType": "safe_status",
     "safePassengerMessage": "Your report has been received. We will update you after review.",
     "clarificationQuestion": null,
@@ -158,6 +163,69 @@
         "actorType": "system",
         "status": "detected",
         "note": "Synthetic bag candidate recorded."
+      }
+    ]
+  },
+  {
+    "tripId": "TRIP-2002",
+    "caseId": "CASE-MOCK-2002",
+    "status": "detected",
+    "language": "en",
+    "responseType": "safe_status",
+    "safePassengerMessage": "Your report has been received. We will update you after review.",
+    "clarificationQuestion": null,
+    "manualReviewReason": null,
+    "detectedItem": {
+      "category": "phone",
+      "colour": "black",
+      "seatAreaHint": "front_passenger_seat",
+      "confidence": null,
+      "boundingBox": null,
+      "noItem": false,
+      "modelVersion": null
+    },
+    "auditTimeline": [
+      {
+        "eventId": "EVENT-MOCK-2002-0",
+        "eventType": "case_created",
+        "occurredAt": "2026-10-04T06:05:00Z",
+        "actorType": "system",
+        "status": "detected",
+        "note": "Synthetic phone candidate on the front passenger seat; the scene also includes a student ID card and hair scrunchie."
+      }
+    ]
+  },
+  {
+    "tripId": "TRIP-2003",
+    "caseId": "CASE-MOCK-2003",
+    "status": "detected",
+    "language": "en",
+    "claim": {
+      "category": "student_id_card",
+      "colour": "blue",
+      "passengerWording": "I may have left a student ID card on the front row seat. The fictional ID card is clearly visible in the photo."
+    },
+    "responseType": "safe_status",
+    "safePassengerMessage": "Your report has been received. We will update you after review.",
+    "clarificationQuestion": null,
+    "manualReviewReason": null,
+    "detectedItem": {
+      "category": "student_id_card",
+      "colour": "blue",
+      "seatAreaHint": "front_row_seat",
+      "confidence": null,
+      "boundingBox": null,
+      "noItem": false,
+      "modelVersion": null
+    },
+    "auditTimeline": [
+      {
+        "eventId": "EVENT-MOCK-2003-0",
+        "eventType": "case_created",
+        "occurredAt": "2026-10-04T06:10:00Z",
+        "actorType": "system",
+        "status": "detected",
+        "note": "Synthetic front-row seat case with a visible fictional student ID card."
       }
     ]
   }

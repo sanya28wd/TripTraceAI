@@ -26,13 +26,15 @@ CREATE TABLE IF NOT EXISTS cases (
 CREATE INDEX IF NOT EXISTS cases_by_trip ON cases(trip_id);
 
 CREATE TABLE IF NOT EXISTS images (
-  image_id      TEXT PRIMARY KEY,
-  case_id       TEXT NOT NULL REFERENCES cases(case_id),
-  content_type  TEXT NOT NULL,
-  size_bytes    INTEGER NOT NULL,
-  sha256        TEXT NOT NULL,
-  storage_key   TEXT NOT NULL UNIQUE,
-  uploaded_at   TEXT NOT NULL
+  image_id               TEXT PRIMARY KEY,
+  case_id                TEXT NOT NULL REFERENCES cases(case_id),
+  content_type           TEXT NOT NULL,
+  size_bytes             INTEGER NOT NULL,
+  sha256                 TEXT NOT NULL,
+  storage_key            TEXT NOT NULL UNIQUE,
+  uploaded_at            TEXT NOT NULL,
+  redaction_status       TEXT NOT NULL DEFAULT 'not_started',
+  redaction_report_json  TEXT
 );
 CREATE INDEX IF NOT EXISTS images_by_case ON images(case_id);
 
@@ -50,6 +52,22 @@ CREATE INDEX IF NOT EXISTS audit_events_by_case ON audit_events(case_id, occurre
 `;
 
 /**
+ * Phase 4 migration. A database created in Phase 3 has no redaction columns; CREATE TABLE IF NOT
+ * EXISTS will not add them. Rows that already exist were stored before redaction existed, so they
+ * get the default 'not_started' and are never served (see getServableImage).
+ * @param {DatabaseSync} db
+ */
+const migrateImageRedactionColumns = (db) => {
+  const columns = new Set(db.prepare("PRAGMA table_info(images)").all().map((column) => String(column.name)));
+  if (!columns.has("redaction_status")) {
+    db.exec("ALTER TABLE images ADD COLUMN redaction_status TEXT NOT NULL DEFAULT 'not_started';");
+  }
+  if (!columns.has("redaction_report_json")) {
+    db.exec("ALTER TABLE images ADD COLUMN redaction_report_json TEXT;");
+  }
+};
+
+/**
  * Opens (creating if needed) the SQLite database inside dataDir and ensures the schema exists.
  * @param {string} dataDir
  * @returns {DatabaseSync}
@@ -61,6 +79,7 @@ const openDatabase = (dataDir) => {
   db.exec("PRAGMA foreign_keys = ON;");
   db.exec("PRAGMA journal_mode = WAL;");
   db.exec(schema);
+  migrateImageRedactionColumns(db);
   return db;
 };
 

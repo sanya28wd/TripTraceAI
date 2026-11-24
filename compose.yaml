@@ -6,7 +6,6 @@ services:
     volumes:
       - "./web:/usr/share/nginx/html:ro"
       - "./web/nginx.conf:/etc/nginx/conf.d/default.conf:ro"
-    # nginx exits at startup if the "api" host does not exist yet, so start the API first.
     depends_on:
       - api
 
@@ -17,10 +16,24 @@ services:
       - "8000:8000"
     environment:
       DATA_DIR: /app/storage
+      REDACTION_URL: http://privacy:8100
     volumes:
-      # Keeps the SQLite database and uploaded images across `docker compose down` / `up`.
-      # `docker compose down -v` deletes this volume and resets all local case data.
       - "api-data:/app/storage"
+    depends_on:
+      privacy:
+        condition: service_healthy
+
+  privacy:
+    build: ./privacy-service
+    restart: unless-stopped
+    environment:
+      PRIVACY_OBJECT_CONFIDENCE: ${PRIVACY_OBJECT_CONFIDENCE:-0.35}
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8100/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 60s
 
 volumes:
   api-data:

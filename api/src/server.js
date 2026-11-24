@@ -7,7 +7,7 @@ const { randomUUID } = require("node:crypto");
 const { openDatabase } = require("./db");
 const { createTrip, getTrip } = require("./trips-repo");
 const { caseSourceTypes, createCase, getCase, getCaseTimeline, isCaseSourceType, TripNotFoundError } = require("./cases-repo");
-const { bytesMatchContentType, CaseNotFoundError, getImage, isImageContentType, listCaseImages, maxImageBytes, saveCaseImage } = require("./images-repo");
+const { bytesMatchContentType, CaseNotFoundError, getServableImage, isImageContentType, listCaseImages, maxImageBytes, PrivacyBlockedError, saveCaseImage } = require("./images-repo");
 const { getObjectPath } = require("./object-store");
 
 const Busboy = require("busboy");
@@ -56,6 +56,27 @@ const dataDir = process.env.DATA_DIR ?? path.join(__dirname, "..", "storage");
 const demoDriver = Object.freeze({ driverId: "DRIVER-MOCK-001", name: "Demo Driver" });
 const demoVehicle = Object.freeze({ vehicleId: "VEHICLE-MOCK-204", label: "Vehicle DXB-204" });
 const driverActions = Object.freeze(["secure", "no_item", "ask_operations"]);
+const imageRejectedMessage = "Only JPEG or PNG images up to 5 MB are accepted.";
+const privacyBlockedMessage = "This image could not be safely processed, so it was not saved. Operations has been notified.";
+
+class PayloadTooLargeError extends Error {
+  constructor() { super("Request body is too large."); this.name = "PayloadTooLargeError"; }
+}
+
+/** Reads a raw request body and rejects as soon as it passes limitBytes. */
+const readBinaryBody = (request, limitBytes) => new Promise((resolve, reject) => {
+  const chunks = [];
+  let total = 0;
+  let tooLarge = false;
+  request.on("data", (chunk) => {
+    if (tooLarge) return;
+    total += chunk.length;
+    if (total > limitBytes) { tooLarge = true; chunks.length = 0; reject(new PayloadTooLargeError()); return; }
+    chunks.push(chunk);
+  });
+  request.on("end", () => { if (!tooLarge) resolve(Buffer.concat(chunks)); });
+  request.on("error", reject);
+});
 
 /** @returns {MockCase[]} */
 const loadMockCases = () => {
@@ -480,8 +501,12 @@ const createRequestHandler = ({ db, dataDir }) => {
         return sendJson(response, 201, await saveCaseImage(db, dataDir, { caseId, contentType, bytes }, new Date()));
       } catch (error) {
         if (error instanceof CaseNotFoundError) return sendJson(response, 404, { error: "case_not_found", message: "No case exists for this ID." });
+        if (error instanceof PrivacyBlockedError) {
+          return sendJson(response, error.unavailable ? 503 : 422, { error: "privacy_check_failed", message: privacyBlockedMessage });
+        }
         throw error;
       }
+
     }
     const timelineMatch = requestUrl.pathname.match(/^\/v1\/cases\/([^/]+)\/timeline$/);
     if (request.method === "GET" && timelineMatch) {
@@ -491,7 +516,7 @@ const createRequestHandler = ({ db, dataDir }) => {
     }
     const imageMatch = requestUrl.pathname.match(/^\/v1\/images\/([^/]+)$/);
     if (request.method === "GET" && imageMatch) {
-      const image = getImage(db, decodeURIComponent(imageMatch[1]));
+      const image = getServableImage(db, decodeURIComponent(imageMatch[1]));
       if (image === null) return sendJson(response, 404, { error: "image_not_found", message: "No image exists for this ID." });
       const bytes = await fs.promises.readFile(getObjectPath(dataDir, image.storageKey));
       response.writeHead(200, {
